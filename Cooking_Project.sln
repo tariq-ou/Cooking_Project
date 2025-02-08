@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.25
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooking_Project", "Cooking_Project\Cooking_Project.csproj", "{C4C02D3F-77A6-48F1-A71C-A0293BC35A51}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{881A7D4A-4F53-48E6-8354-8F446F43A087}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{18B42E5B-0FBA-42E6-BBE2-F3CEC5FB76C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{AAA0C3FA-F7D6-49AF-9EB3-88F13D45072D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cooking_Project_Tests", "Cooking_Project_Tests\Cooking_Project_Tests.csproj", "{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762}.Debug|anycpu.ActiveCfg = Debug|Any CPU
+		{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762}.Debug|anycpu.Build.0 = Debug|Any CPU
+		{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762}.Release|anycpu.ActiveCfg = Release|Any CPU
+		{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762}.Release|anycpu.Build.0 = Release|Any CPU
+		{C4C02D3F-77A6-48F1-A71C-A0293BC35A51}.Debug|anycpu.ActiveCfg = Debug|Any CPU
+		{C4C02D3F-77A6-48F1-A71C-A0293BC35A51}.Debug|anycpu.Build.0 = Debug|Any CPU
+		{C4C02D3F-77A6-48F1-A71C-A0293BC35A51}.Release|anycpu.ActiveCfg = Release|Any CPU
+		{C4C02D3F-77A6-48F1-A71C-A0293BC35A51}.Release|anycpu.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C00C40C-C48C-44C8-970C-F7052B6B3FD5}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C4C02D3F-77A6-48F1-A71C-A0293BC35A51} = {18B42E5B-0FBA-42E6-BBE2-F3CEC5FB76C8}
+		{DD6FB5E4-13F2-4DC5-B3D1-E3E7F1AE1762} = {AAA0C3FA-F7D6-49AF-9EB3-88F13D45072D}
+	EndGlobalSection
+EndGlobal
