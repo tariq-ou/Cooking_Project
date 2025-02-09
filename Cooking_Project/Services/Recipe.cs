@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Ports;
 
 namespace Cooking_Project.Application.Services
@@ -15,17 +16,17 @@ namespace Cooking_Project.Application.Services
 
         public List<string> Steps { get; set; }
 
-        public IInputProvider InputProvider { get; set; }
+        public IInputProvider InputProvider;
 
         //Initalsing the properties
 
-        public Recipe(string name)
+        public Recipe(string name, IInputProvider inputProvider)
         {
 
             Name = name;
             Ingredients = new List<string>();
             Steps = new List<string>();
-           // _InputProvider = inputProvider;
+            InputProvider = inputProvider;
 
         }
 
@@ -51,7 +52,7 @@ namespace Cooking_Project.Application.Services
                 }
                 else if (ingredientAdd.ToUpper() == "DONE")
                 {
-                    continue;
+                    Console.WriteLine("Thank you for adding ingredients to your recipe.");
                 }
                 else if (ingredientAdd is string)
                 {
@@ -64,7 +65,7 @@ namespace Cooking_Project.Application.Services
                 }
 
 
-            } while (ingredientAdd.ToUpper() != "Done");
+            } while (ingredientAdd.ToUpper() != "DONE");
 
             
 
@@ -76,17 +77,30 @@ namespace Cooking_Project.Application.Services
         //loops through printing all the ingredients for a recipe, recipe name is parsed through as a string
         public void ViewIngredients(string recipeName)
         {
-            Console.WriteLine($"Below are the Ingredients for {recipeName}: \n");
-
-            foreach (string ingredient in Ingredients)
+            if (this.IngredientsCount() == 0)
             {
-                Console.WriteLine($"{ingredient}");
+                Console.WriteLine("There are no ingredients in the recipe.");
             }
-            Console.WriteLine($"\n");
+            else
+            {
+                Console.WriteLine($"Below are the Ingredients for {recipeName}: \n");
+
+                foreach (string ingredient in Ingredients)
+                {
+                    Console.WriteLine($"{ingredient}");
+                }
+
+                Console.WriteLine($"\n");
+            }
+        }
+
+        public int IngredientsCount()
+        {
+            return Ingredients.Count;
         }
 
 
-   
-        
+
+
     }
 }

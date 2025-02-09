@@ -7,5 +7,6 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <ExternalConsole>true</ExternalConsole>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 </Project>

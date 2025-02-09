@@ -33,7 +33,7 @@ namespace Cooking_Project.Application.Domain
 
             if (recipeName is string)
             {
-                recipes.Add(new Recipe(recipeName));
+                recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
 
                 Console.WriteLine($"Successfuly added {recipeName}");
                 Console.WriteLine($"\n");
@@ -49,7 +49,7 @@ namespace Cooking_Project.Application.Domain
         //Loops through the list recipes printing our the name of each recipe object stored
         public void ViewRecipe()
         {
-            if (recipes.Count > 0)
+            if ( this.RecipeCount() > 0)
             {
                 foreach (Recipe item in recipes)
                 {
@@ -140,6 +140,12 @@ namespace Cooking_Project.Application.Domain
             return checkRecipe;
 
 
+        }
+        
+        //Count nuumber of recipes
+        public int RecipeCount()
+        {
+            return recipes.Count();
         }
 
     }

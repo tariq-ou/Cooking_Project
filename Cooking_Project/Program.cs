@@ -12,8 +12,7 @@ namespace Cooking_Project
         {
 
 
-            // turn this check recipe stuff into a method and change it out in your code, line 73
-            // start writing unit tests so you dont need to waste time enter rubbish every time. remember you are going to have to change all the methods to deal with dependency injection now for iinputprovider
+
             // add the database functionality now early on so code make sesnse with it ?
 
             string choice;
@@ -50,6 +49,8 @@ namespace Cooking_Project
                     case "1":
                         recipeManager.ViewRecipe();
 
+                        if (recipeManager.RecipeCount() == 0)
+                            break;
                         Console.WriteLine("Would to view any of thier ingredients?");
                         choice2 = Console.ReadLine();
 
@@ -58,7 +59,7 @@ namespace Cooking_Project
 
                             case "YES":
 
-                                recipeManager.FindRecipe(out recipeName).ViewIngredients(recipeName);
+                                recipeManager.CheckRecipe(out recipeName).ViewIngredients(recipeName);
                                 break;
 
                             default:
