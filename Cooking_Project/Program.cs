@@ -11,8 +11,13 @@ namespace Cooking_Project
         public static void Main(string[] args)
         {
 
-
-
+            //look into lamda expressions, would be good to actively use them and understanad them more as i keep forgetting
+            //learn more about dependency injection
+            
+            
+            //Delete ingredients unit test
+            // add addition funtionality for steps and view 
+            // add delelte functionalut or steps 
             // add the database functionality now early on so code make sesnse with it ?
 
             string choice;
@@ -30,6 +35,7 @@ namespace Cooking_Project
                 Console.WriteLine("2. Add Recipe");
                 Console.WriteLine("3. Delete Recipe");
                 Console.WriteLine("4. Add Ingredients to a Recipe");
+                Console.WriteLine("5. Delete Ingredients from Recipe");
 
 
 
@@ -96,14 +102,30 @@ namespace Cooking_Project
 
                         checkedRecipe.AddIngredients(recipeName);
                         break;
+                    
+                    case "5":
+                        
+                        Recipe checkedRecipe2 = recipeManager.CheckRecipe(out recipeName);
+
+                        if (checkedRecipe2 is null)
+                        {
+                            break;
+                        }
+
+                        checkedRecipe2.IngredientDelete(recipeName);
+                        break;
+                        
 
                     default:
                         Console.WriteLine("Invalid choice.");
                         break;
+                    
+                        
+                        
                         
                 }
 
-            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" );
+            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" );
 
         }
 

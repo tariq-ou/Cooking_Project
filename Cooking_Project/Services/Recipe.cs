@@ -99,6 +99,47 @@ namespace Cooking_Project.Application.Services
             return Ingredients.Count;
         }
 
+        public void IngredientDelete(string recipeName)
+        {
+            string ingredientRemove = "";
+            ViewIngredients(recipeName);
+
+            while (!(ingredientRemove.ToUpper() == "DONE"))
+            {
+                ingredientRemove = InputProvider.ReadInput("What Ingredient/s would you like to remove? enter all if you want to remove everything and done when you are finsihed deleteing");
+
+                if (ingredientRemove is null || !(ingredientRemove is string))
+                {
+                    Console.WriteLine("Nothing has been entered ingredients to delete.");
+                }
+                else if (ingredientRemove.ToUpper() == "DONE")
+                {
+                    Console.WriteLine("Deletion complete.");
+                }
+                else if (ingredientRemove.ToUpper() == "ALL")
+                {
+                    
+                    Ingredients.Clear();
+                    
+                    Console.WriteLine("All deleted.");
+                    ingredientRemove = "DONE";
+                    
+                }
+                else if (Ingredients.Contains(ingredientRemove))
+                {
+                    Ingredients.Remove(ingredientRemove);
+                    Console.WriteLine($"Ingredient {ingredientRemove} Deleted.");
+                }
+                else
+                {
+                    Console.WriteLine("Ingredient doesn't exist.");
+                }
+
+            }
+            
+            ViewIngredients(recipeName);
+        }
+
 
 
 
