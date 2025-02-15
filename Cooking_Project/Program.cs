@@ -14,8 +14,8 @@ namespace Cooking_Project
             //look into lamda expressions, would be good to actively use them and understanad them more as i keep forgetting
             //learn more about dependency injection
             
-            
-            //Delete ingredients unit test
+            // check current code and see if you can switch anything out with a lamda expression
+            // add comments to unit tests
             // add addition funtionality for steps and view 
             // add delelte functionalut or steps 
             // add the database functionality now early on so code make sesnse with it ?
