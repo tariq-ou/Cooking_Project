@@ -25,19 +25,11 @@ namespace Cooking_Project_Tests
         [Test]
         public void AddRecipeTest()
         {
-            // var mockIInputProvider = new Mock<IInputProvider>();
-            // mockIInputProvider.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
-            //     .Returns("Bolegenese")
-            //     .Returns("Thai Green Curry")
-            //     .Returns("Pizza");
-            // IInputProviderTest test = new IInputProviderTest();
-            // RecipeManager recipeManager = new RecipeManager(test);
-            
+           
+            //Creating instance and then adding a recipe 
             RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
             recipeManager.AddRecipe();
             
-            //Assert.AreSame(recipeManger.FindRecipe("Pizza" out recipeName).Name,"Pizza");
-            //Assert.AreSame(recipeManger.recipes.FindLast(r => r.Name == "Pizza").Name,"Pizza");
             
             Assert.NotNull(recipeManager.recipes.Find(r => r.Name == "Pizza"));
             //Assert.Pass();

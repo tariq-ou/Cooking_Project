@@ -26,6 +26,7 @@ public class RecipeTest
         RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Thai Green Curry"));
         recipeManager.AddRecipe();
         
+        //creating a moq sequence so we can pass through many input for the loop in the add ingredients method
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Thai Green Paste")
@@ -67,6 +68,7 @@ public class RecipeTest
         recipeToCheck.InputProvider = moq.Object;
         recipeToCheck.AddIngredients("Pizza");
         
+        //Creating a second moq as it seems once the sequence is used once it cant be used again?
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Tomato Sause")
             .Returns("Olives")

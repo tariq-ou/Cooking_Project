@@ -13,17 +13,25 @@ namespace Cooking_Project
 
             //look into lamda expressions, would be good to actively use them and understanad them more as i keep forgetting
             //learn more about dependency injection
-            
             // check current code and see if you can switch anything out with a lamda expression
-            // add comments to unit tests
-            // add addition funtionality for steps and view 
-            // add delelte functionalut or steps 
+                
+            
+            // fix funtionaluty to add steps, you want a loop for readline as it reads it once at a time and have it stop reading once it reads up to done turining it all into a list
+            // add view steps to the view recipe option on program
+            // add delelte functionalut or steps
+            // add ingredient amount , how much you need fuunction? add as part of ingredients or a new property 
+            // delete function of those amounds
+            // unit test for those amounts
+            
+            // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
+            //need to look into this more. so far adapror is seperate to recipe manager , event handling to save but need to design in a way that changing the inputs and outputs is fluid and deosnt require code changes to exisiting methods
             // add the database functionality now early on so code make sesnse with it ?
 
             string choice;
             string choice2;
             string recipeName;
             RecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
+            Recipe checkedRecipe;
 
             do
             {
@@ -36,6 +44,8 @@ namespace Cooking_Project
                 Console.WriteLine("3. Delete Recipe");
                 Console.WriteLine("4. Add Ingredients to a Recipe");
                 Console.WriteLine("5. Delete Ingredients from Recipe");
+                Console.WriteLine("6. Add steps to a Recipe");
+                
 
 
 
@@ -93,7 +103,7 @@ namespace Cooking_Project
                         //    break;
                         //}
 
-                        Recipe checkedRecipe = recipeManager.CheckRecipe(out recipeName);
+                        checkedRecipe = recipeManager.CheckRecipe(out recipeName);
 
                         if (checkedRecipe is null)
                         {
@@ -105,16 +115,35 @@ namespace Cooking_Project
                     
                     case "5":
                         
-                        Recipe checkedRecipe2 = recipeManager.CheckRecipe(out recipeName);
+                        checkedRecipe = recipeManager.CheckRecipe(out recipeName);
 
-                        if (checkedRecipe2 is null)
+                        if (checkedRecipe is null)
                         {
                             break;
                         }
 
-                        checkedRecipe2.IngredientDelete(recipeName);
+                        checkedRecipe.IngredientDelete(recipeName);
                         break;
-                        
+                    
+                    case "6":
+
+                        // turn this check recipe stuff into a method and change it out in your code
+                        //Recipe checkRecipe = recipeManager.FindRecipe(out recipeName);
+
+                        //if (checkRecipe is null){
+                        //    Console.WriteLine("Recipe doesnt exisit");
+                        //    break;
+                        //}
+
+                        checkedRecipe = recipeManager.CheckRecipe(out recipeName);
+
+                        if (checkedRecipe is null)
+                        {
+                            break;
+                        }
+
+                        checkedRecipe.AddSteps(recipeName);
+                        break;
 
                     default:
                         Console.WriteLine("Invalid choice.");
@@ -125,7 +154,7 @@ namespace Cooking_Project
                         
                 }
 
-            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" );
+            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6");
 
         }
 

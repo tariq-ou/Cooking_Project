@@ -140,6 +140,39 @@ namespace Cooking_Project.Application.Services
             ViewIngredients(recipeName);
         }
 
+        public void AddSteps(string recipeName)
+        {
+            string stepsAdd;
+ 
+
+            Console.WriteLine($"Please Enter The Steps for the recipe: {recipeName}");
+
+            stepsAdd = InputProvider.ReadInput($"Please Enter The Steps for the recipe: {recipeName}");
+            Steps = stepsAdd.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            
+            ViewSteps(recipeName);
+            
+        }
+
+        public void ViewSteps(string recipeName)
+        {
+            if (this.Steps.Count() == 0)
+            {
+                Console.WriteLine("There are no Steps in the recipe.");
+            }
+            else
+            {
+                Console.WriteLine($"Below are the Steps for {recipeName}: \n");
+
+                foreach (string step in Steps)
+                {
+                    Console.WriteLine($"{step}");
+                }
+
+                Console.WriteLine($"\n");
+            }
+        }
+
 
 
 
