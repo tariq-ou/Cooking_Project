@@ -43,7 +43,7 @@ namespace Cooking_Project.Application.Services
             {
 
                 //ingredientAdd = Console.ReadLine();
-                ingredientAdd = InputProvider.ReadInput("What Recipe Name would you like to add ingredients to?");
+                ingredientAdd = InputProvider.ReadInput();
 
                 if (ingredientAdd is null)
                 {
@@ -142,13 +142,17 @@ namespace Cooking_Project.Application.Services
 
         public void AddSteps(string recipeName)
         {
-            string stepsAdd;
+            string stepsAdd = "";
  
 
             Console.WriteLine($"Please Enter The Steps for the recipe: {recipeName}");
 
-            stepsAdd = InputProvider.ReadInput($"Please Enter The Steps for the recipe: {recipeName}");
-            Steps = stepsAdd.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            do
+            {
+                stepsAdd = InputProvider.ReadInput();
+                Steps.Add(stepsAdd);
+            } while (stepsAdd.ToUpper() != "DONE");
+            //Steps = stepsAdd.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             
             ViewSteps(recipeName);
             

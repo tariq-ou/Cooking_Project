@@ -14,10 +14,9 @@ namespace Cooking_Project
             //look into lamda expressions, would be good to actively use them and understanad them more as i keep forgetting
             //learn more about dependency injection
             // check current code and see if you can switch anything out with a lamda expression
-                
-            
-            // fix funtionaluty to add steps, you want a loop for readline as it reads it once at a time and have it stop reading once it reads up to done turining it all into a list
-            // add view steps to the view recipe option on program
+
+
+            // add Enumberable functions / IEnumerator both to practice
             // add delelte functionalut or steps
             // add ingredient amount , how much you need fuunction? add as part of ingredients or a new property 
             // delete function of those amounds
@@ -67,15 +66,20 @@ namespace Cooking_Project
 
                         if (recipeManager.RecipeCount() == 0)
                             break;
-                        Console.WriteLine("Would to view any of thier ingredients?");
+                        Console.WriteLine("Would to view any of thier ingredients or steps?");
                         choice2 = Console.ReadLine();
 
                         switch (choice2.ToUpper())
                         {
 
-                            case "YES":
+                            case "INGREDIENTS":
 
                                 recipeManager.CheckRecipe(out recipeName).ViewIngredients(recipeName);
+                                break;
+                            
+                            case "STEPS":
+
+                                recipeManager.CheckRecipe(out recipeName).ViewSteps(recipeName);
                                 break;
 
                             default:

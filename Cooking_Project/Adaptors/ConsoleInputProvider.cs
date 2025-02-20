@@ -9,15 +9,16 @@ namespace Cooking_Project.Application.Adaptors
         {
         }
 
+        public string ReadInput()
+        {
+            return Console.ReadLine();
+        }
+
         public string ReadInput(string promt)
         {
             Console.WriteLine($"{promt}");
             return Console.ReadLine();
         }
-        
-        public string ReadInput()
-        {
-            return Console.ReadLine();
-        }
+
     }
 }
