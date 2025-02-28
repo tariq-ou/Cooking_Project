@@ -4,16 +4,25 @@ namespace Cooking_Project_Tests.PortsTest;
 
 public class IInputProviderTest : IInputProvider
 {
-    string recipeName;
+    private string input;
 
-    public IInputProviderTest(string promt)
-    {
-        recipeName = promt;
-    }
+     public IInputProviderTest(string promt)
+     {
+         input = promt;
+     }
     public string ReadInput(string ignore)
     {
         
-        return recipeName;
+        return input;
         //throw new System.NotImplementedException();
     }
+    
+    public string ReadInput()
+    {
+        
+        return input;
+        //throw new System.NotImplementedException();
+    }
+    
+    
 }

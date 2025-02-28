@@ -43,7 +43,7 @@ namespace Cooking_Project.Application.Services
             {
 
                 //ingredientAdd = Console.ReadLine();
-                ingredientAdd = InputProvider.ReadInput();
+                ingredientAdd = InputProvider.ReadInput("-----");
 
                 if (ingredientAdd is null)
                 {
@@ -103,6 +103,8 @@ namespace Cooking_Project.Application.Services
         {
             string ingredientRemove = "";
             ViewIngredients(recipeName);
+            if (IngredientsCount() == 0)
+                return;
 
             while (!(ingredientRemove.ToUpper() == "DONE"))
             {
@@ -149,7 +151,7 @@ namespace Cooking_Project.Application.Services
 
             do
             {
-                stepsAdd = InputProvider.ReadInput();
+                stepsAdd = InputProvider.ReadInput("---");
                 Steps.Add(stepsAdd);
             } while (stepsAdd.ToUpper() != "DONE");
             //Steps = stepsAdd.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -160,7 +162,7 @@ namespace Cooking_Project.Application.Services
 
         public void ViewSteps(string recipeName)
         {
-            if (this.Steps.Count() == 0)
+            if (Steps.Count() == 0)
             {
                 Console.WriteLine("There are no Steps in the recipe.");
             }
@@ -175,6 +177,27 @@ namespace Cooking_Project.Application.Services
 
                 Console.WriteLine($"\n");
             }
+        }
+        
+        public void StepsDelete(string recipeName)
+        {
+            ViewSteps(recipeName);
+            if (Steps.Count() == 0)
+                return;
+            
+            string check = InputProvider.ReadInput($"Are you sure you want to delete the steps for {recipeName}? yes or no?");
+            
+            if (check.ToUpper() == "YES")
+            {
+                Steps.Clear();
+                Console.WriteLine($"All steps deleted from {recipeName}.\n");
+            }
+            else
+            {
+                Console.WriteLine("Nothing Deleted.\n");
+            }
+            
+
         }
 
 
