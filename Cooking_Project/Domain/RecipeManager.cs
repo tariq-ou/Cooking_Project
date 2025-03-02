@@ -34,8 +34,8 @@ namespace Cooking_Project.Application.Domain
             if (recipeName is string)
             {
                 recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
-
-                Console.WriteLine($"Successfuly added {recipeName}");
+                GetRecipe(recipeName).Servings = int.Parse(_inputProvider.ReadInput("Recipe Name?"));
+                Console.WriteLine($"Successfuly added {recipeName} for serving seize of {GetRecipe(recipeName).Servings}");
                 Console.WriteLine($"\n");
             }
 
@@ -148,5 +148,35 @@ namespace Cooking_Project.Application.Domain
             return recipes.Count();
         }
 
+        public Recipe GetRecipe(string recipeName)
+        {
+            //Console.WriteLine("What recipe are you looking for?");
+            
+            //string recipeName = _inputProvider.ReadInput("What recipe are you looking for?");
+            
+            //this.ViewRecipe();
+            //string checkName = Console.ReadLine();
+            //string checkName = _inputProvider.ReadInput("What recipe are you looking for?");
+
+            
+
+            if (string.IsNullOrWhiteSpace(recipeName))
+            {
+                Console.WriteLine("Not Found\n");
+                return null;
+            }
+         
+            Recipe recipeFound = recipes.Find(r => r.Name == recipeName);
+
+            if (recipeFound is null)
+            {
+                Console.WriteLine("Not Found\n");
+                return null;
+            }   
+
+            return recipeFound;
+
+            
+        }
     }
 }
