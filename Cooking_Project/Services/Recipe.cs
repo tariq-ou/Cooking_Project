@@ -17,6 +17,8 @@ namespace Cooking_Project.Application.Services
         public List<string> Steps { get; set; }
 
         public IInputProvider InputProvider;
+        
+        public int Servings { get; set; }
 
         //Initalsing the properties
 
@@ -200,6 +202,10 @@ namespace Cooking_Project.Application.Services
 
         }
 
+        public int StepsCount()
+        {
+            return Steps.Count;
+        }
 
 
 

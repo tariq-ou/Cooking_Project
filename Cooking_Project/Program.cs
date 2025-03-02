@@ -17,10 +17,11 @@ namespace Cooking_Project
 
 
             
-            // Figure out why for ingredients add test and possibly steps too, why if readinput in the method expects no paraneter iut causes the unit test to bomb out. looking at the inputtestprovider both functions with and without parameter both return the same thing! confusing
-            // add ingredient amount , how much you need fuunction? add as part of ingredients or a new property 
+            
+            // add ingredient amount , how much you need fuunction? add as part of ingredients or a new property, or turn ingredients ()youve alredy started. make sure the serving size function works at a recipe manager / recipe level for unti tests and ingnereal and then refactor codew to take a list of ingredients rather athan a a list of stings
             // delete function of those amounds
             // unit test for those amounts
+            
             
             //Use IQueryable<T> rather than ienumerbaale/Lists as appently it filters the data on the database side rather than the application side and so its more effeicengt & faster
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
