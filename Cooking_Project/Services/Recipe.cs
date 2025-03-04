@@ -12,11 +12,11 @@ namespace Cooking_Project.Application.Services
 
         public string Name { get; set; }
 
-        public List<string> Ingredients { get; set; }
+        public List<Ingredient> Ingredients { get; set; }
 
         public List<string> Steps { get; set; }
 
-        public IInputProvider InputProvider;
+        internal IInputProvider InputProvider;
         
         public int Servings { get; set; }
 
@@ -26,7 +26,7 @@ namespace Cooking_Project.Application.Services
         {
 
             Name = name;
-            Ingredients = new List<string>();
+            Ingredients = new List<Ingredient>();
             Steps = new List<string>();
             InputProvider = inputProvider;
 
@@ -46,6 +46,8 @@ namespace Cooking_Project.Application.Services
 
                 //ingredientAdd = Console.ReadLine();
                 ingredientAdd = InputProvider.ReadInput("-----");
+                Ingredient ingredientObject = new Ingredient(new ConsoleInputProvider());
+                ingredientObject.AddIngredient();
 
                 if (ingredientAdd is null)
                 {
@@ -58,7 +60,7 @@ namespace Cooking_Project.Application.Services
                 }
                 else if (ingredientAdd is string)
                 {
-                    this.Ingredients.Add(ingredientAdd);
+                    this.Ingredientz.Add(ingredientAdd);
                     Console.WriteLine($"You have added {ingredientAdd}");
                 }
                 else

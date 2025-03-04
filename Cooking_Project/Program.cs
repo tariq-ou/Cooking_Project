@@ -18,7 +18,7 @@ namespace Cooking_Project
 
             
             
-            // add ingredient amount , how much you need fuunction? add as part of ingredients or a new property, or turn ingredients ()youve alredy started. make sure the serving size function works at a recipe manager / recipe level for unti tests and ingnereal and then refactor codew to take a list of ingredients rather athan a a list of stings
+            // (so you have a working add recipe function now, and have a unit test to working for adding recipe but issues with the delete unit test so have a look at that )add ingredient amount , how much you need fuunction? add as part of ingredients or a new property, or turn ingredients ()youve alredy started. make sure the serving size function works at a recipe manager / recipe level for unti tests and ingnereal and then refactor codew to take a list of ingredients rather athan a a list of stings
             // delete function of those amounds
             // unit test for those amounts
             
@@ -28,6 +28,8 @@ namespace Cooking_Project
             //need to look into this more. so far adapror is seperate to recipe manager , event handling to save but need to design in a way that changing the inputs and outputs is fluid and deosnt require code changes to exisiting methods
             // add the database functionality now early on so code make sesnse with it ?
             // mabye create a back up feature, you dont wanna lose your riceipes and steps mabye a way to save them to file formatt somehwere to be safe as a back up
+            
+            //Your gunna have to refactor the code code out for the console.write line to be a dependecy injection as the UI will have to take this over at some point 
 
             string choice;
             string choice2;

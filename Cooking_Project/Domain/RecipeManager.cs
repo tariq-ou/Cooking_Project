@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Ports;
@@ -11,7 +12,7 @@ namespace Cooking_Project.Application.Domain
         //Inilalises a list of recipes
         public List<Recipe> recipes = new List<Recipe>();
         //Initalises a IInputProvider so during runtime different inputs can be processed using dependency injection
-        private readonly IInputProvider _inputProvider;
+        internal IInputProvider _inputProvider;
 
 
         
@@ -30,12 +31,21 @@ namespace Cooking_Project.Application.Domain
             // string recipeName = Console.ReadLine();
             
             string recipeName = _inputProvider.ReadInput("Recipe Name?");
+            int servingSize;
 
             if (recipeName is string)
             {
                 recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
-                GetRecipe(recipeName).Servings = int.Parse(_inputProvider.ReadInput("Recipe Name?"));
-                Console.WriteLine($"Successfuly added {recipeName} for serving seize of {GetRecipe(recipeName).Servings}");
+
+                if (int.TryParse(_inputProvider.ReadInput("For what serving size?"), out servingSize))
+                    GetRecipe(recipeName).Servings = servingSize;
+                else
+                {
+                    Console.WriteLine("Please enter a valid number");
+                    return;
+                }
+                //GetRecipe(recipeName).Servings = int.Parse(_inputProvider.ReadInput("For what serving size?"));
+                Console.WriteLine($"Successfuly added {recipeName} for serving a size of {GetRecipe(recipeName).Servings}");
                 Console.WriteLine($"\n");
             }
 
