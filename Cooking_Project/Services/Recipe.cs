@@ -12,7 +12,7 @@ namespace Cooking_Project.Application.Services
 
         public string Name { get; set; }
 
-        public List<Ingredient> Ingredients { get; set; }
+        public List<string> Ingredients { get; set; }
 
         public List<string> Steps { get; set; }
 
@@ -26,7 +26,7 @@ namespace Cooking_Project.Application.Services
         {
 
             Name = name;
-            Ingredients = new List<Ingredient>();
+            Ingredients = new List<string>();
             Steps = new List<string>();
             InputProvider = inputProvider;
 
@@ -35,8 +35,8 @@ namespace Cooking_Project.Application.Services
         //Loops through and add ingredients to a recipe which is parsed through by a string
         public void AddIngredients(string recipeName)
         {
+            //Ingredient ingredientObject;
             string ingredientAdd;
- 
 
             Console.WriteLine("Please Enter The ingredients one by one, when you are finished, enter 'done");
 
@@ -45,10 +45,15 @@ namespace Cooking_Project.Application.Services
             {
 
                 //ingredientAdd = Console.ReadLine();
+                
                 ingredientAdd = InputProvider.ReadInput("-----");
-                Ingredient ingredientObject = new Ingredient(new ConsoleInputProvider());
-                ingredientObject.AddIngredient();
+                // ingredientObject = new Ingredient(new ConsoleInputProvider());
+                // ingredientObject.AddIngredient();
 
+                // if (ingredientObject is null)
+                // {
+                //     Console.WriteLine("Nothing has been entered ingredients to add. Please try again");
+                // }
                 if (ingredientAdd is null)
                 {
                     Console.WriteLine("Nothing has been entered ingredients to add.");
@@ -60,16 +65,16 @@ namespace Cooking_Project.Application.Services
                 }
                 else if (ingredientAdd is string)
                 {
-                    this.Ingredientz.Add(ingredientAdd);
+                    this.Ingredients.Add(ingredientAdd);
                     Console.WriteLine($"You have added {ingredientAdd}");
                 }
                 else
                 {
                     Console.WriteLine("Input type error");
                 }
+                
 
-
-            } while (ingredientAdd.ToUpper() != "DONE");
+            } while (ingredientAdd.ToUpper() != "DONE" );
 
             
 
@@ -91,6 +96,10 @@ namespace Cooking_Project.Application.Services
 
                 foreach (string ingredient in Ingredients)
                 {
+                    // Console.WriteLine($"{ingredient.Name}");
+                    // Console.WriteLine($"{ingredient.Amount}");
+                    // Console.WriteLine($"{ingredient.Unit}");
+                    // Console.WriteLine($"-------------------");
                     Console.WriteLine($"{ingredient}");
                 }
 
