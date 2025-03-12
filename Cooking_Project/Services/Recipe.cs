@@ -35,8 +35,8 @@ namespace Cooking_Project.Application.Services
         //Loops through and add ingredients to a recipe which is parsed through by a string
         public void AddIngredients(string recipeName)
         {
-            string ingredientAdd;
- 
+            //string ingredientAdd;
+            Ingredient ingredientObject;
 
             Console.WriteLine("Please Enter The ingredients one by one, when you are finished, enter 'done");
 
@@ -45,31 +45,35 @@ namespace Cooking_Project.Application.Services
             {
 
                 //ingredientAdd = Console.ReadLine();
-                ingredientAdd = InputProvider.ReadInput("-----");
-                Ingredient ingredientObject = new Ingredient(new ConsoleInputProvider());
+                //ingredientAdd = InputProvider.ReadInput("-----");
+                ingredientObject = new Ingredient(new ConsoleInputProvider());
                 ingredientObject.AddIngredient();
 
-                if (ingredientAdd is null)
+                if (ingredientObject is null)
                 {
                     Console.WriteLine("Nothing has been entered ingredients to add.");
                     return;
                 }
-                else if (ingredientAdd.ToUpper() == "DONE")
-                {
-                    Console.WriteLine("Thank you for adding ingredients to your recipe.");
-                }
-                else if (ingredientAdd is string)
-                {
-                    this.Ingredientz.Add(ingredientAdd);
-                    Console.WriteLine($"You have added {ingredientAdd}");
-                }
                 else
                 {
-                    Console.WriteLine("Input type error");
+                    Console.WriteLine($"You have added the {ingredientObject} to your recipe.");
                 }
+                // else if (ingredientAdd.ToUpper() == "DONE")
+                // {
+                //     Console.WriteLine("Thank you for adding ingredients to your recipe.");
+                // }
+                // else if (ingredientAdd is string)
+                // {
+                //     this.Ingredientz.Add(ingredientAdd);
+                //     Console.WriteLine($"You have added {ingredientAdd}");
+                // }
+                // else
+                // {
+                //     Console.WriteLine("Input type error");
+                // }
 
 
-            } while (ingredientAdd.ToUpper() != "DONE");
+            } while (ingredientObject is not null);
 
             
 
@@ -89,9 +93,12 @@ namespace Cooking_Project.Application.Services
             {
                 Console.WriteLine($"Below are the Ingredients for {recipeName}: \n");
 
-                foreach (string ingredient in Ingredients)
+                foreach (Ingredient ingredient in Ingredients)
                 {
-                    Console.WriteLine($"{ingredient}");
+                    Console.WriteLine($"{ingredient.Name}");
+                    Console.WriteLine($"{ingredient.Amount}");
+                    Console.WriteLine($"{ingredient.Unit}");
+                    Console.WriteLine($"------------------");
                 }
 
                 Console.WriteLine($"\n");
@@ -131,9 +138,9 @@ namespace Cooking_Project.Application.Services
                     ingredientRemove = "DONE";
                     
                 }
-                else if (Ingredients.Contains(ingredientRemove))
+                else if (Ingredients.Any(I => I.Name == ingredientRemove))
                 {
-                    Ingredients.Remove(ingredientRemove);
+                    Ingredients.RemoveAll(I => I.Name == ingredientRemove);
                     Console.WriteLine($"Ingredient {ingredientRemove} Deleted.");
                 }
                 else

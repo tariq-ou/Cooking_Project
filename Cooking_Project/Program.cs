@@ -18,7 +18,7 @@ namespace Cooking_Project
 
             
             
-            // (so you have a working add recipe function now, and have a unit test to working for adding recipe but issues with the delete unit test so have a look at that )add ingredient amount , how much you need fuunction? add as part of ingredients or a new property, or turn ingredients ()youve alredy started. make sure the serving size function works at a recipe manager / recipe level for unti tests and ingnereal and then refactor codew to take a list of ingredients rather athan a a list of stings
+            // youve added the refactored code - run the program and try get it to work, right now ypou enter the ingrents but you get stuck
             // delete function of those amounds
             // unit test for those amounts
             

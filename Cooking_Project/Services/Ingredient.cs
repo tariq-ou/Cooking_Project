@@ -24,8 +24,13 @@ public class Ingredient
 
         
             this.Name = InputProvider.ReadInput("Enter ingredient name");
+
+            if (this.Name.ToUpper() == "DONE")
+            {
+                return null;
+            }
             
-            if (int.TryParse(InputProvider.ReadInput("Enter ingredient name"), out int amount))
+            if (int.TryParse(InputProvider.ReadInput("Enter ingredient amount"), out int amount))
                 this.Amount = amount;
             else
             {
