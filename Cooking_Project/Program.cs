@@ -17,8 +17,8 @@ namespace Cooking_Project
 
 
             
-            
-            // youve added the refactored code - run the program and try get it to work, right now ypou enter the ingrents but you get stuck
+            // Get the UNit tests working for the new refactored ingredient code
+            // when adding reccipe if you put in a string for serbing size it still adds it & ingredients have the "done" appended on the end everytime you add an ingredient should probably both be fixed but low prioroity i guess 
             // delete function of those amounds
             // unit test for those amounts
             

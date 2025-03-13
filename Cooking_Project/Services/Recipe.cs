@@ -49,14 +49,15 @@ namespace Cooking_Project.Application.Services
                 ingredientObject = new Ingredient(new ConsoleInputProvider());
                 ingredientObject.AddIngredient();
 
-                if (ingredientObject is null)
+                if (ingredientObject.Name == "")
                 {
                     Console.WriteLine("Nothing has been entered ingredients to add.");
                     return;
                 }
                 else
                 {
-                    Console.WriteLine($"You have added the {ingredientObject} to your recipe.");
+                    Console.WriteLine($"You have added the {ingredientObject.Name} to your recipe.");
+                    Ingredients.Add(ingredientObject);
                 }
                 // else if (ingredientAdd.ToUpper() == "DONE")
                 // {
@@ -73,7 +74,7 @@ namespace Cooking_Project.Application.Services
                 // }
 
 
-            } while (ingredientObject is not null);
+            } while (ingredientObject.Name.ToUpper() != "DONE");
 
             
 
