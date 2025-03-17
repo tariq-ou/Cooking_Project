@@ -17,9 +17,8 @@ namespace Cooking_Project
 
 
             
-            // Get the UNit tests working for the new refactored ingredient code
-            // Fixing ingredients having done added as an ingredient 
-            // when adding reccipe if you put in a string for serbing size it still adds it & ingredients have the "done" appended on the end everytime you add an ingredient should probably both be fixed but low prioroity i guess 
+            
+            // when adding reccipe if you put in a string for serbing size it still adds it but low prioroity i guess 
             // delete function of those amounds
             // unit test for those amounts
             

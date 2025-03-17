@@ -2,6 +2,7 @@
 using Cooking_Project.Application.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cooking_Project_Tests.PortsTest;
 using Cooking_Project.Application.Ports;
 using Moq;
@@ -48,18 +49,22 @@ namespace Cooking_Project_Tests
             var moq = new Mock<IInputProvider>();
             moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
                 .Returns("Pizza")
-                .Returns("2")
-                .Returns("Pizza");
+                .Returns("2");
+                
             
             //Creating instance and then adding a recipe 
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
             RecipeManager recipeManager = new RecipeManager(moq.Object);
             recipeManager.AddRecipe();
             
+            var moqTwo = new Mock<IInputProvider>();
+            moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+                .Returns("Pizza");
+
             // var moqTwo = new Mock<IInputProvider>();
             // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             //     .Returns("Pizza");
-            // recipeManager._inputProvider = moqTwo.Object;
+            recipeManager._inputProvider = moqTwo.Object;
             recipeManager.DeleteRecipe();
             Assert.IsNull(recipeManager.recipes.Find(r => r.Name == "Pizza"));
         }
@@ -68,13 +73,40 @@ namespace Cooking_Project_Tests
         public void FindRecipeTest_NotFound()
         {
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+            // var moq = new Mock<IInputProvider>();
+            // moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            //     .Returns("Pizza")
+            //     .Returns("2");
+            // RecipeManager recipeManager = new RecipeManager(moq.Object);
+            // recipeManager.AddRecipe();
+            // recipeManager.DeleteRecipe();
+            
             var moq = new Mock<IInputProvider>();
             moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
                 .Returns("Pizza")
                 .Returns("2");
+                
+            
+            //Creating instance and then adding a recipe 
+            //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
             RecipeManager recipeManager = new RecipeManager(moq.Object);
             recipeManager.AddRecipe();
+            
+            var moqTwo = new Mock<IInputProvider>();
+            moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+                .Returns("Pizza");
+
+            // var moqTwo = new Mock<IInputProvider>();
+            // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            //     .Returns("Pizza");
+            recipeManager._inputProvider = moqTwo.Object;
             recipeManager.DeleteRecipe();
+            
+            var moqThree = new Mock<IInputProvider>();
+            moqThree.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+                .Returns("Pizza");
+            recipeManager._inputProvider = moqThree.Object;
+            
             Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
             Assert.IsNull(checkedRecipe);
         }
@@ -82,10 +114,25 @@ namespace Cooking_Project_Tests
         [Test]
         public void FindRecipeTest_Found()
         {
-            RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+            var moq = new Mock<IInputProvider>();
+            moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+                .Returns("Pizza")
+                .Returns("2");
+                
+            
+            //Creating instance and then adding a recipe 
+            //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
+            RecipeManager recipeManager = new RecipeManager(moq.Object);
             recipeManager.AddRecipe();
+            
+            var moqTwo = new Mock<IInputProvider>();
+            moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+                .Returns("Pizza");
+            
+            recipeManager._inputProvider = moqTwo.Object;
+            
             Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
-            Assert.AreSame(checkedRecipe,recipeManager.recipes[0]);
+            Assert.AreSame(checkedRecipe,recipeManager.recipes.First());
         }
     }
 }

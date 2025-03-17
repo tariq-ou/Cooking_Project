@@ -31,28 +31,28 @@ namespace Cooking_Project.Application.Domain
             // string recipeName = Console.ReadLine();
             
             string recipeName = _inputProvider.ReadInput("Recipe Name?");
+            
             int servingSize;
 
-            if (recipeName is string)
-            {
-                recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
+            
+                //recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
 
                 if (int.TryParse(_inputProvider.ReadInput("For what serving size?"), out servingSize))
+                {
+                    recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
                     GetRecipe(recipeName).Servings = servingSize;
+                }
                 else
                 {
                     Console.WriteLine("Please enter a valid number");
+                    //recipes.RemoveAll(r => r.Name == recipeName);
                     return;
                 }
                 //GetRecipe(recipeName).Servings = int.Parse(_inputProvider.ReadInput("For what serving size?"));
                 Console.WriteLine($"Successfuly added {recipeName} for serving a size of {GetRecipe(recipeName).Servings}");
                 Console.WriteLine($"\n");
-            }
-
-            else
-            {
-                Console.WriteLine("Input type error");
-            }
+            
+            
 
         }
 
@@ -63,7 +63,7 @@ namespace Cooking_Project.Application.Domain
             {
                 foreach (Recipe item in recipes)
                 {
-                    Console.WriteLine($"{item.Name}");
+                    Console.WriteLine($"{item.Name} | Serving : {item.Servings}");
                 }
 
                 Console.WriteLine($"\n");
