@@ -18,7 +18,7 @@ public class Ingredient
         InputProvider = _inputProvider;
     }
 
-    public Ingredient AddIngredient()
+    public Ingredient? AddIngredient()
     {
         Console.WriteLine("Enter ingredient name, amount & unit of amount");
 

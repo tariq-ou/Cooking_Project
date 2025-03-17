@@ -35,8 +35,7 @@ namespace Cooking_Project.Application.Services
         //Loops through and add ingredients to a recipe which is parsed through by a string
         public void AddIngredients(string recipeName)
         {
-            //string ingredientAdd;
-            Ingredient ingredientObject;
+            Ingredient? ingredientObject;
 
             Console.WriteLine("Please Enter The ingredients one by one, when you are finished, enter 'done");
 
@@ -44,20 +43,31 @@ namespace Cooking_Project.Application.Services
             do
             {
 
-                //ingredientAdd = Console.ReadLine();
+                //ingredientAdd = Console.ReadLine();   
                 //ingredientAdd = InputProvider.ReadInput("-----");
-                ingredientObject = new Ingredient(new ConsoleInputProvider());
-                ingredientObject.AddIngredient();
-
-                if (ingredientObject.Name == "")
+                ingredientObject = new Ingredient(InputProvider);
+                ingredientObject = ingredientObject.AddIngredient();
+                
+                if (ingredientObject == null)
                 {
-                    Console.WriteLine("Nothing has been entered ingredients to add.");
-                    return;
+                    Console.WriteLine("Thank you");
                 }
                 else
                 {
-                    Console.WriteLine($"You have added the {ingredientObject.Name} to your recipe.");
-                    Ingredients.Add(ingredientObject);
+                    //ingredientObject.AddIngredient();
+
+
+                    if (ingredientObject.Name == "")
+                    {
+                        Console.WriteLine("Nothing has been entered ingredients to add.");
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You have added the {ingredientObject.Name} to your recipe.");
+                        Ingredients.Add(ingredientObject);
+                    }
+
                 }
                 // else if (ingredientAdd.ToUpper() == "DONE")
                 // {
@@ -74,7 +84,7 @@ namespace Cooking_Project.Application.Services
                 // }
 
 
-            } while (ingredientObject.Name.ToUpper() != "DONE");
+            } while (ingredientObject != null);
 
             
 

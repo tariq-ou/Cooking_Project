@@ -18,6 +18,7 @@ namespace Cooking_Project
 
             
             // Get the UNit tests working for the new refactored ingredient code
+            // Fixing ingredients having done added as an ingredient 
             // when adding reccipe if you put in a string for serbing size it still adds it & ingredients have the "done" appended on the end everytime you add an ingredient should probably both be fixed but low prioroity i guess 
             // delete function of those amounds
             // unit test for those amounts
@@ -30,7 +31,8 @@ namespace Cooking_Project
             // mabye create a back up feature, you dont wanna lose your riceipes and steps mabye a way to save them to file formatt somehwere to be safe as a back up
             
             //Your gunna have to refactor the code code out for the console.write line to be a dependecy injection as the UI will have to take this over at some point 
-
+            //mabye angular for front end?
+            
             string choice;
             string choice2;
             string recipeName;

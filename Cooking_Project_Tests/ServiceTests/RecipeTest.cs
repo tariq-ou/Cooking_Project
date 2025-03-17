@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Cooking_Project.Application.Domain;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cooking_Project_Tests.PortsTest;
 using Cooking_Project.Application.Ports;
 using Moq;
@@ -29,9 +30,12 @@ public class RecipeTest
         //creating a moq sequence so we can pass through many input for the loop in the add ingredients method
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            // .Returns("Thai Green Paste")
+            // .Returns("Protein")
+            // .Returns("Vegetables")
             .Returns("Thai Green Paste")
-            .Returns("Protein")
-            .Returns("Vegetables")
+            .Returns("2")
+            .Returns("tbsp")
             .Returns("Done");
         
         
@@ -42,11 +46,18 @@ public class RecipeTest
         recipeToCheck.AddIngredients("Thai Green Curry");
        
         
+        // Assert.AreEqual("Thai Green Curry", recipeToCheck.Name);
+        // Assert.AreEqual(3, recipeToCheck.Ingredients.Count);
+        // Assert.Contains("Thai Green Paste", recipeToCheck.Ingredients);
+        // Assert.Contains("Protein", recipeToCheck.Ingredients);
+        // Assert.Contains("Vegetables", recipeToCheck.Ingredients);
+        
         Assert.AreEqual("Thai Green Curry", recipeToCheck.Name);
-        Assert.AreEqual(3, recipeToCheck.Ingredients.Count);
-        Assert.Contains("Thai Green Paste", recipeToCheck.Ingredients);
-        Assert.Contains("Protein", recipeToCheck.Ingredients);
-        Assert.Contains("Vegetables", recipeToCheck.Ingredients);
+        // below is 2 as it counts done as a  ingredient which needs to be fixed
+        Assert.AreEqual(1, recipeToCheck.Ingredients.Count);
+        Assert.AreEqual("Thai Green Paste", recipeToCheck.Ingredients.First().Name);
+        Assert.AreEqual(2, recipeToCheck.Ingredients.First().Amount);
+        Assert.AreEqual("tbsp", recipeToCheck.Ingredients.First().Unit);
         
 
     }
@@ -61,24 +72,29 @@ public class RecipeTest
         
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Tomato Sause")
-            .Returns("Cheese")
-            .Returns("Olives")
-            .Returns("Done");
+            .Returns("500")
+            .Returns("grams")
+            .Returns("Mozorella")
+            .Returns("1000")
+            .Returns("grams")
+            .Returns("Done"); 
+        
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
         recipeToCheck.InputProvider = moq.Object;
         recipeToCheck.AddIngredients("Pizza");
         
+        var moqTwo = new Mock<IInputProvider>();
+        
         //Creating a second moq as it seems once the sequence is used once it cant be used again?
-        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
-            .Returns("Tomato Sause")
-            .Returns("Olives")
-            .Returns("Done");
-        recipeToCheck.InputProvider = moq.Object;
+         moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+             .Returns("Tomato Sause")
+             .Returns("Done");
+        recipeToCheck.InputProvider = moqTwo.Object;
         recipeToCheck.IngredientDelete("Pizza");
         
         Assert.AreEqual("Pizza", recipeToCheck.Name);
         Assert.AreEqual(1, recipeToCheck.Ingredients.Count);
-        Assert.Contains("Cheese", recipeToCheck.Ingredients);
+        Assert.AreEqual("Mozorella", recipeToCheck.Ingredients.First().Name);
 
 
     }
@@ -93,9 +109,12 @@ public class RecipeTest
         
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Tomato Sause")
-            .Returns("Cheese")
-            .Returns("Olives")
-            .Returns("Done");
+            .Returns("500")
+            .Returns("grams")
+            .Returns("Mozorella")
+            .Returns("1000")
+            .Returns("grams")
+            .Returns("Done"); 
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
         recipeToCheck.InputProvider = moq.Object;
         recipeToCheck.AddIngredients("Pizza");
