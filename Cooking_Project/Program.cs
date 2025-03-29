@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Domain;
+using Microsoft.EntityFrameworkCore;
+using Cooking_Project.Application.Infastrucuture;
 
 namespace Cooking_Project
 {
@@ -18,16 +20,19 @@ namespace Cooking_Project
 
             
             
-            // when adding reccipe if you put in a string for serbing size it still adds it but low prioroity i guess 
-            // delete function of those amounds
-            // unit test for those amounts
+            // (cba for now as low prioroity)when adding reccipe if you put in a string for serbing size it still adds it but low prioroity i guess 
+            // (dedleting the ingredient as a whole is enough this is not needed)delete function of those amounds
+            // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
+            //NExt
+            //okay so youve created the db using sqllite and have it building you now need to consider how you are gunna wrte and read. chat chpt for fair is helping you decouple these metghods from youre recupe class for scalabilty and is talking about ireposiory and  ereposiory , i think one is a port I and E will be the adaptor but ask and try and understand.
             
-            //Use IQueryable<T> rather than ienumerbaale/Lists as appently it filters the data on the database side rather than the application side and so its more effeicengt & faster
+            //extra notes to consider
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
             //need to look into this more. so far adapror is seperate to recipe manager , event handling to save but need to design in a way that changing the inputs and outputs is fluid and deosnt require code changes to exisiting methods
             // add the database functionality now early on so code make sesnse with it ?
             // mabye create a back up feature, you dont wanna lose your riceipes and steps mabye a way to save them to file formatt somehwere to be safe as a back up
+            // (hold off for now - try and get working model first)Use IQueryable<T> rather than ienumerbaale/Lists as appently it filters the data on the database side rather than the application side and so its more effeicengt & faster
             
             //Your gunna have to refactor the code code out for the console.write line to be a dependecy injection as the UI will have to take this over at some point 
             //mabye angular for front end?
@@ -37,6 +42,13 @@ namespace Cooking_Project
             string recipeName;
             RecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
             Recipe checkedRecipe;
+            
+            // creating the db
+            using (var context = new RecipeDbContext())
+            {
+                context.Database.EnsureCreated();
+                Console.WriteLine("Database created or already exists!");
+            }
 
             do
             {

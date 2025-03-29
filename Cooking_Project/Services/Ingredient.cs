@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using Cooking_Project.Application.Ports;
 
 namespace Cooking_Project.Application.Services;
@@ -8,7 +9,10 @@ public class Ingredient
     public int Amount { get; set; }
     public string Unit { get; set; }
     
+    [NotMapped]
     internal IInputProvider InputProvider { get; set; }
+    
+    public Ingredient() { } // Required by EF Core
 
     public Ingredient(IInputProvider _inputProvider)
     {

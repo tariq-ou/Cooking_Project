@@ -9,4 +9,7 @@
     <ExternalConsole>true</ExternalConsole>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.3" />
+  </ItemGroup>
 </Project>

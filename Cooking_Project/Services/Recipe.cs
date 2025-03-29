@@ -9,6 +9,8 @@ namespace Cooking_Project.Application.Services
     {
       
         // Delcaring Recipe properties
+        
+        public int Id { get; set; } // Primary key (required apprently)
 
         public string Name { get; set; }
 
