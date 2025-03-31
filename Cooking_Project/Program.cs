@@ -25,7 +25,13 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            //okay so youve created the db using sqllite and have it building you now need to consider how you are gunna wrte and read. chat chpt for fair is helping you decouple these metghods from youre recupe class for scalabilty and is talking about ireposiory and  ereposiory , i think one is a port I and E will be the adaptor but ask and try and understand.
+            /// add method to have recipe memory read from database when its ran to make sure its always in sync 
+            // Next go through and add IRepository and ERepository methods for reading
+            // go through and add IRepository and ERepository methods for deleting
+            //go through and add IRepository and ERepository updating mabye
+            // add service method reading
+            //add service method deleting
+            //service method for updating 
             
             //extra notes to consider
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
@@ -44,11 +50,10 @@ namespace Cooking_Project
             Recipe checkedRecipe;
             
             // creating the db
-            using (var context = new RecipeDbContext())
-            {
-                context.Database.EnsureCreated();
-                Console.WriteLine("Database created or already exists!");
-            }
+            RecipeDbContext.CreateDatabase();
+            
+            //create recipeservice and passthrough dependecy injection for type of output save
+            var output = new RecipeService(new ERecipeRepository());
 
             do
             {
@@ -109,7 +114,8 @@ namespace Cooking_Project
 
                         break;
                     case "2":
-                        recipeManager.AddRecipe();
+                        var recipe = recipeManager.AddRecipe();
+                        output.AddRecipeSave(recipe);
                         break;
           
                     case "3":

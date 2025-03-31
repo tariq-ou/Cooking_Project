@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Ports;
 
@@ -18,18 +19,28 @@ namespace Cooking_Project.Application.Services
 
         public List<string> Steps { get; set; }
 
+        [NotMapped]
         internal IInputProvider InputProvider;
         
         public int Servings { get; set; }
 
         //Initalsing the properties
+        
+        //another constructor of entity framework as it will use the parameterless one and it wont current work  due to not being able to mapp custom object inputprovider
+        public Recipe()
+        {
+            
+            Ingredients = new List<Ingredient>();
+            Steps = new List<string>();
 
+        }
         public Recipe(string name, IInputProvider inputProvider)
         {
 
             Name = name;
             Ingredients = new List<Ingredient>();
             Steps = new List<string>();
+            //[NotMapped]
             InputProvider = inputProvider;
 
         }

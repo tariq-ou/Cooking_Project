@@ -9,6 +9,8 @@ public class Ingredient
     public int Amount { get; set; }
     public string Unit { get; set; }
     
+    public int IngredientId { get; set; } // Primary key (required apprently)
+    
     [NotMapped]
     internal IInputProvider InputProvider { get; set; }
     

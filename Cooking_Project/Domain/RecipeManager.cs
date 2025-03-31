@@ -24,7 +24,7 @@ namespace Cooking_Project.Application.Domain
         }
 
         //Promts user for a recipe name and creates a new recipe object with that name in the recipes list
-        public void AddRecipe()
+        public Recipe? AddRecipe()
         {
 
             // Console.WriteLine("Reciepe Name?");
@@ -46,11 +46,13 @@ namespace Cooking_Project.Application.Domain
                 {
                     Console.WriteLine("Please enter a valid number");
                     //recipes.RemoveAll(r => r.Name == recipeName);
-                    return;
+                    return null;
                 }
                 //GetRecipe(recipeName).Servings = int.Parse(_inputProvider.ReadInput("For what serving size?"));
                 Console.WriteLine($"Successfuly added {recipeName} for serving a size of {GetRecipe(recipeName).Servings}");
                 Console.WriteLine($"\n");
+                
+                return GetRecipe(recipeName);
             
             
 
