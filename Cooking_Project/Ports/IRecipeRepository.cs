@@ -6,7 +6,9 @@ public interface IRecipeRepository
 {
     
     public void Save(Recipe recipe);
-    //public void Read(Recipe recipe);
+    public List<Recipe> ReadAll();
+    
+    public void SaveIngredient(string recipeName, List<Ingredient> ingredients);
     //public void Delete(Recipe recipe);
     
     

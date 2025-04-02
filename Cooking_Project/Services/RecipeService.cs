@@ -19,5 +19,16 @@ public class RecipeService
     {
         _recipeRepository.Save(recipe);
     }
+
+    public List<Recipe> ReadAllRecipe()
+    {
+        return _recipeRepository.ReadAll();
+    }
+
+    public void AddIngredientSave(string recipeName, List<Ingredient> ingredients)
+    {
+        
+        _recipeRepository.SaveIngredient(recipeName, ingredients);
+    }
     
 }

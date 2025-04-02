@@ -48,8 +48,17 @@ namespace Cooking_Project.Application.Services
         //Loops through and add ingredients to a recipe which is parsed through by a string
         public void AddIngredients(string recipeName)
         {
+            // if (Ingredients.FirstOrDefault() == null)
+            // {
+            //     Ingredient? ingredientObject;
+            // }
+            // else
+            // {
+            //     
+            // }
+            
             Ingredient? ingredientObject;
-
+            
             Console.WriteLine("Please Enter The ingredients one by one, when you are finished, enter 'done");
 
 
@@ -58,6 +67,7 @@ namespace Cooking_Project.Application.Services
 
                 //ingredientAdd = Console.ReadLine();   
                 //ingredientAdd = InputProvider.ReadInput("-----");
+                
                 ingredientObject = new Ingredient(InputProvider);
                 ingredientObject = ingredientObject.AddIngredient();
                 

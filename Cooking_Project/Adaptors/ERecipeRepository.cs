@@ -17,6 +17,23 @@ public class ERecipeRepository: IRecipeRepository
         }
     }
 
-    
+    public List<Recipe> ReadAll()
+    {
+        using (var context = new RecipeDbContext())
+        {
+            return context.Recipes.Include(r => r.Ingredients).ToList();
+        }
+    }
+
+    public void SaveIngredient(string recipeName, List<Ingredient> ingredients)
+    {
+        using (var context = new RecipeDbContext())
+        {
+            var recipe = context.Recipes.Include(r => r.Ingredients).FirstOrDefault(r => r.Name == recipeName);
+            
+            recipe.Ingredients.AddRange(ingredients);
+            context.SaveChanges();
+        }
+    }
 
 }

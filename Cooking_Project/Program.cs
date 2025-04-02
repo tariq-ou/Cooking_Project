@@ -25,7 +25,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            /// add method to have recipe memory read from database when its ran to make sure its always in sync 
+            // MAbye move recipe and ingrecients from service folder to domain as it should be and how it dpesnt break so test after
+            // add method to have recipe memory read from database when its ran to make sure its always in sync 
             // Next go through and add IRepository and ERepository methods for reading
             // go through and add IRepository and ERepository methods for deleting
             //go through and add IRepository and ERepository updating mabye
@@ -40,6 +41,8 @@ namespace Cooking_Project
             // mabye create a back up feature, you dont wanna lose your riceipes and steps mabye a way to save them to file formatt somehwere to be safe as a back up
             // (hold off for now - try and get working model first)Use IQueryable<T> rather than ienumerbaale/Lists as appently it filters the data on the database side rather than the application side and so its more effeicengt & faster
             
+            // mabye add a proper logger class ect function in this code so that it creates a file and rather than just to console also writes out logs 
+            
             //Your gunna have to refactor the code code out for the console.write line to be a dependecy injection as the UI will have to take this over at some point 
             //mabye angular for front end?
             
@@ -53,8 +56,15 @@ namespace Cooking_Project
             RecipeDbContext.CreateDatabase();
             
             //create recipeservice and passthrough dependecy injection for type of output save
-            var output = new RecipeService(new ERecipeRepository());
-
+            var recipeService = new RecipeService(new ERecipeRepository());
+            
+            //syncing db recipes with recipemanager list
+            recipeManager.recipes = recipeService.ReadAllRecipe();
+            Console.WriteLine("Recipes syced");
+            //Give each recipe an InputProvider as those are not mapped
+            foreach (var recipe in recipeManager.recipes)
+                recipe.InputProvider = new ConsoleInputProvider();
+            
             do
             {
 
@@ -115,7 +125,7 @@ namespace Cooking_Project
                         break;
                     case "2":
                         var recipe = recipeManager.AddRecipe();
-                        output.AddRecipeSave(recipe);
+                        recipeService.AddRecipeSave(recipe);
                         break;
           
                     case "3":
@@ -140,6 +150,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddIngredients(recipeName);
+                        recipeService.AddIngredientSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "5":
