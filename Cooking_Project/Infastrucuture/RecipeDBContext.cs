@@ -21,5 +21,14 @@ namespace Cooking_Project.Application.Infastrucuture
         {
             options.UseSqlite("Data Source=recipes.db");
         }
+        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Recipe>()
+                .HasMany(r => r.Ingredients)
+                .WithOne(i => i.Recipe)
+                .HasForeignKey(i => i.RecipeId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

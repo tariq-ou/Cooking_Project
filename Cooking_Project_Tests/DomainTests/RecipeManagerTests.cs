@@ -65,7 +65,7 @@ namespace Cooking_Project_Tests
             // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             //     .Returns("Pizza");
             recipeManager._inputProvider = moqTwo.Object;
-            recipeManager.DeleteRecipe();
+            recipeManager.DeleteRecipe(recipeManager.recipes.Find(r => r.Name == "Pizza"));
             Assert.IsNull(recipeManager.recipes.Find(r => r.Name == "Pizza"));
         }
 
@@ -100,7 +100,7 @@ namespace Cooking_Project_Tests
             // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             //     .Returns("Pizza");
             recipeManager._inputProvider = moqTwo.Object;
-            recipeManager.DeleteRecipe();
+            recipeManager.DeleteRecipe(recipeManager.recipes.Find(r => r.Name == "Pizza"));
             
             var moqThree = new Mock<IInputProvider>();
             moqThree.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))

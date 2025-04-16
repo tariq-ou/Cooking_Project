@@ -11,6 +11,12 @@ public class Ingredient
     
     public int IngredientId { get; set; } // Primary key (required apprently)
     
+    //  This is the foreign key
+    public int RecipeId { get; set; }
+
+    // This is the navigation property
+    public Recipe Recipe { get; set; }
+    
     [NotMapped]
     internal IInputProvider InputProvider { get; set; }
     

@@ -25,14 +25,10 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // MAbye move recipe and ingrecients from service folder to domain as it should be and how it dpesnt break so test after
-            // add method to have recipe memory read from database when its ran to make sure its always in sync 
-            // Next go through and add IRepository and ERepository methods for reading
-            // go through and add IRepository and ERepository methods for deleting
+            // go through and add IRepository and ERepository methods for steps 
+            //service method for steps
             //go through and add IRepository and ERepository updating mabye
-            // add service method reading
-            //add service method deleting
-            //service method for updating 
+            //service method for updating
             
             //extra notes to consider
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
@@ -129,7 +125,9 @@ namespace Cooking_Project
                         break;
           
                     case "3":
-                        recipeManager.DeleteRecipe();
+                        Recipe toDelete = recipeManager.CheckRecipe(out recipeName);
+                        recipeService.DeleteRecipeIngredients(toDelete);
+                        recipeManager.DeleteRecipe(toDelete);
                         break;
 
                     case "4":

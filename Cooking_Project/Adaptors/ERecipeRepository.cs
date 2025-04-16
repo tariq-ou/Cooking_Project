@@ -35,5 +35,14 @@ public class ERecipeRepository: IRecipeRepository
             context.SaveChanges();
         }
     }
+    
+    public void Delete(Recipe recipe)
+    {
+        using (var context = new RecipeDbContext())
+        {
+            context.Recipes.Remove(recipe);
+            context.SaveChanges();
+        }
+    }
 
 }

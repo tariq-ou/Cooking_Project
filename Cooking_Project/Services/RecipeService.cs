@@ -31,4 +31,10 @@ public class RecipeService
         _recipeRepository.SaveIngredient(recipeName, ingredients);
     }
     
+    public void DeleteRecipeIngredients(Recipe recipe)
+    {
+        
+        _recipeRepository.Delete(recipe);
+    }
+    
 }

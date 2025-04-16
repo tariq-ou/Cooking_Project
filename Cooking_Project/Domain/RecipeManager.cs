@@ -78,12 +78,12 @@ namespace Cooking_Project.Application.Domain
         }
 
         //Removes recipe from list by calling Find Recipe and then removing that object
-        public void DeleteRecipe()
+        public void DeleteRecipe(Recipe toDelete)
         {
 
-            string recipeName;
+            string recipeName = toDelete.Name;
 
-            Recipe toDelete = CheckRecipe(out recipeName);
+            //Recipe toDelete = CheckRecipe(out recipeName);
 
             if (toDelete is not null)
             {
