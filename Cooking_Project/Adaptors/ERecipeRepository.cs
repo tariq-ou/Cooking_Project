@@ -12,7 +12,15 @@ public class ERecipeRepository: IRecipeRepository
     {
         using (var context = new RecipeDbContext())
         {
-            context.Recipes.Add(recipe);
+            if (context.Recipes.Any(r => r.Name == recipe.Name))
+            {
+                context.Recipes.Update(recipe);
+            }
+            else
+            {
+                context.Recipes.Add(recipe);
+            }
+
             context.SaveChanges();
         }
     }

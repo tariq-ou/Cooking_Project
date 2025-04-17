@@ -25,10 +25,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // go through and add IRepository and ERepository methods for steps 
-            //service method for steps
-            //go through and add IRepository and ERepository updating mabye
-            //service method for updating
+            // i think you can save and delte ebveything into the database now manbye?
+            //mabye consider EF migration to make sure the schema gets updated when you add a property so you dont need to delete the database everytime if you add a coloumn in your code as it wont be able to sync it at the start - speak to mr gpt
             
             //extra notes to consider
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
@@ -181,6 +179,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddSteps(recipeName);
+                        recipeService.AddRecipeSave(checkedRecipe);
                         break;
                     
                     case "7":

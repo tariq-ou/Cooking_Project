@@ -14,9 +14,18 @@ namespace Cooking_Project.Application.Services
         public int Id { get; set; } // Primary key (required apprently)
 
         public string Name { get; set; }
-
+        
         public List<Ingredient> Ingredients { get; set; }
 
+        public string StepsSerialized
+        {
+            get => string.Join("||", Steps ?? new List<string>());
+            set => Steps = string.IsNullOrEmpty(value)
+                ? new List<string>()
+                : value.Split("||", StringSplitOptions.None).ToList();
+        }
+        
+        [NotMapped]
         public List<string> Steps { get; set; }
 
         [NotMapped]
@@ -192,7 +201,7 @@ namespace Cooking_Project.Application.Services
             string stepsAdd = "";
  
 
-            Console.WriteLine($"Please Enter The Steps for the recipe: {recipeName}");
+            Console.WriteLine($"Please Enter The Steps for the recipe: {recipeName} | when you are finished, enter 'done'");
 
             do
             {
