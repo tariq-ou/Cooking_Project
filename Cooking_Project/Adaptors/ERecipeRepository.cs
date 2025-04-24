@@ -37,9 +37,17 @@ public class ERecipeRepository: IRecipeRepository
     {
         using (var context = new RecipeDbContext())
         {
-            var recipe = context.Recipes.Include(r => r.Ingredients).FirstOrDefault(r => r.Name == recipeName);
+            //var recipe = context.Recipes.Include(r => r.Ingredients).FirstOrDefault(r => r.Name == recipeName);
+            var recipe = context.Recipes.FirstOrDefault(r => r.Name == recipeName);
             
-            recipe.Ingredients.AddRange(ingredients);
+            //recipe.Ingredients.AddRange(ingredients);
+            
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.RecipeId = recipe.Id; // make sure it's linked
+                recipe.Ingredients.Add(ingredient);
+            }
+
             context.SaveChanges();
         }
     }
