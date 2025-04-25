@@ -36,5 +36,10 @@ public class RecipeService
         
         _recipeRepository.Delete(recipe);
     }
+
+    public void ReadExportDB()
+    {
+        _recipeRepository.ExportDB();
+    }
     
 }

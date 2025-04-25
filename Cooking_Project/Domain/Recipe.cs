@@ -206,7 +206,8 @@ namespace Cooking_Project.Application.Services
             do
             {
                 stepsAdd = InputProvider.ReadInput("---");
-                Steps.Add(stepsAdd);
+                if(!(stepsAdd.ToUpper() == "DONE"))
+                    Steps.Add(stepsAdd);
             } while (stepsAdd.ToUpper() != "DONE");
             //Steps = stepsAdd.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries).ToList();
             

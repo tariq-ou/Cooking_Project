@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Sqlite;
 using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
+using System.Text.Json;
 
 namespace Cooking_Project.Application.Adaptors;
 
@@ -59,6 +60,27 @@ public class ERecipeRepository: IRecipeRepository
             context.Recipes.Remove(recipe);
             context.SaveChanges();
         }
+    }
+
+    public void ExportDB()
+    {
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "recipes.json");
+        
+        using (var context = new RecipeDbContext())
+        {
+            var itemsToExport = context.Recipes.Include(r => r.Ingredients).ToList();
+            
+            var json = JsonSerializer.Serialize(
+                itemsToExport,
+                new JsonSerializerOptions
+                {
+                    WriteIndented = true // makes it human-readable
+                });
+            
+            File.WriteAllText(filePath, json);
+
+            Console.WriteLine($"Exported {itemsToExport.Count} recipes to {filePath}");
+        }   
     }
 
 }

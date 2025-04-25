@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Cooking_Project.Application.Ports;
+using System.Text.Json.Serialization;
 
 namespace Cooking_Project.Application.Services;
 
@@ -15,6 +16,7 @@ public class Ingredient
     public int RecipeId { get; set; }
 
     // This is the navigation property
+    [JsonIgnore]
     public Recipe Recipe { get; set; }
     
     [NotMapped]

@@ -25,9 +25,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // will probably mabye get a runtime error for steps if you add to it - check that too /consider a way to change steps and add them back in a as a whole - mabye view then copy edit and add back in to resave over old version - so mabye a delete is necessary when doing saving steps
+            // Add an import method for the JSON back up file you have created - this will need a erepository and an service method. 
             //mabye consider EF migration to make sure the schema gets updated when you add a property so you dont need to delete the database everytime if you add a coloumn in your code as it wont be able to sync it at the start - speak to mr gpt
-            //mabye create a back up feature, you dont wanna lose your riceipes and steps mabye a way to save them to file formatt somehwere to be safe as a back up
                 
             //extra notes to consider
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
@@ -73,6 +72,7 @@ namespace Cooking_Project
                 Console.WriteLine("5. Delete Ingredients from Recipe");
                 Console.WriteLine("6. Add steps to a Recipe");
                 Console.WriteLine("7. Delete steps from Recipe");
+                Console.WriteLine("8. Export from DB to JSON backup");
                 
 
 
@@ -194,6 +194,11 @@ namespace Cooking_Project
 
                         checkedRecipe.StepsDelete(recipeName);
                         break;
+                    
+                    case "8":
+                        
+                        recipeService.ReadExportDB();
+                        break;
 
                     default:
                         Console.WriteLine("Invalid choice.");
@@ -204,7 +209,7 @@ namespace Cooking_Project
                         
                 }
 
-            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7");
+            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7" || choice == "8");
 
         }
 
