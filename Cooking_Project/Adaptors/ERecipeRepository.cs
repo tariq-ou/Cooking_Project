@@ -83,4 +83,34 @@ public class ERecipeRepository: IRecipeRepository
         }   
     }
 
+    public void ImportDB()
+    {
+        string filePath = Path.Combine(Directory.GetCurrentDirectory(), "recipes.json");
+
+        if (!File.Exists(filePath))
+        {
+            Console.WriteLine("No file found");
+        }
+        else
+        {
+            var recipeJson = File.ReadAllText(filePath);
+            var itemsToImport = JsonSerializer.Deserialize<List<Recipe>>(recipeJson);
+
+            using (var context = new RecipeDbContext())
+            {
+                foreach (var item in itemsToImport)
+                    if (!context.Recipes.Any(r => r.Name == item.Name))
+                    {
+                        context.Recipes.Add(item);
+                        Console.WriteLine($"Imported {item.Name} to DB");
+                        context.SaveChanges();
+                        
+                    }
+            }
+            
+        }
+        
+        
+    }
+
 }

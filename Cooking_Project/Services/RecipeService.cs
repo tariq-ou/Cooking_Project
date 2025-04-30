@@ -2,6 +2,7 @@ using System.Xml.Linq;
 using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Services;
+using Cooking_Project.Application.Adaptors;
 
 
 namespace Cooking_Project.Application.Services;
@@ -41,5 +42,19 @@ public class RecipeService
     {
         _recipeRepository.ExportDB();
     }
-    
+
+    public void ImportToDB()
+    {
+        _recipeRepository.ImportDB();
+    }
+
+    public void SyncDBtoMemory(RecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
+    {
+        //syncing db recipes with recipemanager list
+        recipeManager.recipes = this.ReadAllRecipe();
+        Console.WriteLine("Recipes syced");
+        //Give each recipe an InputProvider as those are not mapped
+        foreach (var recipe in recipeManager.recipes)
+            recipe.InputProvider = inputProviderFactory();
+    }
 }

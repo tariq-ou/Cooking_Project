@@ -25,10 +25,11 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // Add an import method for the JSON back up file you have created - this will need a erepository and an service method. 
             //mabye consider EF migration to make sure the schema gets updated when you add a property so you dont need to delete the database everytime if you add a coloumn in your code as it wont be able to sync it at the start - speak to mr gpt
                 
             //extra notes to consider
+            // consider having a windsor castle DI for IOU so that you are able to decopuple your code better for things like console.writeline and stuff
+            //consider adding a logger rather than the console.wrtiteline stuff for logging
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
             //need to look into this more. so far adapror is seperate to recipe manager , event handling to save but need to design in a way that changing the inputs and outputs is fluid and deosnt require code changes to exisiting methods
             // add the database functionality now early on so code make sesnse with it ?
@@ -52,12 +53,14 @@ namespace Cooking_Project
             //create recipeservice and passthrough dependecy injection for type of output save
             var recipeService = new RecipeService(new ERecipeRepository());
             
-            //syncing db recipes with recipemanager list
-            recipeManager.recipes = recipeService.ReadAllRecipe();
-            Console.WriteLine("Recipes syced");
-            //Give each recipe an InputProvider as those are not mapped
-            foreach (var recipe in recipeManager.recipes)
-                recipe.InputProvider = new ConsoleInputProvider();
+            // //syncing db recipes with recipemanager list
+            // recipeManager.recipes = recipeService.ReadAllRecipe();
+            // Console.WriteLine("Recipes syced");
+            // //Give each recipe an InputProvider as those are not mapped
+            // foreach (var recipe in recipeManager.recipes)
+            //     recipe.InputProvider = new ConsoleInputProvider();
+            
+            recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -73,6 +76,7 @@ namespace Cooking_Project
                 Console.WriteLine("6. Add steps to a Recipe");
                 Console.WriteLine("7. Delete steps from Recipe");
                 Console.WriteLine("8. Export from DB to JSON backup");
+                Console.WriteLine("9. Import from JSON backup to DB");
                 
 
 
@@ -199,6 +203,12 @@ namespace Cooking_Project
                         
                         recipeService.ReadExportDB();
                         break;
+                    
+                    case "9":
+                        
+                        recipeService.ImportToDB();
+                        recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
+                        break;
 
                     default:
                         Console.WriteLine("Invalid choice.");
@@ -209,7 +219,7 @@ namespace Cooking_Project
                         
                 }
 
-            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7" || choice == "8");
+            } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7" || choice == "8" || choice == "9");
 
         }
 
