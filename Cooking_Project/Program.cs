@@ -25,10 +25,15 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            //mabye consider EF migration to make sure the schema gets updated when you add a property so you dont need to delete the database everytime if you add a coloumn in your code as it wont be able to sync it at the start - speak to mr gpt
+            // i think you are done now with db mabye?
+            // look extra notes to conisder ectg
+            // mabye time to update with your recipes? - you wont know how useful or what else is needed till you do and you can always back it up ect... oooo 
+            
                 
             //extra notes to consider
             // consider having a windsor castle DI for IOU so that you are able to decopuple your code better for things like console.writeline and stuff
+            // mabye UI time
+            // mabye time to update with your recipes?
             //consider adding a logger rather than the console.wrtiteline stuff for logging
             // okay so only the the adaptor should have acceess to the databse? / ttry to connect with it to decouple it from the recipe manager. we can use event handling to save it after the method runs in recipe decoupling the saving action from the method
             //need to look into this more. so far adapror is seperate to recipe manager , event handling to save but need to design in a way that changing the inputs and outputs is fluid and deosnt require code changes to exisiting methods
