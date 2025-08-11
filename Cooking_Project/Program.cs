@@ -25,10 +25,11 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // i think you are done now with db mabye?
-            // look extra notes to conisder ectg
-            // mabye time to update with your recipes? - you wont know how useful or what else is needed till you do and you can always back it up ect... oooo 
-            
+            // fix github repositories by merging databasefork into master somehow
+            // then branch off and add irecipemanager ect and clean up exisiting code
+            //then merge back 
+            //then look into working on ASP.net
+
                 
             //extra notes to consider
             // consider having a windsor castle DI for IOU so that you are able to decopuple your code better for things like console.writeline and stuff
