@@ -7,10 +7,14 @@ using Cooking_Project.Application.Ports;
 
 namespace Cooking_Project.Application.Domain
 {
-    public class RecipeManager
+    public class RecipeManager : IRecipeManager
     {
         //Inilalises a list of recipes
-        public List<Recipe> recipes = new List<Recipe>();
+        //public List<Recipe> recipes = new List<Recipe>();
+
+        public List<Recipe> Recipes { get; set; }
+
+
         //Initalises a IInputProvider so during runtime different inputs can be processed using dependency injection
         internal IInputProvider _inputProvider;
 
@@ -21,6 +25,7 @@ namespace Cooking_Project.Application.Domain
         {
             Console.WriteLine("Recipe Manager Created");
             _inputProvider = inputProvider;
+            Recipes = new List<Recipe>();
         }
 
         //Promts user for a recipe name and creates a new recipe object with that name in the recipes list
@@ -39,7 +44,7 @@ namespace Cooking_Project.Application.Domain
 
                 if (int.TryParse(_inputProvider.ReadInput("For what serving size?"), out servingSize))
                 {
-                    recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
+                    Recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
                     GetRecipe(recipeName).Servings = servingSize;
                 }
                 else
@@ -63,7 +68,7 @@ namespace Cooking_Project.Application.Domain
         {
             if ( this.RecipeCount() > 0)
             {
-                foreach (Recipe item in recipes)
+                foreach (Recipe item in Recipes)
                 {
                     Console.WriteLine($"{item.Name} | Serving : {item.Servings}");
                 }
@@ -87,7 +92,7 @@ namespace Cooking_Project.Application.Domain
 
             if (toDelete is not null)
             {
-                recipes.Remove(toDelete);
+                Recipes.Remove(toDelete);
 
                 Console.WriteLine($"Successfuly removed {recipeName}");
                 Console.WriteLine($"\n");
@@ -118,7 +123,7 @@ namespace Cooking_Project.Application.Domain
                 return null;
             }
          
-            Recipe recipeFound = recipes.Find(r => r.Name == checkName);
+            Recipe recipeFound = Recipes.Find(r => r.Name == checkName);
 
             if (recipeFound is null)
              {
@@ -157,7 +162,7 @@ namespace Cooking_Project.Application.Domain
         //Count nuumber of recipes
         public int RecipeCount()
         {
-            return recipes.Count();
+            return Recipes.Count();
         }
 
         public Recipe GetRecipe(string recipeName)
@@ -178,7 +183,7 @@ namespace Cooking_Project.Application.Domain
                 return null;
             }
          
-            Recipe recipeFound = recipes.Find(r => r.Name == recipeName);
+            Recipe recipeFound = Recipes.Find(r => r.Name == recipeName);
 
             if (recipeFound is null)
             {

@@ -25,9 +25,9 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // fix github repositories by merging databasefork into master somehow
             // then branch off and add irecipemanager ect and clean up exisiting code
             //then merge back 
+            // sort out unit tests
             //then look into working on ASP.net
 
                 
@@ -50,7 +50,7 @@ namespace Cooking_Project
             string choice;
             string choice2;
             string recipeName;
-            RecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
+            IRecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
             Recipe checkedRecipe;
             
             // creating the db
@@ -66,7 +66,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
+            recipeService.SyncDBtoMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -213,7 +213,7 @@ namespace Cooking_Project
                     case "9":
                         
                         recipeService.ImportToDB();
-                        recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
+                        recipeService.SyncDBtoMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
                         break;
 
                     default:

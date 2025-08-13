@@ -48,13 +48,13 @@ public class RecipeService
         _recipeRepository.ImportDB();
     }
 
-    public void SyncDBtoMemory(RecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
+    public void SyncDBtoMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
     {
         //syncing db recipes with recipemanager list
-        recipeManager.recipes = this.ReadAllRecipe();
+        recipeManager.Recipes = this.ReadAllRecipe();
         Console.WriteLine("Recipes syced");
         //Give each recipe an InputProvider as those are not mapped
-        foreach (var recipe in recipeManager.recipes)
+        foreach (var recipe in recipeManager.Recipes)
             recipe.InputProvider = inputProviderFactory();
     }
 }
