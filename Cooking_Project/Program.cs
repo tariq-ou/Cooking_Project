@@ -5,6 +5,7 @@ using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Domain;
 using Microsoft.EntityFrameworkCore;
 using Cooking_Project.Application.Infastrucuture;
+using Cooking_Project.Factory;
 
 namespace Cooking_Project
 {
@@ -25,8 +26,12 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // then branch off and add irecipemanager ect and clean up exisiting code
-            //then merge back 
+            // add the configuration reader to the factory class you are creting to read the json
+            // look into factory pattern so that you can keep the service layer abstract as at the moment, the repositor class is expecting clear types and apprently this is exisits to help
+            //IRecipe and get it working
+            //IIngredient and get it working 
+            //i dont think the repsoitory class is abstracted correctly have another think about hpw
+            // abstract all domain classes one more level and get them working 
             // sort out unit tests
             //then look into working on ASP.net
 
@@ -51,13 +56,13 @@ namespace Cooking_Project
             string choice2;
             string recipeName;
             IRecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
-            Recipe checkedRecipe;
+            IRecipe checkedRecipe;
             
             // creating the db
             RecipeDbContext.CreateDatabase();
             
             //create recipeservice and passthrough dependecy injection for type of output save
-            var recipeService = new RecipeService(new ERecipeRepository());
+            var recipeService = new RecipeService(RepositoryFactory.Create());
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();
@@ -66,7 +71,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            recipeService.SyncDBtoMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+            recipeService.SyncMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -129,12 +134,12 @@ namespace Cooking_Project
 
                         break;
                     case "2":
-                        var recipe = recipeManager.AddRecipe();
+                        IRecipe? recipe = recipeManager.AddRecipe();
                         recipeService.AddRecipeSave(recipe);
                         break;
           
                     case "3":
-                        Recipe toDelete = recipeManager.CheckRecipe(out recipeName);
+                        IRecipe toDelete = recipeManager.CheckRecipe(out recipeName);
                         recipeService.DeleteRecipeIngredients(toDelete);
                         recipeManager.DeleteRecipe(toDelete);
                         break;

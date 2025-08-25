@@ -7,7 +7,7 @@ using Cooking_Project.Application.Adaptors;
 
 namespace Cooking_Project.Application.Services;
 
-public class RecipeService
+public class RecipeService : IRecipeService, IDBService
 {
     IRecipeRepository _recipeRepository;
 
@@ -18,6 +18,7 @@ public class RecipeService
 
     public void AddRecipeSave(Recipe recipe)
     {
+        
         _recipeRepository.Save(recipe);
     }
 
@@ -48,7 +49,7 @@ public class RecipeService
         _recipeRepository.ImportDB();
     }
 
-    public void SyncDBtoMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
+    public void SyncMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
     {
         //syncing db recipes with recipemanager list
         recipeManager.Recipes = this.ReadAllRecipe();
