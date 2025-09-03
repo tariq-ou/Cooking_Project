@@ -12,7 +12,7 @@ namespace Cooking_Project.Application.Domain
         //Inilalises a list of recipes
         //public List<Recipe> recipes = new List<Recipe>();
 
-        public List<IRecipe> Recipes { get; set; }
+        public List<Recipe> Recipes { get; set; }
 
 
         //Initalises a IInputProvider so during runtime different inputs can be processed using dependency injection
@@ -25,7 +25,7 @@ namespace Cooking_Project.Application.Domain
         {
             Console.WriteLine("Recipe Manager Created");
             _inputProvider = inputProvider;
-            Recipes = new List<IRecipe>();
+            Recipes = new List<Recipe>();
         }
 
         //Promts user for a recipe name and creates a new recipe object with that name in the recipes list
@@ -92,7 +92,7 @@ namespace Cooking_Project.Application.Domain
 
             if (toDelete is not null)
             {
-                Recipes.Remove(toDelete);
+                Recipes.Remove((Recipe)toDelete);
 
                 Console.WriteLine($"Successfuly removed {recipeName}");
                 Console.WriteLine($"\n");

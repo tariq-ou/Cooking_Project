@@ -7,10 +7,10 @@ namespace Cooking_Project.Factory;
 
 public static class RepositoryFactory
 {
-    public static IRecipeRepository Create()
+    public static IRecipeRepositoryDB Create()
     {
         var config = Helper.Config.ConfigReader();
-        var backend = config["BackEnd"];
+        var backend = config["Repository:BackEnd"];
         
         switch (backend)
         {

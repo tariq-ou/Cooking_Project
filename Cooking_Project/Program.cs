@@ -26,9 +26,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // add the configuration reader to the factory class you are creting to read the json
-            // look into factory pattern so that you can keep the service layer abstract as at the moment, the repositor class is expecting clear types and apprently this is exisits to help
-            //IRecipe and get it working
+            //Add serive methods for delete ingreinets and steps to delete from the DB but name more abstractly 
+            // have another look at serbvice set up so i think now a servive is created by the factory which in program should be renamed to just servive mostlikely and that proabbly fine for now
             //IIngredient and get it working 
             //i dont think the repsoitory class is abstracted correctly have another think about hpw
             // abstract all domain classes one more level and get them working 
@@ -62,7 +61,9 @@ namespace Cooking_Project
             RecipeDbContext.CreateDatabase();
             
             //create recipeservice and passthrough dependecy injection for type of output save
-            var recipeService = new RecipeService(RepositoryFactory.Create());
+            //var recipeService = new RecipeService(RepositoryFactory.Create());
+
+            var recipeService = ServiceFactory.Create();
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();
@@ -71,7 +72,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            recipeService.SyncMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+            recipeService.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -135,13 +136,15 @@ namespace Cooking_Project
                         break;
                     case "2":
                         IRecipe? recipe = recipeManager.AddRecipe();
-                        recipeService.AddRecipeSave(recipe);
+                        recipeService.AddItemSave(recipe);
                         break;
           
                     case "3":
                         IRecipe toDelete = recipeManager.CheckRecipe(out recipeName);
-                        recipeService.DeleteRecipeIngredients(toDelete);
+                        recipeService.DeleteItemandNested(toDelete);
+                        //recipeService.DeleteSavedRecipe(toDelete);
                         recipeManager.DeleteRecipe(toDelete);
+                        
                         break;
 
                     case "4":
@@ -162,7 +165,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddIngredients(recipeName);
-                        recipeService.AddIngredientSave(checkedRecipe.Name, checkedRecipe.Ingredients);
+                        recipeService.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "5":
@@ -195,7 +198,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddSteps(recipeName);
-                        recipeService.AddRecipeSave(checkedRecipe);
+                        recipeService.AddItemSave(checkedRecipe);
                         break;
                     
                     case "7":
@@ -218,7 +221,7 @@ namespace Cooking_Project
                     case "9":
                         
                         recipeService.ImportToDB();
-                        recipeService.SyncDBtoMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+                        recipeService.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
                         break;
 
                     default:

@@ -107,7 +107,7 @@ namespace Cooking_Project_Tests
                 .Returns("Pizza");
             recipeManager._inputProvider = moqThree.Object;
             
-            Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
+            IRecipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
             Assert.IsNull(checkedRecipe);
         }
         
@@ -131,7 +131,7 @@ namespace Cooking_Project_Tests
             
             recipeManager._inputProvider = moqTwo.Object;
             
-            Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
+            IRecipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
             Assert.AreSame(checkedRecipe,recipeManager.Recipes.First());
         }
     }
