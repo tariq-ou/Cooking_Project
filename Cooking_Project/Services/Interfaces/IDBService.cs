@@ -7,5 +7,5 @@ public interface IDBService
 {
     void ReadExportDB();
     void ImportToDB();
-    void SyncMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory);
+    void SyncDBMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory);
 }

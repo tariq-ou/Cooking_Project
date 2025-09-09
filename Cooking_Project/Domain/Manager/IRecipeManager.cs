@@ -4,7 +4,7 @@ namespace Cooking_Project.Application.Domain;
 
 public interface IRecipeManager
 {
-    public List<IRecipe> Recipes { get; set; }
+    public List<Recipe> Recipes { get; set; }
     IRecipe? AddRecipe();
     void ViewRecipe();
     void DeleteRecipe(IRecipe toDelete);

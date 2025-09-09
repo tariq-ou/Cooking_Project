@@ -7,7 +7,7 @@ using System.Text.Json;
 
 namespace Cooking_Project.Application.Adaptors;
 
-public class ERecipeRepository: IRecipeRepository
+public class ERecipeRepository: IRecipeRepositoryDB
 {
     public void Save(Recipe recipe)
     {
@@ -34,7 +34,7 @@ public class ERecipeRepository: IRecipeRepository
         }
     }
 
-    public void SaveIngredient(string recipeName, List<Ingredient> ingredients)
+    public void SaveNestedItem(string recipeName, List<Ingredient> ingredients)
     {
         using (var context = new RecipeDbContext())
         {
