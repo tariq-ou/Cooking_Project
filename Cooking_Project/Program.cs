@@ -26,11 +26,6 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-           
-           
-            //IIngredient and get it working 
-            //i dont think the repsoitory class is abstracted correctly have another think about hpw
-            // abstract all domain classes one more level and get them working 
             // sort out unit tests
             //then look into working on ASP.net
 
@@ -63,7 +58,7 @@ namespace Cooking_Project
             //create recipeservice and passthrough dependecy injection for type of output save
             //var recipeService = new RecipeService(RepositoryFactory.Create());
 
-            var recipeService = ServiceFactory.Create();
+            var service = ServiceFactory.Create();
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();
@@ -72,7 +67,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            recipeService.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+            service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -136,12 +131,12 @@ namespace Cooking_Project
                         break;
                     case "2":
                         IRecipe? recipe = recipeManager.AddRecipe();
-                        recipeService.AddItemSave(recipe);
+                        service.AddItemSave(recipe);
                         break;
           
                     case "3":
                         IRecipe toDelete = recipeManager.CheckRecipe(out recipeName);
-                        recipeService.DeleteItemandNested(toDelete);
+                        service.DeleteItemandNested(toDelete);
                         //recipeService.DeleteSavedRecipe(toDelete);
                         recipeManager.DeleteRecipe(toDelete);
                         
@@ -165,7 +160,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddIngredients(recipeName);
-                        recipeService.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
+                        service.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "5":
@@ -179,7 +174,7 @@ namespace Cooking_Project
 
                         checkedRecipe.IngredientDelete(recipeName);
                         // save recipe down again with changes to ingredients to act as a delete/an update
-                        recipeService.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
+                        service.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "6":
@@ -200,7 +195,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddSteps(recipeName);
-                        recipeService.AddItemSave(checkedRecipe);
+                        service.AddItemSave(checkedRecipe);
                         break;
                     
                     case "7":
@@ -214,18 +209,18 @@ namespace Cooking_Project
 
                         checkedRecipe.StepsDelete(recipeName);
                         // save recipe down again with changes to ingredients to act as a delete/an update
-                        recipeService.AddItemSave(checkedRecipe);
+                        service.AddItemSave(checkedRecipe);
                         break;
                     
                     case "8":
                         
-                        recipeService.ReadExportDB();
+                        service.ReadExportDB();
                         break;
                     
                     case "9":
                         
-                        recipeService.ImportToDB();
-                        recipeService.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+                        service.ImportToDB();
+                        service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
                         break;
 
                     default:
@@ -240,6 +235,7 @@ namespace Cooking_Project
             } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7" || choice == "8" || choice == "9");
 
         }
+        
 
     }
 }
