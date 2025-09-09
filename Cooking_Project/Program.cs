@@ -26,8 +26,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            //Add serive methods for delete ingreinets and steps to delete from the DB but name more abstractly 
-            // have another look at serbvice set up so i think now a servive is created by the factory which in program should be renamed to just servive mostlikely and that proabbly fine for now
+           
+           
             //IIngredient and get it working 
             //i dont think the repsoitory class is abstracted correctly have another think about hpw
             // abstract all domain classes one more level and get them working 
@@ -178,6 +178,8 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.IngredientDelete(recipeName);
+                        // save recipe down again with changes to ingredients to act as a delete/an update
+                        recipeService.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "6":
@@ -211,6 +213,8 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.StepsDelete(recipeName);
+                        // save recipe down again with changes to ingredients to act as a delete/an update
+                        recipeService.AddItemSave(checkedRecipe);
                         break;
                     
                     case "8":
