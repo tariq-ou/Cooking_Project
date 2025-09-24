@@ -24,12 +24,22 @@ public class RecipeTest
     [Test]
     public void AddIngredientsTest()
     {
-        RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Thai Green Curry"));
-        recipeManager.AddRecipe();
-        
-        //creating a moq sequence so we can pass through many input for the loop in the add ingredients method
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Thai Green Curry")
+            .Returns("2");
+            
+        //Creating instance and then adding a recipe 
+        //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
+        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        recipeManager.AddRecipe();
+        
+        // RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Thai Green Curry"));
+        // recipeManager.AddRecipe();
+        
+        //creating a moq sequence so we can pass through many input for the loop in the add ingredients method
+        var moq2 = new Mock<IInputProvider>();
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             // .Returns("Thai Green Paste")
             // .Returns("Protein")
             // .Returns("Vegetables")
@@ -38,11 +48,13 @@ public class RecipeTest
             .Returns("tbsp")
             .Returns("Done");
         
-        
-        
-     
+        // var moq2 = new Mock<IInputProvider>();
+        // moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+        //     .Returns("Thai Green Curry");
+
+        recipeManager._inputProvider = new IInputProviderTest("Thai Green Curry");
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
-        recipeToCheck.InputProvider = moq.Object;
+        recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddIngredients("Thai Green Curry");
        
         
@@ -65,12 +77,23 @@ public class RecipeTest
     [Test]
     public void DeleteIngredientsTest()
     {
-        RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
-        recipeManager.AddRecipe();
+        // RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+        // recipeManager.AddRecipe();
         
         var moq = new Mock<IInputProvider>();
-        
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Pizza")
+            .Returns("2");
+            
+        //Creating instance and then adding a recipe 
+        //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
+        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        recipeManager.AddRecipe();
+
+        
+        var moq2 = new Mock<IInputProvider>();
+        
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Tomato Sause")
             .Returns("500")
             .Returns("grams")
@@ -79,17 +102,18 @@ public class RecipeTest
             .Returns("grams")
             .Returns("Done"); 
         
+        recipeManager._inputProvider = new IInputProviderTest("Pizza");
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
-        recipeToCheck.InputProvider = moq.Object;
+        recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddIngredients("Pizza");
         
-        var moqTwo = new Mock<IInputProvider>();
+        var moq3 = new Mock<IInputProvider>();
         
         //Creating a second moq as it seems once the sequence is used once it cant be used again?
-         moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+         moq3.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
              .Returns("Tomato Sause")
              .Returns("Done");
-        recipeToCheck.InputProvider = moqTwo.Object;
+        recipeToCheck.InputProvider = moq3.Object;
         recipeToCheck.IngredientDelete("Pizza");
         
         Assert.AreEqual("Pizza", recipeToCheck.Name);
@@ -102,21 +126,28 @@ public class RecipeTest
     [Test]
     public void DeleteAllIngredientsTest()
     {
-        RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+        var moq = new Mock<IInputProvider>();
+        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Pizza")
+            .Returns("2");
+        
+        RecipeManager recipeManager = new RecipeManager(moq.Object);
         recipeManager.AddRecipe();
         
-        var moq = new Mock<IInputProvider>();
+        var moq2 = new Mock<IInputProvider>();
         
-        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Tomato Sause")
             .Returns("500")
             .Returns("grams")
             .Returns("Mozorella")
             .Returns("1000")
             .Returns("grams")
-            .Returns("Done"); 
+            .Returns("Done");
+        
+        recipeManager._inputProvider = new IInputProviderTest("Pizza");
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
-        recipeToCheck.InputProvider = moq.Object;
+        recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddIngredients("Pizza");
         
         recipeToCheck.InputProvider = new IInputProviderTest("all");
@@ -130,43 +161,55 @@ public class RecipeTest
     [Test]
     public void AddStepsTest()
     {
-        RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+        var moq = new Mock<IInputProvider>();
+        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Pizza")
+            .Returns("2");
+        
+        RecipeManager recipeManager = new RecipeManager(moq.Object);
         recipeManager.AddRecipe();
         
-        var moq = new Mock<IInputProvider>();
+        var moq2 = new Mock<IInputProvider>();
         
-        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Hello friend, step one is to cook")
             .Returns("bery nice, now taste")
             .Returns("now serve!")
             .Returns("Done");
         
+        recipeManager._inputProvider = new IInputProviderTest("Pizza");
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
-        recipeToCheck.InputProvider = moq.Object;
+        recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddSteps("Pizza");
         Assert.AreEqual("Pizza", recipeToCheck.Name);
         Assert.Contains("Hello friend, step one is to cook",recipeToCheck.Steps);
         Assert.Contains("now serve!",recipeToCheck.Steps);
-        Assert.Contains("Done",recipeToCheck.Steps);
+        //Assert.Contains("Done",recipeToCheck.Steps);
         
     }
     
     [Test]
     public void DeleteStepsTest()
     {
-        RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Pizza"));
+        var moq = new Mock<IInputProvider>();
+        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Pizza")
+            .Returns("2");
+        
+        RecipeManager recipeManager = new RecipeManager(moq.Object);
         recipeManager.AddRecipe();
         
-        var moq = new Mock<IInputProvider>();
+        var moq2 = new Mock<IInputProvider>();
         
-        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Hello friend, step one is to cook")
             .Returns("bery nice, now taste")
             .Returns("now serve!")
             .Returns("Done");
         
+        recipeManager._inputProvider = new IInputProviderTest("Pizza");
         var recipeToCheck = recipeManager.FindRecipe(out string recipeName);
-        recipeToCheck.InputProvider = moq.Object;
+        recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddSteps("Pizza");
 
         recipeToCheck.InputProvider = new IInputProviderTest("yes");

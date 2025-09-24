@@ -26,7 +26,6 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // sort out unit tests
             //then look into working on ASP.net
 
                 
