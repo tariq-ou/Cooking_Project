@@ -27,6 +27,7 @@ namespace Cooking_Project
             
             //NExt
             //then look into working on ASP.net
+            //mabye add a logger?
 
                 
             //extra notes to consider
