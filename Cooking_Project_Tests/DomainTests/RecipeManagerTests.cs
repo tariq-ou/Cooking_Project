@@ -39,7 +39,7 @@ namespace Cooking_Project_Tests
             recipeManager.AddRecipe();
             
             
-            Assert.NotNull(recipeManager.recipes.Find(r => r.Name == "Pizza"));
+            Assert.NotNull(recipeManager.Recipes.Find(r => r.Name == "Pizza"));
             //Assert.Pass();
         }
         
@@ -65,8 +65,8 @@ namespace Cooking_Project_Tests
             // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             //     .Returns("Pizza");
             recipeManager._inputProvider = moqTwo.Object;
-            recipeManager.DeleteRecipe(recipeManager.recipes.Find(r => r.Name == "Pizza"));
-            Assert.IsNull(recipeManager.recipes.Find(r => r.Name == "Pizza"));
+            recipeManager.DeleteRecipe(recipeManager.Recipes.Find(r => r.Name == "Pizza"));
+            Assert.IsNull(recipeManager.Recipes.Find(r => r.Name == "Pizza"));
         }
 
         [Test]
@@ -100,14 +100,14 @@ namespace Cooking_Project_Tests
             // moqTwo.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             //     .Returns("Pizza");
             recipeManager._inputProvider = moqTwo.Object;
-            recipeManager.DeleteRecipe(recipeManager.recipes.Find(r => r.Name == "Pizza"));
+            recipeManager.DeleteRecipe(recipeManager.Recipes.Find(r => r.Name == "Pizza"));
             
             var moqThree = new Mock<IInputProvider>();
             moqThree.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
                 .Returns("Pizza");
             recipeManager._inputProvider = moqThree.Object;
             
-            Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
+            IRecipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
             Assert.IsNull(checkedRecipe);
         }
         
@@ -131,8 +131,8 @@ namespace Cooking_Project_Tests
             
             recipeManager._inputProvider = moqTwo.Object;
             
-            Recipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
-            Assert.AreSame(checkedRecipe,recipeManager.recipes.First());
+            IRecipe checkedRecipe = recipeManager.FindRecipe(out string recipeName);
+            Assert.AreSame(checkedRecipe,recipeManager.Recipes.First());
         }
     }
 }

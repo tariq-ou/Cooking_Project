@@ -7,35 +7,37 @@ using Cooking_Project.Application.Adaptors;
 
 namespace Cooking_Project.Application.Services;
 
-public class RecipeService
+public class RecipeService : IRecipeDBService
 {
-    IRecipeRepository _recipeRepository;
+    IRecipeRepositoryDB  _recipeRepository;
 
-    public RecipeService(IRecipeRepository recipeRepository)
+    public RecipeService( IRecipeRepositoryDB recipeRepository)
     {
         _recipeRepository = recipeRepository;
     }
 
-    public void AddRecipeSave(Recipe recipe)
+    public void AddItemSave(IRecipe recipe)
     {
-        _recipeRepository.Save(recipe);
+        
+        _recipeRepository.Save((Recipe)recipe);
     }
+    
 
-    public List<Recipe> ReadAllRecipe()
+    public List<Recipe> ReadAllItem()
     {
         return _recipeRepository.ReadAll();
     }
 
-    public void AddIngredientSave(string recipeName, List<Ingredient> ingredients)
+    public void AddNestedSave(string recipeName, List<Ingredient> ingredients)
     {
         
-        _recipeRepository.SaveIngredient(recipeName, ingredients);
+        _recipeRepository.SaveNestedItem(recipeName, ingredients);
     }
     
-    public void DeleteRecipeIngredients(Recipe recipe)
+    public void DeleteItemandNested(IRecipe recipe)
     {
         
-        _recipeRepository.Delete(recipe);
+        _recipeRepository.Delete((Recipe)recipe);
     }
 
     public void ReadExportDB()
@@ -48,13 +50,13 @@ public class RecipeService
         _recipeRepository.ImportDB();
     }
 
-    public void SyncDBtoMemory(RecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
+    public void SyncDBMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory)
     {
         //syncing db recipes with recipemanager list
-        recipeManager.recipes = this.ReadAllRecipe();
+        recipeManager.Recipes = this.ReadAllItem();
         Console.WriteLine("Recipes syced");
         //Give each recipe an InputProvider as those are not mapped
-        foreach (var recipe in recipeManager.recipes)
+        foreach (var recipe in recipeManager.Recipes)
             recipe.InputProvider = inputProviderFactory();
     }
 }

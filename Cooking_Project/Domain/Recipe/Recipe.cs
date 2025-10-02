@@ -6,7 +6,7 @@ using Cooking_Project.Application.Ports;
 
 namespace Cooking_Project.Application.Services
 {
-    public class Recipe
+    public class Recipe : IRecipe
     {
       
         // Delcaring Recipe properties
@@ -29,7 +29,7 @@ namespace Cooking_Project.Application.Services
         public List<string> Steps { get; set; }
 
         [NotMapped]
-        internal IInputProvider InputProvider;
+        public IInputProvider InputProvider{ get; set; }
         
         public int Servings { get; set; }
 

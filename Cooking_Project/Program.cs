@@ -5,6 +5,7 @@ using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Domain;
 using Microsoft.EntityFrameworkCore;
 using Cooking_Project.Application.Infastrucuture;
+using Cooking_Project.Factory;
 
 namespace Cooking_Project
 {
@@ -25,10 +26,8 @@ namespace Cooking_Project
             // (dedleting the ingredient as a whole is enough this is not needed)unit test for those amounts
             
             //NExt
-            // i think you are done now with db mabye?
-            // look extra notes to conisder ectg
-            // mabye time to update with your recipes? - you wont know how useful or what else is needed till you do and you can always back it up ect... oooo 
-            
+            //then look into working on ASP.net
+
                 
             //extra notes to consider
             // consider having a windsor castle DI for IOU so that you are able to decopuple your code better for things like console.writeline and stuff
@@ -49,14 +48,16 @@ namespace Cooking_Project
             string choice;
             string choice2;
             string recipeName;
-            RecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
-            Recipe checkedRecipe;
+            IRecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
+            IRecipe checkedRecipe;
             
             // creating the db
             RecipeDbContext.CreateDatabase();
             
             //create recipeservice and passthrough dependecy injection for type of output save
-            var recipeService = new RecipeService(new ERecipeRepository());
+            //var recipeService = new RecipeService(RepositoryFactory.Create());
+
+            var service = ServiceFactory.Create();
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();
@@ -65,7 +66,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
+            service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {
@@ -128,14 +129,16 @@ namespace Cooking_Project
 
                         break;
                     case "2":
-                        var recipe = recipeManager.AddRecipe();
-                        recipeService.AddRecipeSave(recipe);
+                        IRecipe? recipe = recipeManager.AddRecipe();
+                        service.AddItemSave(recipe);
                         break;
           
                     case "3":
-                        Recipe toDelete = recipeManager.CheckRecipe(out recipeName);
-                        recipeService.DeleteRecipeIngredients(toDelete);
+                        IRecipe toDelete = recipeManager.CheckRecipe(out recipeName);
+                        service.DeleteItemandNested(toDelete);
+                        //recipeService.DeleteSavedRecipe(toDelete);
                         recipeManager.DeleteRecipe(toDelete);
+                        
                         break;
 
                     case "4":
@@ -156,7 +159,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddIngredients(recipeName);
-                        recipeService.AddIngredientSave(checkedRecipe.Name, checkedRecipe.Ingredients);
+                        service.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "5":
@@ -169,6 +172,8 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.IngredientDelete(recipeName);
+                        // save recipe down again with changes to ingredients to act as a delete/an update
+                        service.AddNestedSave(checkedRecipe.Name, checkedRecipe.Ingredients);
                         break;
                     
                     case "6":
@@ -189,7 +194,7 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.AddSteps(recipeName);
-                        recipeService.AddRecipeSave(checkedRecipe);
+                        service.AddItemSave(checkedRecipe);
                         break;
                     
                     case "7":
@@ -202,17 +207,19 @@ namespace Cooking_Project
                         }
 
                         checkedRecipe.StepsDelete(recipeName);
+                        // save recipe down again with changes to ingredients to act as a delete/an update
+                        service.AddItemSave(checkedRecipe);
                         break;
                     
                     case "8":
                         
-                        recipeService.ReadExportDB();
+                        service.ReadExportDB();
                         break;
                     
                     case "9":
                         
-                        recipeService.ImportToDB();
-                        recipeService.SyncDBtoMemory(recipeManager, () => new ConsoleInputProvider());
+                        service.ImportToDB();
+                        service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
                         break;
 
                     default:
@@ -227,6 +234,7 @@ namespace Cooking_Project
             } while ( choice == "1" || choice == "2" || choice == "3" || choice == "4" || choice == "5" || choice == "6" || choice == "7" || choice == "8" || choice == "9");
 
         }
+        
 
     }
 }

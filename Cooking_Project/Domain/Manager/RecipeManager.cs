@@ -7,10 +7,14 @@ using Cooking_Project.Application.Ports;
 
 namespace Cooking_Project.Application.Domain
 {
-    public class RecipeManager
+    public class RecipeManager : IRecipeManager
     {
         //Inilalises a list of recipes
-        public List<Recipe> recipes = new List<Recipe>();
+        //public List<Recipe> recipes = new List<Recipe>();
+
+        public List<Recipe> Recipes { get; set; }
+
+
         //Initalises a IInputProvider so during runtime different inputs can be processed using dependency injection
         internal IInputProvider _inputProvider;
 
@@ -21,10 +25,11 @@ namespace Cooking_Project.Application.Domain
         {
             Console.WriteLine("Recipe Manager Created");
             _inputProvider = inputProvider;
+            Recipes = new List<Recipe>();
         }
 
         //Promts user for a recipe name and creates a new recipe object with that name in the recipes list
-        public Recipe? AddRecipe()
+        public IRecipe? AddRecipe()
         {
 
             // Console.WriteLine("Reciepe Name?");
@@ -39,7 +44,7 @@ namespace Cooking_Project.Application.Domain
 
                 if (int.TryParse(_inputProvider.ReadInput("For what serving size?"), out servingSize))
                 {
-                    recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
+                    Recipes.Add(new Recipe(recipeName, new ConsoleInputProvider()));
                     GetRecipe(recipeName).Servings = servingSize;
                 }
                 else
@@ -63,7 +68,7 @@ namespace Cooking_Project.Application.Domain
         {
             if ( this.RecipeCount() > 0)
             {
-                foreach (Recipe item in recipes)
+                foreach (IRecipe item in Recipes)
                 {
                     Console.WriteLine($"{item.Name} | Serving : {item.Servings}");
                 }
@@ -78,7 +83,7 @@ namespace Cooking_Project.Application.Domain
         }
 
         //Removes recipe from list by calling Find Recipe and then removing that object
-        public void DeleteRecipe(Recipe toDelete)
+        public void DeleteRecipe(IRecipe toDelete)
         {
 
             string recipeName = toDelete.Name;
@@ -87,7 +92,7 @@ namespace Cooking_Project.Application.Domain
 
             if (toDelete is not null)
             {
-                recipes.Remove(toDelete);
+                Recipes.Remove((Recipe)toDelete);
 
                 Console.WriteLine($"Successfuly removed {recipeName}");
                 Console.WriteLine($"\n");
@@ -100,7 +105,7 @@ namespace Cooking_Project.Application.Domain
         }
 
         //Promts user for a recipe name and returns a recipe object with the same name if exisits in recipes list
-        public Recipe FindRecipe(out string recipeName)
+        public IRecipe? FindRecipe(out string recipeName)
         {
             //Console.WriteLine("What recipe are you looking for?");
             
@@ -118,7 +123,7 @@ namespace Cooking_Project.Application.Domain
                 return null;
             }
          
-            Recipe recipeFound = recipes.Find(r => r.Name == checkName);
+            IRecipe recipeFound = Recipes.Find(r => r.Name == checkName);
 
             if (recipeFound is null)
              {
@@ -132,11 +137,11 @@ namespace Cooking_Project.Application.Domain
         }
 
         //Checks to see if the recipe exisits and prints out a statement depending on if it was found or not
-        public Recipe CheckRecipe(out string recipeName)
+        public IRecipe CheckRecipe(out string recipeName)
         {
 
             
-            Recipe checkRecipe = this.FindRecipe(out recipeName);
+            IRecipe checkRecipe = this.FindRecipe(out recipeName);
             
 
             if (checkRecipe is null)
@@ -157,10 +162,10 @@ namespace Cooking_Project.Application.Domain
         //Count nuumber of recipes
         public int RecipeCount()
         {
-            return recipes.Count();
+            return Recipes.Count();
         }
 
-        public Recipe GetRecipe(string recipeName)
+        public IRecipe GetRecipe(string recipeName)
         {
             //Console.WriteLine("What recipe are you looking for?");
             
@@ -178,7 +183,7 @@ namespace Cooking_Project.Application.Domain
                 return null;
             }
          
-            Recipe recipeFound = recipes.Find(r => r.Name == recipeName);
+            IRecipe recipeFound = Recipes.Find(r => r.Name == recipeName);
 
             if (recipeFound is null)
             {
