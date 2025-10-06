@@ -23,6 +23,7 @@
   <ItemGroup>
     <!-- Replace folders with modern namespaces and organization -->
     <Folder Include="DomainTests\" />
+    <Folder Include="PortsTest\" />
   </ItemGroup>
 
   <ItemGroup>

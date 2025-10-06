@@ -1,3 +1,5 @@
+using Cooking_Project.Application.Adaptors;
+using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +10,7 @@ namespace Cooking_Project.Factory;
 public static class ServiceFactory
 {
 
-    public static IRecipeDBService Create()
+    public static IRecipeDBService Create(IServiceProvider serviceProvider)
     {
         var config = Helper.Config.ConfigReader();
         var backend = config["BackEnd"];
@@ -16,7 +18,9 @@ public static class ServiceFactory
         switch ("Database")
         {
             case"Database":
-                return new RecipeService(RepositoryFactory.Create());
+                var service = new RecipeService(RepositoryFactory.Create(serviceProvider));
+                return service;
+                
                 break;
             default:
                 return null;

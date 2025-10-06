@@ -5,7 +5,10 @@ using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Domain;
 using Microsoft.EntityFrameworkCore;
 using Cooking_Project.Application.Infastrucuture;
+using Cooking_Project.DI;
 using Cooking_Project.Factory;
+using Microsoft.Extensions.DependencyInjection;
+//using Microsoft.Extensions.DependencyModel;
 
 namespace Cooking_Project
 {
@@ -49,16 +52,17 @@ namespace Cooking_Project
             string choice;
             string choice2;
             string recipeName;
-            IRecipeManager recipeManager = new RecipeManager(new ConsoleInputProvider());
+            //IRecipeManager recipeManager = ManagerFactory.Create();
             IRecipe checkedRecipe;
-            
+
+            var serviceProvider = DependecyCreation.Configure();
             // creating the db
             RecipeDbContext.CreateDatabase();
             
             //create recipeservice and passthrough dependecy injection for type of output save
             //var recipeService = new RecipeService(RepositoryFactory.Create());
-
-            var service = ServiceFactory.Create();
+            var recipeManager = serviceProvider.GetRequiredService<IRecipeManager>();
+            var service = ServiceFactory.Create(serviceProvider);
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();
@@ -67,7 +71,7 @@ namespace Cooking_Project
             // foreach (var recipe in recipeManager.recipes)
             //     recipe.InputProvider = new ConsoleInputProvider();
             
-            service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
+            //service.SyncDBMemory((RecipeManager)recipeManager, () => new ConsoleInputProvider());
             
             do
             {

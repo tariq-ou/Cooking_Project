@@ -1,6 +1,6 @@
 using Cooking_Project.Application.Ports;
 
-namespace Cooking_Project_Tests.PortsTest;
+namespace Cooking_Project.Application.Adaptors;
 
 public class IInputProviderTest : IInputProvider
 {

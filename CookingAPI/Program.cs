@@ -1,3 +1,4 @@
+using Cooking_Project.Application.Domain;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
@@ -8,17 +9,20 @@ using Microsoft.Identity.Web.Resource;
 
 ////////Next
 /*
- merge clean up branch into master
- create new api branch 
- understand what is happenign in the unit test properly
- add in the actual functionality mabye of the application and try test properly 
+Add in the actual functionality mabye of the application and try test properly 
  */
 var builder = WebApplication.CreateBuilder(args);
+
+//intialising
+
+
 
 // Add services to the container.
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 builder.Services.AddAuthorization();
+//builder.Services.AddSingleton(typeof(RecipeManager));
+//builder.Services.AddSingleton();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

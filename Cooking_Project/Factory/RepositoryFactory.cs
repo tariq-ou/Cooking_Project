@@ -1,13 +1,15 @@
 using Cooking_Project.Application.Adaptors;
+using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Ports;
 using Microsoft.Extensions.Configuration;
 using Cooking_Project.Helper;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Cooking_Project.Factory;
 
 public static class RepositoryFactory
 {
-    public static IRecipeRepositoryDB Create()
+    public static IRecipeRepositoryDB Create(IServiceProvider serviceProvider)
     {
         var config = Helper.Config.ConfigReader();
         var backend = config["Repository:BackEnd"];
@@ -15,7 +17,10 @@ public static class RepositoryFactory
         switch (backend)
         {
             case"Database":
-                return new ERecipeRepository();
+                var repository = new ERecipeRepository(serviceProvider.GetRequiredService<IRecipeManager>());
+                repository.SyncDBMemory();
+                return repository;
+                
                 break;
             default:
                 return null;

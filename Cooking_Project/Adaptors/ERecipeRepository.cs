@@ -4,11 +4,30 @@ using Microsoft.EntityFrameworkCore.Sqlite;
 using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
 using System.Text.Json;
+using Cooking_Project.Application.Domain;
+using Cooking_Project.Factory;
+using Microsoft.Extensions.DependencyInjection;  
 
 namespace Cooking_Project.Application.Adaptors;
 
 public class ERecipeRepository: IRecipeRepositoryDB
 {
+    private IRecipeManager _recipeManager;
+    public ERecipeRepository(IRecipeManager recipeManager)
+    {
+        _recipeManager = recipeManager;
+    }
+    
+    
+    public void SyncDBMemory()
+    {
+        //syncing db recipes with recipemanager list
+        _recipeManager.Recipes = this.ReadAll();
+        Console.WriteLine("Recipes syced");
+        //Give each recipe an InputProvider as those are not mapped
+        foreach (var recipe in _recipeManager.Recipes)
+            recipe.InputProvider = InputProviderFactory.Create();
+    }
     public void Save(Recipe recipe)
     {
         using (var context = new RecipeDbContext())
