@@ -3,6 +3,7 @@ using Cooking_Project.Application.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Ports;
 using Moq;
 using Cooking_Project.Application.Services;
@@ -34,7 +35,7 @@ namespace Cooking_Project_Tests
             
             //Creating instance and then adding a recipe 
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-            RecipeManager recipeManager = new RecipeManager(moq.Object);
+            RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest()) ;
             recipeManager.AddRecipe();
             
             
@@ -53,7 +54,7 @@ namespace Cooking_Project_Tests
             
             //Creating instance and then adding a recipe 
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-            RecipeManager recipeManager = new RecipeManager(moq.Object);
+            RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
             recipeManager.AddRecipe();
             
             var moqTwo = new Mock<IInputProvider>();
@@ -88,7 +89,7 @@ namespace Cooking_Project_Tests
             
             //Creating instance and then adding a recipe 
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-            RecipeManager recipeManager = new RecipeManager(moq.Object);
+            RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
             recipeManager.AddRecipe();
             
             var moqTwo = new Mock<IInputProvider>();
@@ -121,7 +122,7 @@ namespace Cooking_Project_Tests
             
             //Creating instance and then adding a recipe 
             //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-            RecipeManager recipeManager = new RecipeManager(moq.Object);
+            RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
             recipeManager.AddRecipe();
             
             var moqTwo = new Mock<IInputProvider>();

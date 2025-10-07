@@ -12,4 +12,6 @@ public interface IRecipeManager
    IRecipe CheckRecipe(out string recipeName);
     int RecipeCount();
     IRecipe GetRecipe(string recipeName);
+
+    IEnumerable<Recipe> GetAllRecipesAPI();
 }

@@ -15,10 +15,10 @@ public static class ManagerFactory
         switch (backend)
         {
             case"local":
-                return new RecipeManager(new ConsoleInputProvider());
+                return new RecipeManager(new ConsoleInputProvider(), new ConsoleOutputProvider());
                 break;
             case"web":
-                return new RecipeManager(new IInputProviderTest("empty"));
+                return new RecipeManager(new IInputProviderTest("empty"), new ConsoleOutputProvider());
                 break;
             default:
                 return null;

@@ -31,7 +31,7 @@ public class RecipeTest
             
         //Creating instance and then adding a recipe 
         //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
         recipeManager.AddRecipe();
         
         // RecipeManager recipeManager = new RecipeManager(new IInputProviderTest("Thai Green Curry"));
@@ -87,7 +87,7 @@ public class RecipeTest
             
         //Creating instance and then adding a recipe 
         //RecipeManager recipeManager = new RecipeManager(new IInputProviderTest(""));
-        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
         recipeManager.AddRecipe();
 
         
@@ -131,7 +131,7 @@ public class RecipeTest
             .Returns("Pizza")
             .Returns("2");
         
-        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
         recipeManager.AddRecipe();
         
         var moq2 = new Mock<IInputProvider>();
@@ -166,7 +166,7 @@ public class RecipeTest
             .Returns("Pizza")
             .Returns("2");
         
-        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
         recipeManager.AddRecipe();
         
         var moq2 = new Mock<IInputProvider>();
@@ -196,7 +196,7 @@ public class RecipeTest
             .Returns("Pizza")
             .Returns("2");
         
-        RecipeManager recipeManager = new RecipeManager(moq.Object);
+        RecipeManager recipeManager = new RecipeManager(moq.Object, new OutputProviderTest());
         recipeManager.AddRecipe();
         
         var moq2 = new Mock<IInputProvider>();

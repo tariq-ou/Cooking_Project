@@ -1,4 +1,6 @@
+using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Domain;
+using Cooking_Project.Application.Ports;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
@@ -9,7 +11,15 @@ using Microsoft.Identity.Web.Resource;
 
 ////////Next
 /*
-Add in the actual functionality mabye of the application and try test properly 
+
+--- you need to create some DTO classes which you have and fill them out
+    then - try get automapper from nuget and see if you can get it to do the creation of the objects 
+    then thats what your code will pass back
+    then add that into the return type for the unit test
+
+
+add asyncronous call back to your DB calls as dont need to wait for that thread right?
+llearn about generics and see if you need to add them in...
  */
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +31,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAdB2C"));
 builder.Services.AddAuthorization();
+builder.Services.AddSingleton<IInputProvider, ConsoleInputProvider>();
+builder.Services.AddSingleton<IRecipeManager, RecipeManager>();
 //builder.Services.AddSingleton(typeof(RecipeManager));
 //builder.Services.AddSingleton();
 

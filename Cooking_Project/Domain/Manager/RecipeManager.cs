@@ -17,14 +17,17 @@ namespace Cooking_Project.Application.Domain
 
         //Initalises a IInputProvider so during runtime different inputs can be processed using dependency injection
         internal IInputProvider _inputProvider;
+        
+        internal IOutputProvider _outputProvider;
 
 
         
         //simple message telling us that RecipeManager object has been created
-        public RecipeManager(IInputProvider inputProvider)
+        public RecipeManager(IInputProvider inputProvider, IOutputProvider outputProvider)
         {
             Console.WriteLine("Recipe Manager Created");
             _inputProvider = inputProvider;
+            _outputProvider = outputProvider;
             Recipes = new List<Recipe>();
         }
 
@@ -70,16 +73,17 @@ namespace Cooking_Project.Application.Domain
             {
                 foreach (IRecipe item in Recipes)
                 {
-                    Console.WriteLine($"{item.Name} | Serving : {item.Servings}");
+                    _outputProvider.Output($"{item.Name} | Serving : {item.Servings}");
                 }
 
                 Console.WriteLine($"\n");
             }
             else
             {
-                Console.WriteLine("There are no inputed recipies, please add a recipe.");
+                _outputProvider.Output("There are no inputed recipies, please add a recipe.");
             }
             
+
         }
 
         //Removes recipe from list by calling Find Recipe and then removing that object
@@ -194,6 +198,12 @@ namespace Cooking_Project.Application.Domain
             return recipeFound;
 
             
+        }
+        
+        public IEnumerable<Recipe> GetAllRecipesAPI()
+        {
+           
+            return Recipes;
         }
     }
 }
