@@ -6,13 +6,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web.Resource;
-
+using AutoMapper;
+using CookingAPI.Mapping;
 
 
 ////////Next
 /*
 
---- you need to create some DTO classes which you have and fill them out
+--- fix unit test!
+---  this is done if unit test works ->
+you need to create some DTO classes which you have and fill them out
     then - try get automapper from nuget and see if you can get it to do the creation of the objects 
     then thats what your code will pass back
     then add that into the return type for the unit test
@@ -33,6 +36,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IInputProvider, ConsoleInputProvider>();
 builder.Services.AddSingleton<IRecipeManager, RecipeManager>();
+builder.Services.AddAutoMapper(typeof(RecipeProfile));
 //builder.Services.AddSingleton(typeof(RecipeManager));
 //builder.Services.AddSingleton();
 
