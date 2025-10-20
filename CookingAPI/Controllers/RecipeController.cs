@@ -27,14 +27,12 @@ public class RecipeController: ControllerBase
     public ActionResult<IEnumerable<RecipeDTO>> GetRecipes()
     {
         var recipes = _recipeManager.GetAllRecipesAPI();
-        // var recipes = new List<string>
-        // {
-        //     "Spaghetti Bolognese",
-        //     "Chicken Curry",
-        //     "Beef Stroganoff"
-        // };
+   
+        
+        //validation of mapper
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var recipesDTO = new List<RecipeDTO>();
-       // var profileCreate = new ProfileDTO();
+        
         foreach (IRecipe recipe in recipes)
         {
             recipesDTO.Add(_mapper.Map<RecipeDTO>(recipe));

@@ -13,16 +13,11 @@ using CookingAPI.Mapping;
 ////////Next
 /*
 
---- fix unit test!
----  this is done if unit test works ->
-you need to create some DTO classes which you have and fill them out
-    then - try get automapper from nuget and see if you can get it to do the creation of the objects 
-    then thats what your code will pass back
-    then add that into the return type for the unit test
+-- add another method to controller followed by its unit test
 
 
-add asyncronous call back to your DB calls as dont need to wait for that thread right?
-llearn about generics and see if you need to add them in...
+----add asyncronous call back to your DB calls as dont need to wait for that thread right?
+----llearn about generics and see if you need to add them in...
  */
 var builder = WebApplication.CreateBuilder(args);
 

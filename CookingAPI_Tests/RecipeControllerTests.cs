@@ -39,6 +39,26 @@ public class Tests
         var config = new MapperConfiguration(cfg => { cfg.AddProfile<RecipeProfile>();},LoggerFactory.Create(builder => builder.AddConsole())
             //LoggerFactory.Create()  ;   // or cfg.AddMaps(typeof(RecipeProfile).Assembly);
         );
+        
+        // creates the mapper object
+        mapper = config.CreateMapper();
+        
+        var moq2 = new Mock<IInputProvider>();
+        moq2.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            // .Returns("Thai Green Paste")
+            // .Returns("Protein")
+            // .Returns("Vegetables")
+            .Returns("Mozzarella")
+            .Returns("2")
+            .Returns("whole")
+            .Returns("Done");
+        
+        //recipeManager._inputProvider = new IInputProviderTest("Piiza");
+        var recipeToCheck = recipeManager.Recipes.First();
+        //recipeManager.FindRecipe(out string recipeName);
+        recipeToCheck.InputProvider = moq2.Object;
+        recipeToCheck.AddIngredients("Pizza");
+        
     }
 
     //[Test]
@@ -65,7 +85,11 @@ public class Tests
         var recipes = ok.Value as List<RecipeDTO>;
         Assert.IsNotNull(recipes);
 
-        Assert.IsTrue(recipes.Any(r => r.recipeName == "Spaghetti Bolognese"));
+        Assert.IsTrue(recipes.Any(r => r.Name == "Pizza"));
+        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Name == "Mozzarella"));
+        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Amount == 2));
+        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Unit == "whole"));
+        
         CollectionAssert.IsNotEmpty(recipes);
     }
 }
