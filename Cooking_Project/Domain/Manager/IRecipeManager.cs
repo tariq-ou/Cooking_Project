@@ -1,3 +1,4 @@
+using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
 
 namespace Cooking_Project.Application.Domain;
@@ -13,5 +14,5 @@ public interface IRecipeManager
     int RecipeCount();
     IRecipe GetRecipe(string recipeName);
 
-    IEnumerable<Recipe> GetAllRecipesAPI();
+    //IEnumerable<Recipe> GetAllRecipesAPI();
 }

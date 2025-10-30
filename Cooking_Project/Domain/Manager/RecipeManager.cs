@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Cooking_Project.Application.Adaptors;
 using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Ports;
+[assembly: InternalsVisibleTo("CookingAPI_Tests")]
 
 namespace Cooking_Project.Application.Domain
 {
@@ -200,10 +202,10 @@ namespace Cooking_Project.Application.Domain
             
         }
         
-        public IEnumerable<Recipe> GetAllRecipesAPI()
-        {
-           
-            return Recipes;
-        }
+        // public IEnumerable<Recipe> GetAllRecipesAPI()
+        // {
+        //    
+        //     return Recipes;
+        // }
     }
 }

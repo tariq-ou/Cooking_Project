@@ -7,12 +7,14 @@ using Microsoft.Identity.Web;
 using Microsoft.Identity.Abstractions;
 using Microsoft.Identity.Web.Resource;
 using AutoMapper;
+using CookingAPI.DTO;
 using CookingAPI.Mapping;
 
 
 ////////Next
 /*
-
+-- add another API method from the application program
+-- do you need to have different route paths for each api method in the controller - i think so?
 -- add another method to controller followed by its unit test
 
 
@@ -31,7 +33,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 builder.Services.AddSingleton<IInputProvider, ConsoleInputProvider>();
 builder.Services.AddSingleton<IRecipeManager, RecipeManager>();
+builder.Services.AddSingleton<IRecipeManagerAPI, RecipeManagerAPI>();
 builder.Services.AddAutoMapper(typeof(RecipeProfile));
+builder.Services.AddSingleton<IRecipeMapper, RecipeAutoMapper>();
 //builder.Services.AddSingleton(typeof(RecipeManager));
 //builder.Services.AddSingleton();
 
