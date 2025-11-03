@@ -18,7 +18,7 @@ public class RecipeAutoMapper: Profile, IRecipeMapper
         _mapper = mapper;
     }
 
-    public List<RecipeDTO> CreateRecipeList(IEnumerable<IRecipe> recipes)
+    public List<RecipeDTO> CreateRecipeListDTO(IEnumerable<IRecipe> recipes)
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var recipesDTO = new List<RecipeDTO>();
@@ -32,7 +32,7 @@ public class RecipeAutoMapper: Profile, IRecipeMapper
     }
 
 
-    public List<IngredientDTO> CreateIngredientList(IEnumerable<Ingredient> ingredients)
+    public List<IngredientDTO> CreateIngredientListDTO(IEnumerable<Ingredient> ingredients)
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var ingredientDTO = new List<IngredientDTO>();
@@ -43,6 +43,17 @@ public class RecipeAutoMapper: Profile, IRecipeMapper
         }
 
         return ingredientDTO;
+
+    }
+    
+    public RecipeDTO CreateRecipeDTO(IRecipe recipe)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        RecipeDTO recipeDTO = _mapper.Map<RecipeDTO>(recipe);
+
+        
+
+        return recipeDTO;
 
     }
     

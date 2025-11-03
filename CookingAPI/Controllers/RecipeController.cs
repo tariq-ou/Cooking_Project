@@ -40,7 +40,7 @@ public class RecipeController: ControllerBase
         //     recipesDTO.Add(_mapper.Map<RecipeDTO>(recipe));
         // }
         
-        var recipesDTO =_recipeMapper.CreateRecipeList(recipes);
+        var recipesDTO =_recipeMapper.CreateRecipeListDTO(recipes);
         return Ok(recipesDTO);
     }
     
@@ -49,7 +49,7 @@ public class RecipeController: ControllerBase
     {
         string recipeName;
     
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManager.FindRecipe(out recipeInput.name);
         var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
         
         //validation of mapper
@@ -61,7 +61,30 @@ public class RecipeController: ControllerBase
         //     ingredientDTO.Add(_mapper.Map<IngredientDTO>(ingredient));
         // }
 
-        var ingredientDTO = _recipeMapper.CreateIngredientList(ingredients);
+        var ingredientDTO = _recipeMapper.CreateIngredientListDTO(ingredients);
         return Ok(ingredientDTO);
     }
+    
+    [HttpGet]
+    public ActionResult<IEnumerable<IngredientDTO>> GetRecipe(RecipeDTO recipeInput)
+    {
+        string recipeName;
+    
+        var recipe = _recipeManager.FindRecipe(out recipeInput.name);
+        var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
+        
+        //validation of mapper
+        // _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        // var ingredientDTO = new List<IngredientDTO>();
+        //
+        // foreach (Ingredient ingredient in Ingredients)
+        // {
+        //     ingredientDTO.Add(_mapper.Map<IngredientDTO>(ingredient));
+        // }
+
+        //var stepsDTO = _recipeMapper.CreateIngredientList(ingredients);
+        return Ok(recipeDTO);
+    }
+    
+    
 }

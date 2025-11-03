@@ -57,11 +57,31 @@ public class Tests
             .Returns("whole")
             .Returns("Done");
         
+      
         //recipeManager._inputProvider = new IInputProviderTest("Piiza");
         var recipeToCheck = recipeManager.Recipes.First();
         //recipeManager.FindRecipe(out string recipeName);
         recipeToCheck.InputProvider = moq2.Object;
         recipeToCheck.AddIngredients("Pizza");
+        
+        //adding steps
+        //string stepsInput = "\"1.Gently heat the milk and salt in a medium saucepan over a low heat for about 10 mins, stirring often, until it reaches \" +\n                     \"2.93 on a sugar thermometer. \" +\n                     \"3.Alternatively, watch the mixture carefully:\" +\n                     \"4.the milk should be consistently foaming and steaming but should not begin to boil and bubble, as this will scald it and af\" +\n                     \"5.fect the flavour.\"";
+        var moq3 = new Mock<IInputProvider>();
+        moq3.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            // .Returns("Thai Green Paste")
+            // .Returns("Protein")
+            // .Returns("Vegetables")
+            .Returns("1.First do")
+            .Returns("2.The do")
+            .Returns("3.Finally do")
+            .Returns("Done");
+        
+        //adding steps
+        recipeToCheck.InputProvider = moq3.Object;
+        recipeToCheck.AddSteps(("Pizza"));
+       
+        
+        
         
         recipeManagerAPI = new RecipeManagerAPI(recipeManager);
         
@@ -102,7 +122,7 @@ public class Tests
         var recipes = ok.Value as List<RecipeDTO>;
         Assert.IsNotNull(recipes);
 
-        Assert.IsTrue(recipes.Any(r => r.Name == "Pizza"));
+        Assert.IsTrue(recipes.Any(r => r.name == "Pizza"));
         Assert.IsTrue(recipes.Any(r => r.ingredients.First().Name == "Mozzarella"));
         Assert.IsTrue(recipes.Any(r => r.ingredients.First().Amount == 2));
         Assert.IsTrue(recipes.Any(r => r.ingredients.First().Unit == "whole"));
@@ -116,7 +136,7 @@ public class Tests
        
         // act
         RecipeDTO recipeDTO = new RecipeDTO();
-        recipeDTO.Name = "Pizza";
+        recipeDTO.name = "Pizza";
         
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
@@ -142,5 +162,41 @@ public class Tests
         Assert.IsTrue(ingredients.Any(i => i.Unit == "whole"));
         
         CollectionAssert.IsNotEmpty(ingredients);
+    }
+    
+    [Test]
+    public void GetRecipe_ReturnsOk()
+    {
+       
+        // act
+        RecipeDTO recipeDTO = new RecipeDTO();
+        recipeDTO.name = "Pizza";
+        
+        var moq = new Mock<IInputProvider>();
+        moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
+            .Returns("Pizza")
+            .Returns("2");
+        
+        ((RecipeManager)recipeManager)._inputProvider = moq.Object;
+        
+        ActionResult<IEnumerable<IngredientDTO>> result = recipeController.GetRecipe(recipeDTO);
+
+        // assert
+        Assert.IsInstanceOf<OkObjectResult>(result.Result);
+
+        var ok = result.Result as OkObjectResult;
+        Assert.IsNotNull(ok);
+
+        var recipeDto = ok.Value as RecipeDTO;
+        Assert.IsNotNull(recipeDTO);
+        
+        Assert.IsTrue(recipeDto.name == "Pizza");
+        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Name == "Mozzarella"));
+        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Unit == "whole"));
+        Assert.IsTrue(recipeDto.steps.First() == "1.First do");
+        Assert.IsTrue(recipeDto.steps.Last() == "3.Finally do");
+        
+        
     }
 }

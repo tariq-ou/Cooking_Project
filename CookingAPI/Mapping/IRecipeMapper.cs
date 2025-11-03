@@ -5,7 +5,9 @@ namespace CookingAPI.Mapping;
 
 public interface IRecipeMapper
 {
-    List<RecipeDTO> CreateRecipeList(IEnumerable<IRecipe> recipes);
+    List<RecipeDTO> CreateRecipeListDTO(IEnumerable<IRecipe> recipes);
     
-    List<IngredientDTO> CreateIngredientList(IEnumerable<Ingredient> ingredients);
+    List<IngredientDTO> CreateIngredientListDTO(IEnumerable<Ingredient> ingredients);
+    
+    RecipeDTO CreateRecipeDTO(IRecipe recipe);
 }
