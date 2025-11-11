@@ -5,6 +5,7 @@ using Cooking_Project.Application.Services;
 using Cooking_Project.Application.Domain;
 using Microsoft.EntityFrameworkCore;
 using Cooking_Project.Application.Infastrucuture;
+using Cooking_Project.Application.Ports;
 using Cooking_Project.DI;
 using Cooking_Project.Factory;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,12 +58,16 @@ namespace Cooking_Project
 
             var serviceProvider = DependecyCreation.Configure();
             // creating the db
-            RecipeDbContext.CreateDatabase();
+          
             
             //create recipeservice and passthrough dependecy injection for type of output save
             //var recipeService = new RecipeService(RepositoryFactory.Create());
             var recipeManager = serviceProvider.GetRequiredService<IRecipeManager>();
             var service = ServiceFactory.Create(serviceProvider);
+            //IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory
+
+            
+            //service.SyncDBMemory(recipeManager,() => new ConsoleInputProvider());
             
             // //syncing db recipes with recipemanager list
             // recipeManager.recipes = recipeService.ReadAllRecipe();

@@ -23,6 +23,7 @@ public class Tests
     private IRecipeManager recipeManager;
     private IRecipeMapper recipeMapper;
     private IRecipeManagerAPI recipeManagerAPI;
+    private IRecipeService recipeService;
     
     RecipeController recipeController;
     
@@ -93,8 +94,10 @@ public class Tests
         recipeMapper = new RecipeAutoMapper(config.CreateMapper());
         // creates the mapper object
         //recipeMapper._mapper = config.CreateMapper();
+
+        recipeService = new RecipeServiceTest();
         
-        recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI);
+        recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI, recipeService);
         
     }
 

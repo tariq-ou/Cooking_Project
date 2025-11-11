@@ -22,4 +22,8 @@
         <ProjectReference Include="..\Cooking_Project\Cooking_Project.csproj" />
     </ItemGroup>
 
+     <ItemGroup>
+       <Folder Include="Factory\" />
+     </ItemGroup>
+
 </Project>

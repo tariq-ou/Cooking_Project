@@ -1,5 +1,6 @@
 using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CookingAPI.DTO;
 
@@ -35,4 +36,13 @@ public class RecipeManagerAPI : IRecipeManagerAPI
            
         return recipe.Ingredients;
     }
+    
+    public void AddRecipe(IRecipe recipe)
+    {
+          var recipeToAdd = (Recipe)recipe;
+        _recipeManager.Recipes.Add(recipeToAdd);
+    }
+    
+   
+    
 }

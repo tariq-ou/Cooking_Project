@@ -21,7 +21,7 @@ namespace Cooking_Project.Application.Domain
         internal IInputProvider _inputProvider;
         
         internal IOutputProvider _outputProvider;
-
+        //Recipes = new List<Recipe>();
 
         
         //simple message telling us that RecipeManager object has been created

@@ -17,7 +17,7 @@ public static class DependecyCreation
 
         // 2. Register dependencies
         services.AddSingleton<IInputProvider, ConsoleInputProvider>();
-        services.AddSingleton<IOutputProvider, ConsoleOutputProvider>();
+        services.AddSingleton<IOutputProvider, CollectionOutputProvider>();
         services.AddSingleton<IRecipeManager, RecipeManager>();
         //services.AddSingleton<RecipeManager>();
 

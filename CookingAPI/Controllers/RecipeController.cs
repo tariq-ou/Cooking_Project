@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using Cooking_Project.Application.Domain;
+using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
 using CookingAPI.DTO;
 using CookingAPI.Mapping;
@@ -19,11 +20,13 @@ public class RecipeController: ControllerBase
     readonly IRecipeManager _recipeManager;
     readonly IRecipeMapper _recipeMapper;
     readonly  IRecipeManagerAPI _recipeManagerAPI;
-    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI)
+    readonly IRecipeService _recipeRepositoryService;
+    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI, IRecipeService recipeRepositoryService)
     {
         _recipeManager = recipeManager;
         _recipeMapper = recipeMapper;
         _recipeManagerAPI = recipeManagerAPI;
+        _recipeRepositoryService = recipeRepositoryService;
     }
     [HttpGet]
     public ActionResult<IEnumerable<RecipeDTO>> GetRecipes()
@@ -84,6 +87,20 @@ public class RecipeController: ControllerBase
 
         //var stepsDTO = _recipeMapper.CreateIngredientList(ingredients);
         return Ok(recipeDTO);
+    }
+    
+    [HttpPost]
+    public ActionResult<IEnumerable<RecipeDTO>> AddRecipe([FromBody] RecipeDTO recipeInput)
+    {
+        string recipeName;
+        
+        var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+        _recipeManagerAPI.AddRecipe(recipeObjectCreated);
+        _recipeRepositoryService.AddItemSave(recipeObjectCreated);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
     }
     
     

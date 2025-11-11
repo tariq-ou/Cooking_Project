@@ -10,4 +10,6 @@ public interface IRecipeMapper
     List<IngredientDTO> CreateIngredientListDTO(IEnumerable<Ingredient> ingredients);
     
     RecipeDTO CreateRecipeDTO(IRecipe recipe);
+
+    IRecipe CreateRecipeFromDTO(RecipeDTO recipeDTO);
 }

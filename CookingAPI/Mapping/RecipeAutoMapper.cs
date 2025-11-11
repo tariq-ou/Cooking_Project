@@ -57,4 +57,15 @@ public class RecipeAutoMapper: Profile, IRecipeMapper
 
     }
     
+    public IRecipe CreateRecipeFromDTO(RecipeDTO recipeDTO)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var recipeCreated = _mapper.Map<Recipe>(recipeDTO);
+
+        
+
+        return recipeCreated;
+
+    }
+    
 }

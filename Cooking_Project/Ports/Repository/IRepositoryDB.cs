@@ -5,4 +5,6 @@ public interface IRepositoryDB
     public void ExportDB();
     
     public void ImportDB();
+
+    void SyncDBMemory();
 }
