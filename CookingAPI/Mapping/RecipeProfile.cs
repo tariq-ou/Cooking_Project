@@ -8,7 +8,11 @@ public class RecipeProfile:Profile
 {
     public RecipeProfile()
     {
-        CreateMap<Recipe, RecipeDTO>();
-        CreateMap<Ingredient, IngredientDTO>();
+        // CreateMap<Recipe, RecipeDTO>();
+        // CreateMap<Ingredient, IngredientDTO>();
+        CreateMap<Recipe, RecipeDTO>().ReverseMap();
+        CreateMap<Ingredient, IngredientDTO>().ReverseMap();
+
     }
+
 }

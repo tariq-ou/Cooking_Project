@@ -50,9 +50,9 @@ public class RecipeController: ControllerBase
     [HttpGet]
     public ActionResult<IEnumerable<IngredientDTO>> GetIngredients(RecipeDTO recipeInput)
     {
-        string recipeName;
+       // string recipeName;
     
-        var recipe = _recipeManager.FindRecipe(out recipeInput.name);
+        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
         var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
         
         //validation of mapper
@@ -73,7 +73,7 @@ public class RecipeController: ControllerBase
     {
         string recipeName;
     
-        var recipe = _recipeManager.FindRecipe(out recipeInput.name);
+        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
         var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
         
         //validation of mapper
@@ -94,9 +94,11 @@ public class RecipeController: ControllerBase
     {
         string recipeName;
         
-        var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
-        _recipeManagerAPI.AddRecipe(recipeObjectCreated);
-        _recipeRepositoryService.AddItemSave(recipeObjectCreated);
+        //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+        var ingredients = _recipeMapper.CreateIngredientList(recipeInput.Ingredients);
+        
+        var recipe = _recipeManagerAPI.CreateRecipe(recipeInput, ingredients);
+        _recipeRepositoryService.AddItemSave(recipe);
       
         //REcipe obkect createed validation?
         

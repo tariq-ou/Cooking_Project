@@ -68,4 +68,18 @@ public class RecipeAutoMapper: Profile, IRecipeMapper
 
     }
     
+    public List<Ingredient> CreateIngredientList(IEnumerable<IngredientDTO> ingredientsInput)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var ingredients = new List<Ingredient>();
+
+        foreach (IngredientDTO ingredient in ingredientsInput)
+        {
+            ingredients.Add(_mapper.Map<Ingredient>(ingredient));
+        }
+
+        return ingredients;
+
+    }
+    
 }

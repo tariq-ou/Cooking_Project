@@ -43,6 +43,36 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         _recipeManager.Recipes.Add(recipeToAdd);
     }
     
+    public IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped)
+    {
+        
+        // if (!int.TryParse(recipeDto.Servings, out int servingsMappedInt))
+        // {
+        //     
+        // }
+        // else
+        // {
+        //     throw new NotSupportedException();
+        // }
+        
+        
+        var recipe = new Recipe()
+        {
+            Name = recipeDto.Name,
+            Ingredients = ingredientsMapped,
+            Servings = recipeDto.Servings,
+            Steps = recipeDto.Steps
+            
+        };
+        
+        _recipeManager.Recipes.Add(recipe);
+        
+        return recipe;
+
+        //retrun recipe;
+        //_recipeManager.Recipes.Add(recipeToAdd);
+    }
+    
    
     
 }

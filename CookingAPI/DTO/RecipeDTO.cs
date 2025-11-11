@@ -2,8 +2,8 @@ namespace CookingAPI.DTO;
 
 public class RecipeDTO
 {
-    public string name;
-    string serving;
-    public List<IngredientDTO> ingredients;
-    public List<string> steps;
+    public string Name;
+    public int Servings;
+    public List<IngredientDTO> Ingredients;
+    public List<string> Steps;
 }

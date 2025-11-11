@@ -10,6 +10,8 @@ using NUnit.Framework.Internal;
 using ILogger = NUnit.Framework.Internal.ILogger;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using IInputProviderTest = Cooking_Project.Application.Adaptors.IInputProviderTest;
+
 namespace CookingAPI_Tests;
 
 using System.Collections.Generic;
@@ -24,6 +26,7 @@ public class Tests
     private IRecipeMapper recipeMapper;
     private IRecipeManagerAPI recipeManagerAPI;
     private IRecipeService recipeService;
+    private RecipeDTO recipeInputDto;
     
     RecipeController recipeController;
     
@@ -99,8 +102,33 @@ public class Tests
         
         recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI, recipeService);
         
+        //creating Recipe DTO
+        recipeInputDto = new RecipeDTO();
+        recipeInputDto.Name = "Curry";
+        recipeInputDto.Servings = 3;
+        IngredientDTO ingredientDtoOne = new IngredientDTO
+        {
+            Name = "Flour",
+            Unit = "grams",
+            Amount = 50
+        };
+        
+        IngredientDTO ingredientDtoTwo = new IngredientDTO
+        {
+            Name = "Curry Powder",
+            Unit = "tbs",
+            Amount = 2
+        };
+        recipeInputDto.Ingredients = new List<IngredientDTO>{ingredientDtoOne, ingredientDtoTwo};
+        
+        string stepOne = "1";
+        string stepTwo = "2";
+        string stepThree = "3";
+        recipeInputDto.Steps = new List<string>{stepOne, stepTwo, stepThree};
+        
     }
-
+        
+    
     //[Test]
     public void Test1()
     {
@@ -125,10 +153,10 @@ public class Tests
         var recipes = ok.Value as List<RecipeDTO>;
         Assert.IsNotNull(recipes);
 
-        Assert.IsTrue(recipes.Any(r => r.name == "Pizza"));
-        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Name == "Mozzarella"));
-        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Amount == 2));
-        Assert.IsTrue(recipes.Any(r => r.ingredients.First().Unit == "whole"));
+        Assert.IsTrue(recipes.Any(r => r.Name == "Pizza"));
+        Assert.IsTrue(recipes.Any(r => r.Ingredients.First().Name == "Mozzarella"));
+        Assert.IsTrue(recipes.Any(r => r.Ingredients.First().Amount == 2));
+        Assert.IsTrue(recipes.Any(r => r.Ingredients.First().Unit == "whole"));
         
         CollectionAssert.IsNotEmpty(recipes);
     }
@@ -139,7 +167,7 @@ public class Tests
        
         // act
         RecipeDTO recipeDTO = new RecipeDTO();
-        recipeDTO.name = "Pizza";
+        recipeDTO.Name = "Pizza";
         
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
@@ -173,7 +201,7 @@ public class Tests
        
         // act
         RecipeDTO recipeDTO = new RecipeDTO();
-        recipeDTO.name = "Pizza";
+        recipeDTO.Name = "Pizza";
         
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
@@ -193,12 +221,32 @@ public class Tests
         var recipeDto = ok.Value as RecipeDTO;
         Assert.IsNotNull(recipeDTO);
         
-        Assert.IsTrue(recipeDto.name == "Pizza");
-        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Name == "Mozzarella"));
-        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Amount == 2));
-        Assert.IsTrue(recipeDto.ingredients.Any(r => r.Unit == "whole"));
-        Assert.IsTrue(recipeDto.steps.First() == "1.First do");
-        Assert.IsTrue(recipeDto.steps.Last() == "3.Finally do");
+        Assert.IsTrue(recipeDto.Name == "Pizza");
+        Assert.IsTrue(recipeDto.Ingredients.Any(r => r.Name == "Mozzarella"));
+        Assert.IsTrue(recipeDto.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeDto.Ingredients.Any(r => r.Unit == "whole"));
+        Assert.IsTrue(recipeDto.Steps.First() == "1.First do");
+        Assert.IsTrue(recipeDto.Steps.Last() == "3.Finally do");
+        
+        
+    }
+    
+    [Test]
+    public void PutRecipe_ReturnsOk()
+    {
+       
+        // act
+        recipeController.AddRecipe(recipeInputDto);
+        
+        ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
+        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        
+        Assert.IsTrue(recipeToCheck.Name == "Curry");
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsTrue(recipeToCheck.Steps.First() == "1");
+        Assert.IsTrue(recipeToCheck.Steps.Last() == "3");
         
         
     }

@@ -9,4 +9,6 @@ public interface IRecipeManagerAPI
     IEnumerable<Ingredient> GetAllIngredients(IRecipe recipe);
 
     void AddRecipe(IRecipe recipe);
+
+    IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
 }
