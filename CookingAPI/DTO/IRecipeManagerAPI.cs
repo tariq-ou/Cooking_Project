@@ -11,4 +11,8 @@ public interface IRecipeManagerAPI
     void AddRecipe(IRecipe recipe);
 
     IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
+    
+    void DeleteIngredientAPI(IRecipe recipe, List<IngredientDTO> ingredientsToDelete);
+    
+    void DeleteStepsAPI(IRecipe recipe);
 }

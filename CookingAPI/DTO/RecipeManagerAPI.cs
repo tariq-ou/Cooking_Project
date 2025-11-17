@@ -72,7 +72,23 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         //retrun recipe;
         //_recipeManager.Recipes.Add(recipeToAdd);
     }
+
+    public void DeleteIngredientAPI(IRecipe recipeToDeleteFrom, List<IngredientDTO> ingredientsToDelete)
+    {
+        //List<string> ingredientToDelete = new List<string>();
+        
+        foreach (var ingredient in ingredientsToDelete)
+        {
+            recipeToDeleteFrom.Ingredients.RemoveAll(r => r.Name == ingredient.Name);
+        }
+    }
     
+    public void DeleteStepsAPI(IRecipe recipeToDeleteFrom)
+    {
+        //List<string> ingredientToDelete = new List<string>();
+        
+        recipeToDeleteFrom.Steps.Clear();
+    }
    
     
 }

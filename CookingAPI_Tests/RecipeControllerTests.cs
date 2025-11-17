@@ -250,4 +250,106 @@ public class Tests
         
         
     }
+    
+    [Test]
+    public void DeleteRecipe_ReturnsOk()
+    {
+       
+        //first add recipe using previous add recipe method then delete it
+        recipeController.AddRecipe(recipeInputDto);
+        
+        ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
+         var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        
+        Assert.IsTrue(recipeToCheck.Name == "Curry");
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsTrue(recipeToCheck.Steps.First() == "1");
+        Assert.IsTrue(recipeToCheck.Steps.Last() == "3");
+        
+        // time to delete
+        
+         recipeController.DeleteRecipe(recipeInputDto);
+        var recipeToDelete = recipeManager.FindRecipe(out recipeInputDto.Name);
+        //
+         Assert.IsNull(recipeToDelete);
+        
+        // Assert.IsFalse(recipeToDelete.Name == "Curry");
+        // Assert.IsFalse(recipeToDelete.Ingredients.Any(r => r.Name == "Curry Powder"));
+        // Assert.IsFalse(recipeToDelete.Ingredients.Any(r => r.Amount == 2));
+        // Assert.IsFalse(recipeToDelete.Ingredients.Any(r => r.Unit == "tbs"));
+        // Assert.IsFalse(recipeToDelete.Steps.First() == "1");
+        // Assert.IsFalse(recipeToDelete.Steps.Last() == "3");
+        
+        
+    }
+    
+    [Test]
+    public void DeleteAllRecipeIngredients_ReturnsOk()
+    {
+       
+        //first add recipe using previous add recipe method then delete it
+        recipeController.AddRecipe(recipeInputDto);
+        
+        ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
+        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        
+        Assert.IsTrue(recipeToCheck.Name == "Curry");
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsTrue(recipeToCheck.Steps.First() == "1");
+        Assert.IsTrue(recipeToCheck.Steps.Last() == "3");
+        
+        // time to delete
+        
+        recipeController.DeleteAllRecipeIngredients(recipeInputDto);
+        var recipeToDeleteIngredients = recipeManager.FindRecipe(out recipeInputDto.Name);
+        //
+        Assert.IsNotNull(recipeToDeleteIngredients);
+        
+        Assert.IsTrue(recipeToDeleteIngredients.Name == "Curry");
+        Assert.IsFalse(recipeToDeleteIngredients.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsFalse(recipeToDeleteIngredients.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsFalse(recipeToDeleteIngredients.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsTrue(recipeToDeleteIngredients.Steps.First() == "1");
+        Assert.IsTrue(recipeToDeleteIngredients.Steps.Last() == "3");
+        
+        
+    }
+
+    
+    [Test]
+    public void DeleteRecipeSteps_ReturnsOk()
+    {
+       
+        //first add recipe using previous add recipe method then delete it
+        recipeController.AddRecipe(recipeInputDto);
+        
+        ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
+        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        
+        Assert.IsTrue(recipeToCheck.Name == "Curry");
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsTrue(recipeToCheck.Steps.First() == "1");
+        Assert.IsTrue(recipeToCheck.Steps.Last() == "3");
+        
+        // time to delete
+        
+        recipeController.DeleteRecipeSteps(recipeInputDto);
+        var recipeToDeleteSteps = recipeManager.FindRecipe(out recipeInputDto.Name);
+        //
+        Assert.IsNotNull(recipeToDeleteSteps);
+        
+        Assert.IsTrue(recipeToDeleteSteps.Name == "Curry");
+        Assert.IsTrue(recipeToDeleteSteps.Ingredients.Any(r => r.Name == "Curry Powder"));
+        Assert.IsTrue(recipeToDeleteSteps.Ingredients.Any(r => r.Amount == 2));
+        Assert.IsTrue(recipeToDeleteSteps.Ingredients.Any(r => r.Unit == "tbs"));
+        Assert.IsEmpty(recipeToDeleteSteps.Steps);
+
+
+    }
 }

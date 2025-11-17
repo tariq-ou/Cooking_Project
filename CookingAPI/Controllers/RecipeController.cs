@@ -48,7 +48,7 @@ public class RecipeController: ControllerBase
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<IngredientDTO>> GetIngredients(RecipeDTO recipeInput)
+    public ActionResult<IEnumerable<IngredientDTO>> GetIngredients([FromBody] RecipeDTO recipeInput)
     {
        // string recipeName;
     
@@ -69,7 +69,7 @@ public class RecipeController: ControllerBase
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<IngredientDTO>> GetRecipe(RecipeDTO recipeInput)
+    public ActionResult<IEnumerable<IngredientDTO>> GetRecipe([FromBody] RecipeDTO recipeInput)
     {
         string recipeName;
     
@@ -90,7 +90,7 @@ public class RecipeController: ControllerBase
     }
     
     [HttpPost]
-    public ActionResult<IEnumerable<RecipeDTO>> AddRecipe([FromBody] RecipeDTO recipeInput)
+    public IActionResult AddRecipe([FromBody] RecipeDTO recipeInput)
     {
         string recipeName;
         
@@ -105,5 +105,46 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
+    [HttpDelete]
+    public IActionResult DeleteRecipe([FromBody] RecipeDTO recipeInput)
+    {
+        string recipeName;
+        
+        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        _recipeRepositoryService.DeleteItemandNested(recipe);
+        _recipeManager.DeleteRecipe(recipe);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
+    [HttpDelete]
+    public IActionResult DeleteAllRecipeIngredients([FromBody] RecipeDTO recipeInput)
+    {
+        //string recipeName;
+        //Keep this method
+        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        _recipeManagerAPI.DeleteIngredientAPI(recipe, recipeInput.Ingredients);
+        _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
+    [HttpDelete]
+    public IActionResult DeleteRecipeSteps([FromBody] RecipeDTO recipeInput)
+    {
+        //string recipeName;
+        
+        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        _recipeManagerAPI.DeleteStepsAPI(recipe);
+        _recipeRepositoryService.AddItemSave(recipe);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
     
 }

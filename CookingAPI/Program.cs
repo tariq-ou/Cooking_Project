@@ -18,9 +18,10 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 ////////Next
 /*
  
- -- think you have done the one below and even added a recipeservive test class - now you need to write teh unit test for that post recipe methjod
- -- adding add recipe - you added -> creating a recipe method in mapper and add recupe in APIrecipe manager -> realising that you need to save down the recipe manager chnages to teh database so looking at how you can create the service provider for teh repository as its a factory method and what not (but LBG has high jacked mid thought )
- -- write unit tests for entity frame work mabye? repoitpory tests
+ -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
+ -- add ingredient delte method where the user passes in a list of ingredients and a recipe name
+ -- mabye not but mabye ->might need to refactor code a little as you dont need to pass through a DTO to all of these controller methods - sometimes a string or a list of strings will do....
+ --add methods for adding ingredients and adding steps 
 -- add another API method from the application program
 -- do you need to have different route paths for each api method in the controller - i think so?
 -- add another method to controller followed by its unit test

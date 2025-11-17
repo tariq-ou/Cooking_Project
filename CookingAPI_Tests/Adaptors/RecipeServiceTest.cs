@@ -16,11 +16,11 @@ public class RecipeServiceTest : IRecipeService
 
     public void AddNestedSave(string recipeName, List<Ingredient> ingredients)
     {
-        throw new NotImplementedException();
+       // throw new NotImplementedException();
     }
 
     public void DeleteItemandNested(IRecipe recipe)
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 }
