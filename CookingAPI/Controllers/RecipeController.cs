@@ -52,7 +52,7 @@ public class RecipeController: ControllerBase
     {
        // string recipeName;
     
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
         var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
         
         //validation of mapper
@@ -73,7 +73,7 @@ public class RecipeController: ControllerBase
     {
         string recipeName;
     
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
         var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
         
         //validation of mapper
@@ -110,7 +110,7 @@ public class RecipeController: ControllerBase
     {
         string recipeName;
         
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
         _recipeRepositoryService.DeleteItemandNested(recipe);
         _recipeManager.DeleteRecipe(recipe);
       
@@ -124,7 +124,7 @@ public class RecipeController: ControllerBase
     {
         //string recipeName;
         //Keep this method
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
         _recipeManagerAPI.DeleteAllIngredientAPI(recipe, recipeInput.Ingredients);
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
       
@@ -138,7 +138,7 @@ public class RecipeController: ControllerBase
     {
         //string recipeName;
         
-        var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
         _recipeManagerAPI.DeleteStepsAPI(recipe);
         _recipeRepositoryService.AddItemSave(recipe);
       
@@ -151,7 +151,7 @@ public class RecipeController: ControllerBase
     {
         //string recipeName;
         //Keep this method
-        var recipe = _recipeManager.FindRecipe(out recipeName);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
         _recipeManagerAPI.DeleteIngredientAPI(recipe, ingredientsToDelete);
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
       
@@ -166,7 +166,7 @@ public class RecipeController: ControllerBase
         //string recipeName;
         
         //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
-        var recipe = _recipeManager.FindRecipe(out recipeName);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
         //var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
         var ingredients = _recipeMapper.CreateIngredientList(ingredientsInput);
 
