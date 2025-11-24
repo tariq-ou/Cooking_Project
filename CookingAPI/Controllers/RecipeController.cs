@@ -48,11 +48,11 @@ public class RecipeController: ControllerBase
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<IngredientDTO>> GetIngredients([FromBody] RecipeDTO recipeInput)
+    public ActionResult<IEnumerable<IngredientDTO>> GetIngredients(string recipeInput)
     {
        // string recipeName;
     
-        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
         
         //validation of mapper
@@ -69,11 +69,11 @@ public class RecipeController: ControllerBase
     }
     
     [HttpGet]
-    public ActionResult<IEnumerable<IngredientDTO>> GetRecipe([FromBody] RecipeDTO recipeInput)
+    public ActionResult<IEnumerable<IngredientDTO>> GetRecipe(string recipeInput)
     {
         string recipeName;
     
-        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
         
         //validation of mapper
@@ -106,11 +106,11 @@ public class RecipeController: ControllerBase
     }
     
     [HttpDelete]
-    public IActionResult DeleteRecipe([FromBody] RecipeDTO recipeInput)
+    public IActionResult DeleteRecipe(string recipeInput)
     {
         string recipeName;
         
-        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         _recipeRepositoryService.DeleteItemandNested(recipe);
         _recipeManager.DeleteRecipe(recipe);
       
@@ -134,11 +134,11 @@ public class RecipeController: ControllerBase
     }
     
     [HttpDelete]
-    public IActionResult DeleteRecipeSteps([FromBody] RecipeDTO recipeInput)
+    public IActionResult DeleteRecipeSteps(string recipeInput)
     {
         //string recipeName;
         
-        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         _recipeManagerAPI.DeleteStepsAPI(recipe);
         _recipeRepositoryService.AddItemSave(recipe);
       
@@ -147,6 +147,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
+    [HttpDelete]
     public IActionResult DeleteRecipeIngredients(string recipeName, IEnumerable<string> ingredientsToDelete)
     {
         //string recipeName;

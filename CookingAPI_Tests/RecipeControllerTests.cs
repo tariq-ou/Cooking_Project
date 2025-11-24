@@ -195,7 +195,7 @@ public class Tests
         
         ((RecipeManager)recipeManager)._inputProvider = moq.Object;
         
-        ActionResult<IEnumerable<IngredientDTO>> result = recipeController.GetIngredients(recipeDTO);
+        ActionResult<IEnumerable<IngredientDTO>> result = recipeController.GetIngredients(recipeDTO.Name);
 
         // assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
@@ -229,7 +229,7 @@ public class Tests
         
         ((RecipeManager)recipeManager)._inputProvider = moq.Object;
         
-        ActionResult<IEnumerable<IngredientDTO>> result = recipeController.GetRecipe(recipeDTO);
+        ActionResult<IEnumerable<IngredientDTO>> result = recipeController.GetRecipe(recipeDTO.Name);
 
         // assert
         Assert.IsInstanceOf<OkObjectResult>(result.Result);
@@ -289,7 +289,7 @@ public class Tests
         
         // time to delete
         
-         recipeController.DeleteRecipe(recipeInputDto);
+         recipeController.DeleteRecipe(recipeInputDto.Name);
         var recipeToDelete = recipeManager.FindRecipe(out recipeInputDto.Name);
         //
          Assert.IsNull(recipeToDelete);
@@ -358,7 +358,7 @@ public class Tests
         
         // time to delete
         
-        recipeController.DeleteRecipeSteps(recipeInputDto);
+        recipeController.DeleteRecipeSteps(recipeInputDto.Name);
         var recipeToDeleteSteps = recipeManager.FindRecipe(out recipeInputDto.Name);
         //
         Assert.IsNotNull(recipeToDeleteSteps);
