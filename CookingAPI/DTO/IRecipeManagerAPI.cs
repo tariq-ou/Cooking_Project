@@ -12,7 +12,13 @@ public interface IRecipeManagerAPI
 
     IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
     
-    void DeleteIngredientAPI(IRecipe recipe, List<IngredientDTO> ingredientsToDelete);
+    void DeleteAllIngredientAPI(IRecipe recipe, List<IngredientDTO> ingredientsToDelete);
     
     void DeleteStepsAPI(IRecipe recipe);
+    
+    void DeleteIngredientAPI(IRecipe recipe, IEnumerable<string> ingredientsToDelete);
+    
+    void IngredientAddAPI(IRecipe recipe, IEnumerable<Ingredient> ingredientsToAdd);
+    
+    IRecipe FindRecipeAPI(string recipeName);
 }

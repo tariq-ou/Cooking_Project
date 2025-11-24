@@ -125,7 +125,7 @@ public class RecipeController: ControllerBase
         //string recipeName;
         //Keep this method
         var recipe = _recipeManager.FindRecipe(out recipeInput.Name);
-        _recipeManagerAPI.DeleteIngredientAPI(recipe, recipeInput.Ingredients);
+        _recipeManagerAPI.DeleteAllIngredientAPI(recipe, recipeInput.Ingredients);
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
       
         //REcipe obkect createed validation?
@@ -146,5 +146,38 @@ public class RecipeController: ControllerBase
         
         return Ok();
     }
+    
+    public IActionResult DeleteRecipeIngredients(string recipeName, IEnumerable<string> ingredientsToDelete)
+    {
+        //string recipeName;
+        //Keep this method
+        var recipe = _recipeManager.FindRecipe(out recipeName);
+        _recipeManagerAPI.DeleteIngredientAPI(recipe, ingredientsToDelete);
+        _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
+    [HttpPost]
+    public IActionResult AddRecipeIngredient(string recipeName, [FromBody] IEnumerable<IngredientDTO> ingredientsInput)
+    {
+        //string recipeName;
+        
+        //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+        var recipe = _recipeManager.FindRecipe(out recipeName);
+        //var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
+        var ingredients = _recipeMapper.CreateIngredientList(ingredientsInput);
+
+        _recipeManagerAPI.IngredientAddAPI(recipe,ingredients);
+        _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
+    
     
 }
