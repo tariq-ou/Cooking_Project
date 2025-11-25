@@ -19,10 +19,6 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 /*
  
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
- -> make sure that none of your controller methods that are Gets are passsing through a DTO
- -- (Done)add ingredient delte method where the user passes in a list of ingredients and a recipe name
- -- mabye not but mabye ->might need to refactor code a little as you dont need to pass through a DTO to all of these controller methods - sometimes a string or a list of strings will do....
- --add methods for adding ingredients and adding steps 
 -- add another API method from the application program
 -- do you need to have different route paths for each api method in the controller - i think so?
 -- add another method to controller followed by its unit test

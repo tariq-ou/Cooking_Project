@@ -114,6 +114,17 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         }
         return _recipeManager.Recipes.FirstOrDefault(r => r.Name == recipeName);
     }
+
+    public IRecipe AddStepsAPI(IRecipe recipe, string inputSteps)
+    {
+        if (inputSteps == null)
+        {
+            return null;
+        }
+        
+         recipe.Steps = inputSteps.Split('\n').ToList();
+         return recipe;
+    }
    
     
 }

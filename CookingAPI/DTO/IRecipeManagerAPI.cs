@@ -21,4 +21,6 @@ public interface IRecipeManagerAPI
     void IngredientAddAPI(IRecipe recipe, IEnumerable<Ingredient> ingredientsToAdd);
     
     IRecipe FindRecipeAPI(string recipeName);
+    
+    IRecipe AddStepsAPI(IRecipe recipeName, string inputSteps);
 }

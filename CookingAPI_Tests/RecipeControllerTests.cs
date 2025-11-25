@@ -413,30 +413,16 @@ public class Tests
     public void AddRecipeIngredients_ReturnsOk()
     {
        
-        //first add recipe using previous add recipe method then delete it
-        // recipeController.AddRecipe(recipeInputDto);
-        //
-        // ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-        // var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
-        //
-        // Assert.IsTrue(recipeToCheck.Name == "Curry");
-        // Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
-        // Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Amount == 2));
-        // Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Unit == "tbs"));
-        // Assert.IsTrue(recipeToCheck.Steps.First() == "1");
-        // Assert.IsTrue(recipeToCheck.Steps.Last() == "3");
+       
         
-        // time to delete
+        
         string recipeName = "Pizza";
         
         ((RecipeManager)recipeManager)._inputProvider  = new IInputProviderTest("Pizza");
         recipeController.AddRecipeIngredient(recipeName, AdditionalIngredientsInput);
-        //((RecipeManager)recipeManager)._inputProvider  = new IInputProviderTest("Pizza");
+     
         var recipe = recipeManager.FindRecipe(out recipeName);
         
-        // ((RecipeManager)recipeManager)._inputProvider  = new IInputProviderTest(@"Pizza");
-        // var recipe = recipeManager.FindRecipe(out recipeName);
-        //
         Assert.IsNotNull(recipe);
         
         Assert.IsTrue(recipe.Name == "Pizza");
@@ -449,6 +435,38 @@ public class Tests
         Assert.IsTrue(recipe.Ingredients.Any(r => r.Name == "Onions"));
         Assert.IsTrue(recipe.Ingredients.Any(r => r.Amount == 1/2));
         Assert.IsTrue(recipe.Ingredients.Any(r => r.Unit == "Count"));
+
+        
+        
+    }
+    
+    [Test]
+    public void AddRecipeSteps_ReturnsOk()
+    {
+
+
+
+
+        string recipeName = "Pizza";
+        
+        ((RecipeManager)recipeManager)._inputProvider  = new IInputProviderTest("Pizza");
+
+        string stepsInput =
+            "Add butter or pan drippings to a large pan.  Melt butter over medium heat.\nWhile stirring, add flour a tablespoon at a time. Whisk as you add.\nSlowly pour in the stock, a cup at a time to prevent lumps.  Whisk or stir well.\nStir constantly over medium heat until gravy thickens and reaches desired thickness.  Add additional broth if it gets too thick.";
+        
+        recipeController.AddRecipeStep(recipeName, stepsInput);
+     
+        var recipe = recipeManager.FindRecipe(out recipeName);
+        
+        Assert.IsNotNull(recipe);
+        
+        Assert.IsTrue(recipe.Name == "Pizza");
+        Assert.IsTrue(recipe.Steps.First() == "Add butter or pan drippings to a large pan.  Melt butter over medium heat.");
+        Assert.IsTrue(recipe.Steps.Last() == "Stir constantly over medium heat until gravy thickens and reaches desired thickness.  Add additional broth if it gets too thick.");
+        //Assert.IsTrue(recipe.Ingredients.Any(r => r.Unit == "Count"));
+
+        
+       
 
         
         

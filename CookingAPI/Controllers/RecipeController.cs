@@ -179,6 +179,24 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
+    [HttpPost]
+    public IActionResult AddRecipeStep(string recipeName, string stepsInput)
+    {
+        //string recipeName;
+        
+        //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
+        //var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
+        //var ingredients = _recipeMapper.CreateIngredientList(ingredientsInput);
+
+        _recipeManagerAPI.AddStepsAPI(recipe, stepsInput);
+        _recipeRepositoryService.AddItemSave(recipe);
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
     
     
 }
