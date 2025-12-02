@@ -40,7 +40,7 @@ public class RecipeService : IRecipeDBService
         _recipeRepository.Delete((Recipe)recipe);
     }
 
-    public void ReadExportDB()
+    public void DBToExport()
     {
         _recipeRepository.ExportDB();
     }

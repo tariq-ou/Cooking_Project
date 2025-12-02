@@ -5,7 +5,7 @@ namespace Cooking_Project.Application.Services;
 
 public interface IDBService
 {
-    void ReadExportDB();
+    void DBToExport();
     void ImportToDB();
     void SyncDBMemory(IRecipeManager recipeManager, Func<IInputProvider> inputProviderFactory);
 }

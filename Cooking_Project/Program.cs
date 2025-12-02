@@ -223,7 +223,7 @@ namespace Cooking_Project
                     
                     case "8":
                         
-                        service.ReadExportDB();
+                        service.DBToExport();
                         break;
                     
                     case "9":

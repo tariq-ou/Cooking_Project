@@ -14,21 +14,22 @@ using AutoMapper;
 
 
 [ApiController]
-[Route("api/v1/[RecipeController]")]
+[Route("api/v1/[Controller]")]
 public class RecipeController: ControllerBase
 {
     readonly IRecipeManager _recipeManager;
     readonly IRecipeMapper _recipeMapper;
     readonly  IRecipeManagerAPI _recipeManagerAPI;
-    readonly IRecipeService _recipeRepositoryService;
-    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI, IRecipeService recipeRepositoryService)
+    readonly IRecipeDBService _recipeRepositoryService;
+    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI, IRecipeDBService recipeRepositoryService)
     {
         _recipeManager = recipeManager;
         _recipeMapper = recipeMapper;
         _recipeManagerAPI = recipeManagerAPI;
         _recipeRepositoryService = recipeRepositoryService;
     }
-    [HttpGet]
+    
+    [HttpGet("GetRecipes")]
     public ActionResult<IEnumerable<RecipeDTO>> GetRecipes()
     {
         var recipes = _recipeManagerAPI.GetAllRecipes();
@@ -47,49 +48,32 @@ public class RecipeController: ControllerBase
         return Ok(recipesDTO);
     }
     
-    [HttpGet]
+    [HttpGet("{recipeInput}/ingredients")]
     public ActionResult<IEnumerable<IngredientDTO>> GetIngredients(string recipeInput)
     {
        // string recipeName;
     
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
-        var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
         
-        //validation of mapper
-        // _mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        // var ingredientDTO = new List<IngredientDTO>();
-        //
-        // foreach (Ingredient ingredient in Ingredients)
-        // {
-        //     ingredientDTO.Add(_mapper.Map<IngredientDTO>(ingredient));
-        // }
+        var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
 
         var ingredientDTO = _recipeMapper.CreateIngredientListDTO(ingredients);
         return Ok(ingredientDTO);
     }
     
-    [HttpGet]
+    [HttpGet("{recipeInput}")]
     public ActionResult<IEnumerable<IngredientDTO>> GetRecipe(string recipeInput)
     {
         string recipeName;
     
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
+        
         var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
         
-        //validation of mapper
-        // _mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        // var ingredientDTO = new List<IngredientDTO>();
-        //
-        // foreach (Ingredient ingredient in Ingredients)
-        // {
-        //     ingredientDTO.Add(_mapper.Map<IngredientDTO>(ingredient));
-        // }
-
-        //var stepsDTO = _recipeMapper.CreateIngredientList(ingredients);
         return Ok(recipeDTO);
     }
     
-    [HttpPost]
+    [HttpPost("addrecipe")]
     public IActionResult AddRecipe([FromBody] RecipeDTO recipeInput)
     {
         string recipeName;
@@ -105,7 +89,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpDelete]
+    [HttpDelete("{recipeInput}")]
     public IActionResult DeleteRecipe(string recipeInput)
     {
         string recipeName;
@@ -119,7 +103,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpDelete]
+    [HttpDelete("deleteallingredients")]
     public IActionResult DeleteAllRecipeIngredients([FromBody] RecipeDTO recipeInput)
     {
         //string recipeName;
@@ -133,7 +117,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpDelete]
+    [HttpDelete("{recipeName}/steps")]
     public IActionResult DeleteRecipeSteps(string recipeInput)
     {
         //string recipeName;
@@ -147,7 +131,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpDelete]
+    [HttpDelete("{recipeName}/ingredients")]
     public IActionResult DeleteRecipeIngredients(string recipeName, IEnumerable<string> ingredientsToDelete)
     {
         //string recipeName;
@@ -161,7 +145,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpPost]
+    [HttpPost("{recipeName}/ingredients")]
     public IActionResult AddRecipeIngredient(string recipeName, [FromBody] IEnumerable<IngredientDTO> ingredientsInput)
     {
         //string recipeName;
@@ -179,7 +163,7 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
-    [HttpPost]
+    [HttpPost("{recipeName}/steps")]
     public IActionResult AddRecipeStep(string recipeName, string stepsInput)
     {
         //string recipeName;
@@ -194,6 +178,20 @@ public class RecipeController: ControllerBase
       
         //REcipe obkect createed validation?
         
+        return Ok();
+    }
+
+    [HttpPost("export")]
+    public IActionResult ExportJsonRecipes()
+    {
+        _recipeRepositoryService.DBToExport();
+        return Ok();
+    }
+    
+    [HttpPost("import")]
+    public IActionResult ImportJsonRecipes()
+    {
+        _recipeRepositoryService.ImportToDB();
         return Ok();
     }
     

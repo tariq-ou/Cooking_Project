@@ -19,9 +19,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 /*
  
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
--- add another API method from the application program
--- do you need to have different route paths for each api method in the controller - i think so?
--- add another method to controller followed by its unit test
+
+-- Get swagger working and mabye a local instatiation of the code so swagger can call it? idk but test that functionality agaisnt the api end points
 
 
 ----add asyncronous call back to your DB calls as dont need to wait for that thread right?

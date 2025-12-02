@@ -25,7 +25,7 @@ public class Tests
     private IRecipeManager recipeManager;
     private IRecipeMapper recipeMapper;
     private IRecipeManagerAPI recipeManagerAPI;
-    private IRecipeService recipeService;
+    private IRecipeDBService recipeService;
     private RecipeDTO recipeInputDto;
     
     RecipeController recipeController;
