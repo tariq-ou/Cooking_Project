@@ -92,9 +92,8 @@ public class Tests
         recipeManagerAPI = new RecipeManagerAPI(recipeManager);
         
         var logger = new Mock<ILogger>();
-        var config = new MapperConfiguration(cfg => { cfg.AddProfile<RecipeProfile>();},LoggerFactory.Create(builder => builder.AddConsole())
-            //LoggerFactory.Create()  ;   // or cfg.AddMaps(typeof(RecipeProfile).Assembly);
-        );
+        var config = new MapperConfiguration(cfg => { cfg.AddProfile<RecipeProfile>(); });
+            //LoggerFactory.Create()  ;   // or cfg.AddMaps(typeof(RecipeProfile).Assembly) //,LoggerFactory.Create(builder => builder.AddConsole()
 
         recipeMapper = new RecipeAutoMapper(config.CreateMapper());
         // creates the mapper object

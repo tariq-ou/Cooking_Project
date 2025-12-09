@@ -7,7 +7,7 @@ namespace CookingAPI.DTO;
 public class RecipeManagerAPI : IRecipeManagerAPI
 {
 
-    public IRecipeManager _recipeManager { get; }
+    public IRecipeManager _recipeManager;
 
     public RecipeManagerAPI(IRecipeManager recipeManager)
     {

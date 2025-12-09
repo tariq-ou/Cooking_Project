@@ -4,7 +4,7 @@ using AutoMapper;
 
 namespace CookingAPI.Mapping;
 
-public class RecipeProfile:Profile
+public class RecipeProfile : Profile
 {
     public RecipeProfile()
     {

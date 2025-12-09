@@ -7,15 +7,16 @@
         <UserSecretsId>aspnet-CookingAPI-4e97f742-ffb2-4174-8f4b-a84fe1dda215</UserSecretsId>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="15.0.1" />
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" NoWarn="NU1605"/>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.12" NoWarn="NU1605"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.12"/>
-        <PackageReference Include="Microsoft.Identity.Web" Version="3.2.0"/>
-        <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.2.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.12" NoWarn="NU1605" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="8.0.12" NoWarn="NU1605" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.12" />
+        <PackageReference Include="Microsoft.Identity.Web" Version="3.2.0" />
+        <PackageReference Include="Microsoft.Identity.Web.DownstreamApi" Version="3.2.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     </ItemGroup>
 
      <ItemGroup>

@@ -14,7 +14,7 @@ using AutoMapper;
 
 
 [ApiController]
-[Route("api/v1/[Controller]")]
+[Route("api/v1/[controller]")]
 public class RecipeController: ControllerBase
 {
     readonly IRecipeManager _recipeManager;

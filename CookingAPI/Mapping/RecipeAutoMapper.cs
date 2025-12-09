@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 namespace CookingAPI.Mapping;
 
 // class to use automapper to create dto
-public class RecipeAutoMapper: Profile, IRecipeMapper
+public class RecipeAutoMapper: IRecipeMapper
 {
     internal readonly IMapper _mapper;
     // creates the mappings for <target -> destination>
