@@ -26,6 +26,7 @@ public class Tests
     private IRecipeMapper recipeMapper;
     private IRecipeManagerAPI recipeManagerAPI;
     private IRecipeDBService recipeService;
+    
     private RecipeDTO recipeInputDto;
     
     RecipeController recipeController;
@@ -35,6 +36,12 @@ public class Tests
     [SetUp]
     public void Setup()
     {
+        
+        var loggerController = new Mock<ILogger<RecipeController>>(); 
+        var loggerManagerAPI = new Mock<ILogger<RecipeManagerAPI>>();
+        var loggerAutoMapper = new Mock<ILogger<RecipeAutoMapper>>();
+        //var loggerDBService = new Mock<ILogger<IRecipeDBService>>();
+        
         var moq = new Mock<IInputProvider>();
         moq.SetupSequence(ip => ip.ReadInput(It.IsAny<string>()))
             .Returns("Pizza")
@@ -89,19 +96,21 @@ public class Tests
         
         
         
-        recipeManagerAPI = new RecipeManagerAPI(recipeManager);
+        recipeManagerAPI = new RecipeManagerAPI(recipeManager, loggerManagerAPI.Object);
         
         var logger = new Mock<ILogger>();
         var config = new MapperConfiguration(cfg => { cfg.AddProfile<RecipeProfile>(); });
             //LoggerFactory.Create()  ;   // or cfg.AddMaps(typeof(RecipeProfile).Assembly) //,LoggerFactory.Create(builder => builder.AddConsole()
 
-        recipeMapper = new RecipeAutoMapper(config.CreateMapper());
+        recipeMapper = new RecipeAutoMapper(config.CreateMapper(), loggerAutoMapper.Object);
         // creates the mapper object
         //recipeMapper._mapper = config.CreateMapper();
 
         recipeService = new RecipeServiceTest();
         
-        recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI, recipeService);
+        
+        
+        recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI, recipeService, loggerController.Object );
         
         //creating Recipe DTO
         recipeInputDto = new RecipeDTO();

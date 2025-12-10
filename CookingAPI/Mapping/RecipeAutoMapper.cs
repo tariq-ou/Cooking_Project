@@ -10,12 +10,15 @@ namespace CookingAPI.Mapping;
 public class RecipeAutoMapper: IRecipeMapper
 {
     internal readonly IMapper _mapper;
+
+    private readonly ILogger<RecipeAutoMapper> _logger;
     // creates the mappings for <target -> destination>
-    public RecipeAutoMapper(IMapper mapper)
+    public RecipeAutoMapper(IMapper mapper, ILogger<RecipeAutoMapper> logger)
     {
         // CreateMap<Recipe, RecipeDTO>();
         // CreateMap<Ingredient, IngredientDTO>();
         _mapper = mapper;
+        _logger = logger;
     }
 
     public List<RecipeDTO> CreateRecipeListDTO(IEnumerable<IRecipe> recipes)

@@ -20,8 +20,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
  
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
 
--- figure out why you not getting anything back from your getrecipes controller api call - as you can see somethingi is there bow that you have added the db 
+-- figure out why you not getting anything back from your getrecipes controller api call - add log messages thrpugh out to help you trace whats going on 
 -- Get swagger working and mabye a local instatiation of the code so swagger can call it? idk but test that functionality agaisnt the api end points
+-- add logger to recipeservice and anything else you think needs it like mabye the repository also?
 
 
 ----add asyncronous call back to your DB calls as dont need to wait for that thread right?

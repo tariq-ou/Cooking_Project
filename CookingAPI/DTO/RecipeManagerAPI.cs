@@ -1,3 +1,4 @@
+using AutoMapper;
 using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -8,10 +9,12 @@ public class RecipeManagerAPI : IRecipeManagerAPI
 {
 
     public IRecipeManager _recipeManager;
+    private readonly ILogger<RecipeManagerAPI> _logger;
 
-    public RecipeManagerAPI(IRecipeManager recipeManager)
+    public RecipeManagerAPI(IRecipeManager recipeManager, ILogger<RecipeManagerAPI> logger)
     {
         _recipeManager = recipeManager;
+        _logger = logger;
     }
     
     // public IEnumerable<string> GetAllRecipes()

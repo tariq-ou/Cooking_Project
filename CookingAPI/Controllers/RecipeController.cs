@@ -21,30 +21,30 @@ public class RecipeController: ControllerBase
     readonly IRecipeMapper _recipeMapper;
     readonly  IRecipeManagerAPI _recipeManagerAPI;
     readonly IRecipeDBService _recipeRepositoryService;
-    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI, IRecipeDBService recipeRepositoryService)
+    private readonly ILogger<RecipeController> _logger;
+    public RecipeController(IRecipeManager recipeManager, IRecipeMapper recipeMapper, IRecipeManagerAPI recipeManagerAPI, IRecipeDBService recipeRepositoryService, ILogger<RecipeController> logger)
     {
         _recipeManager = recipeManager;
         _recipeMapper = recipeMapper;
         _recipeManagerAPI = recipeManagerAPI;
         _recipeRepositoryService = recipeRepositoryService;
+        _logger = logger;
     }
     
     [HttpGet("GetRecipes")]
     public ActionResult<IEnumerable<RecipeDTO>> GetRecipes()
     {
-        var recipes = _recipeManagerAPI.GetAllRecipes();
-   
         
-        //validation of mapper
-        // _mapper.ConfigurationProvider.AssertConfigurationIsValid();
-        // var recipesDTO = new List<RecipeDTO>();
-        //
-        // foreach (IRecipe recipe in recipes)
-        // {
-        //     recipesDTO.Add(_mapper.Map<RecipeDTO>(recipe));
-        // }
+        _logger.LogInformation("GetRecipes called");
+        
+        var recipes = _recipeManagerAPI.GetAllRecipes();
+        
+        _logger.LogInformation($"Retrieved {recipes.Count()} recipes from manager");
         
         var recipesDTO =_recipeMapper.CreateRecipeListDTO(recipes);
+        
+        _logger.LogDebug("Mapping complete, returning DTOs");
+        
         return Ok(recipesDTO);
     }
     
