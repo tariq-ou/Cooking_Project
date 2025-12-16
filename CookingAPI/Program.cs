@@ -20,7 +20,8 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
  
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
 
--- figure out why you not getting anything back from your getrecipes controller api call - add log messages thrpugh out to help you trace whats going on 
+-- do this for clenliness - add log messages thrpugh out to help you trace whats going on
+--get the non working end points working - fun woo
 -- Get swagger working and mabye a local instatiation of the code so swagger can call it? idk but test that functionality agaisnt the api end points
 -- add logger to recipeservice and anything else you think needs it like mabye the repository also?
 
@@ -71,8 +72,13 @@ var app = builder.Build();
 //Creating DB
 RecipeDbContext.CreateDatabase();
 // syncing db
-var provider = builder.Services.BuildServiceProvider();
-provider.GetRequiredService<IRecipeRepositoryDB>().SyncDBMemory();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var recipeRepo = scope.ServiceProvider.GetRequiredService<IRecipeRepositoryDB>();
+    recipeRepo.SyncDBMemory();
+}
 
 //Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 Console.WriteLine(app.Environment.EnvironmentName);
@@ -113,7 +119,7 @@ app.MapControllers();
 //     .WithOpenApi()
 //     .RequireAuthorization();
 
-Console.WriteLine(provider.GetRequiredService<IRecipeManager>().Recipes.First().Name);
+
 
 app.Run();
 

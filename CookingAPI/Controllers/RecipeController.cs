@@ -43,6 +43,8 @@ public class RecipeController: ControllerBase
         
         var recipesDTO =_recipeMapper.CreateRecipeListDTO(recipes);
         
+        _logger.LogInformation($"Retrieved {recipesDTO.First().Name} recipes from manager");
+        
         _logger.LogDebug("Mapping complete, returning DTOs");
         
         return Ok(recipesDTO);

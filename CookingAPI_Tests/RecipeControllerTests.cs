@@ -266,7 +266,7 @@ public class Tests
         recipeController.AddRecipe(recipeInputDto);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         
         Assert.IsTrue(recipeToCheck.Name == "Curry");
         Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
@@ -286,7 +286,7 @@ public class Tests
         recipeController.AddRecipe(recipeInputDto);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-         var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+         var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         
         Assert.IsTrue(recipeToCheck.Name == "Curry");
         Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
@@ -298,7 +298,7 @@ public class Tests
         // time to delete
         
          recipeController.DeleteRecipe(recipeInputDto.Name);
-        var recipeToDelete = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToDelete = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //
          Assert.IsNull(recipeToDelete);
         
@@ -320,7 +320,7 @@ public class Tests
         recipeController.AddRecipe(recipeInputDto);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         
         Assert.IsTrue(recipeToCheck.Name == "Curry");
         Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
@@ -332,7 +332,7 @@ public class Tests
         // time to delete
         
         recipeController.DeleteAllRecipeIngredients(recipeInputDto);
-        var recipeToDeleteIngredients = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToDeleteIngredients = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //
         Assert.IsNotNull(recipeToDeleteIngredients);
         
@@ -355,7 +355,7 @@ public class Tests
         recipeController.AddRecipe(recipeInputDto);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         
         Assert.IsTrue(recipeToCheck.Name == "Curry");
         Assert.IsTrue(recipeToCheck.Ingredients.Any(r => r.Name == "Curry Powder"));
@@ -367,7 +367,7 @@ public class Tests
         // time to delete
         
         recipeController.DeleteRecipeSteps(recipeInputDto.Name);
-        var recipeToDeleteSteps = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToDeleteSteps = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //
         Assert.IsNotNull(recipeToDeleteSteps);
         
@@ -389,7 +389,7 @@ public class Tests
         recipeController.AddRecipe(recipeInputDto);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
-        var recipeToCheck = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //var recipeToCheck = recipeManager.FindRecipe(out awooga);
         
         Assert.IsTrue(recipeToCheck.Name == "Curry");
@@ -402,7 +402,7 @@ public class Tests
         // time to delete
         
         recipeController.DeleteRecipeIngredients("Curry", new List<string>() { "Curry Powder" });
-        var recipeToDeleteIngredients = recipeManager.FindRecipe(out recipeInputDto.Name);
+        var recipeToDeleteIngredients = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //
         Assert.IsNotNull(recipeToDeleteIngredients);
         

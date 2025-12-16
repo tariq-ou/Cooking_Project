@@ -30,7 +30,9 @@ public class RecipeManagerAPI : IRecipeManagerAPI
     
     public IEnumerable<Recipe> GetAllRecipes()
     {
-           
+        _logger.LogInformation("GetAllRecipesAPI called");
+        _logger.LogInformation($"{_recipeManager.Recipes.Count()} recipes from manager");
+        //_logger.LogInformation($"{_recipeManager.Recipes.First().Name} recipes from manager");
         return _recipeManager.Recipes;
     }
     
