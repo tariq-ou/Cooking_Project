@@ -57,9 +57,15 @@ public class RecipeController: ControllerBase
     
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         
+        _logger.LogInformation($"Retrieved {recipe.Name} recipes from manager");
+        
         var ingredients = _recipeManagerAPI.GetAllIngredients(recipe);
+        
+        _logger.LogInformation($"Retrieved {ingredients.Count()} ingredients");
 
         var ingredientDTO = _recipeMapper.CreateIngredientListDTO(ingredients);
+        
+        _logger.LogInformation("Mapping complete, returning DTOs");
         return Ok(ingredientDTO);
     }
     
@@ -70,7 +76,11 @@ public class RecipeController: ControllerBase
     
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
         
+        _logger.LogInformation($"Retrieved {recipe.Name} recipes from manager");
+        
         var recipeDTO = _recipeMapper.CreateRecipeDTO(recipe);
+        
+        _logger.LogInformation($"Created{recipeDTO.Name} recipe DTO");
         
         return Ok(recipeDTO);
     }
@@ -83,8 +93,15 @@ public class RecipeController: ControllerBase
         //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
         var ingredients = _recipeMapper.CreateIngredientList(recipeInput.Ingredients);
         
+        _logger.LogInformation($"Creating {ingredients.Count()} ingredients");
+        
         var recipe = _recipeManagerAPI.CreateRecipe(recipeInput, ingredients);
+        
+        _logger.LogInformation($"Created {recipe.Name} recipe");
+        
         _recipeRepositoryService.AddItemSave(recipe);
+        
+        _logger.LogInformation($"Saving to database");
       
         //REcipe obkect createed validation?
         
@@ -97,8 +114,16 @@ public class RecipeController: ControllerBase
         string recipeName;
         
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
+        
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
         _recipeRepositoryService.DeleteItemandNested(recipe);
+        
+        _logger.LogInformation($"Deleted {recipe.Name} recipe from database");
+        
         _recipeManager.DeleteRecipe(recipe);
+        
+        _logger.LogInformation($"Deleted {recipe.Name} recipe from in memeory");
       
         //REcipe obkect createed validation?
         
@@ -106,29 +131,38 @@ public class RecipeController: ControllerBase
     }
     
     [HttpDelete("deleteallingredients")]
-    public IActionResult DeleteAllRecipeIngredients([FromBody] RecipeDTO recipeInput)
+    public IActionResult DeleteAllRecipeIngredients(string recipeInput)
     {
-        //string recipeName;
-        //Keep this method
-        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput.Name);
-        _recipeManagerAPI.DeleteAllIngredientAPI(recipe, recipeInput.Ingredients);
+        
+        var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
+        
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
+        _recipeManagerAPI.DeleteAllIngredientAPI(recipe);
+        _logger.LogInformation($"Deleted Ingredients for {recipe.Name}");
+        
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
+        _logger.LogInformation($"Saving delete to database");
       
-        //REcipe obkect createed validation?
+     
         
         return Ok();
     }
     
-    [HttpDelete("{recipeName}/steps")]
+    [HttpDelete("{recipeInput}/steps")]
     public IActionResult DeleteRecipeSteps(string recipeInput)
     {
-        //string recipeName;
         
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeInput);
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
         _recipeManagerAPI.DeleteStepsAPI(recipe);
+        _logger.LogInformation($"Deleted steps from {recipe.Name}");
+        
         _recipeRepositoryService.AddItemSave(recipe);
+        _logger.LogInformation($"Saving Delete to database");
       
-        //REcipe obkect createed validation?
+        
         
         return Ok();
     }
@@ -136,13 +170,15 @@ public class RecipeController: ControllerBase
     [HttpDelete("{recipeName}/ingredients")]
     public IActionResult DeleteRecipeIngredients(string recipeName, IEnumerable<string> ingredientsToDelete)
     {
-        //string recipeName;
-        //Keep this method
+        
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
         _recipeManagerAPI.DeleteIngredientAPI(recipe, ingredientsToDelete);
+        _logger.LogInformation($"Deleted {ingredientsToDelete} from {recipe.Name} ");
+        
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
-      
-        //REcipe obkect createed validation?
+        _logger.LogInformation($"Saving delete to database");
         
         return Ok();
     }
@@ -150,17 +186,20 @@ public class RecipeController: ControllerBase
     [HttpPost("{recipeName}/ingredients")]
     public IActionResult AddRecipeIngredient(string recipeName, [FromBody] IEnumerable<IngredientDTO> ingredientsInput)
     {
-        //string recipeName;
-        
-        //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+       
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
-        //var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
         var ingredients = _recipeMapper.CreateIngredientList(ingredientsInput);
+        _logger.LogInformation($"Created {ingredients.Count()} ingredients");
 
         _recipeManagerAPI.IngredientAddAPI(recipe,ingredients);
+        _logger.LogInformation($"Added {ingredients.Count()} ingredients to {recipe.Name}");
+        
         _recipeRepositoryService.AddNestedSave(recipe.Name, recipe.Ingredients);
+        _logger.LogInformation($"Saving database");
       
-        //REcipe obkect createed validation?
+        
         
         return Ok();
     }
@@ -168,18 +207,16 @@ public class RecipeController: ControllerBase
     [HttpPost("{recipeName}/steps")]
     public IActionResult AddRecipeStep(string recipeName, string stepsInput)
     {
-        //string recipeName;
         
-        //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
         var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
-        //var recipe = _recipeManagerAPI.FindRecipeAPI(recipeName);
-        //var ingredients = _recipeMapper.CreateIngredientList(ingredientsInput);
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
 
         _recipeManagerAPI.AddStepsAPI(recipe, stepsInput);
-        _recipeRepositoryService.AddItemSave(recipe);
-      
-        //REcipe obkect createed validation?
+        _logger.LogInformation($"Added steps to {recipe.Name}");
         
+        _recipeRepositoryService.AddItemSave(recipe);
+        _logger.LogInformation($"Saving steps added to database");
+      
         return Ok();
     }
 
@@ -187,6 +224,7 @@ public class RecipeController: ControllerBase
     public IActionResult ExportJsonRecipes()
     {
         _recipeRepositoryService.DBToExport();
+        _logger.LogInformation("Exported JSON Recipes");
         return Ok();
     }
     
@@ -194,6 +232,7 @@ public class RecipeController: ControllerBase
     public IActionResult ImportJsonRecipes()
     {
         _recipeRepositoryService.ImportToDB();
+        _logger.LogInformation("Imported JSON Recipes");
         return Ok();
     }
     

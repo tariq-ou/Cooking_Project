@@ -20,9 +20,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
  
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
 
--- do this for clenliness - add log messages thrpugh out to help you trace whats going on
---get the non working end points working - fun woo
--- Get swagger working and mabye a local instatiation of the code so swagger can call it? idk but test that functionality agaisnt the api end points
+
 -- add logger to recipeservice and anything else you think needs it like mabye the repository also?
 
 

@@ -30,7 +30,7 @@ public class RecipeAutoMapper: IRecipeMapper
         {
             recipesDTO.Add(_mapper.Map<RecipeDTO>(recipe));
         }
-        
+        _logger.LogInformation($"RecipesDTO list Created, Count: {recipesDTO.Count}");
         return recipesDTO;
     }
 
@@ -44,7 +44,8 @@ public class RecipeAutoMapper: IRecipeMapper
         {
             ingredientDTO.Add(_mapper.Map<IngredientDTO>(ingredient));
         }
-
+        
+        _logger.LogInformation($"IngredientsDTO list Created, Count: {ingredientDTO.Count}");
         return ingredientDTO;
 
     }
@@ -53,9 +54,7 @@ public class RecipeAutoMapper: IRecipeMapper
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         RecipeDTO recipeDTO = _mapper.Map<RecipeDTO>(recipe);
-
         
-
         return recipeDTO;
 
     }
@@ -64,7 +63,6 @@ public class RecipeAutoMapper: IRecipeMapper
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var recipeCreated = _mapper.Map<Recipe>(recipeDTO);
-
         
 
         return recipeCreated;
@@ -80,7 +78,9 @@ public class RecipeAutoMapper: IRecipeMapper
         {
             ingredients.Add(_mapper.Map<Ingredient>(ingredient));
         }
-
+        
+        _logger.LogInformation($"Ingredients list Created, Count: {ingredients.Count}");
+        
         return ingredients;
 
     }

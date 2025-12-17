@@ -331,7 +331,7 @@ public class Tests
         
         // time to delete
         
-        recipeController.DeleteAllRecipeIngredients(recipeInputDto);
+        recipeController.DeleteAllRecipeIngredients(recipeInputDto.Name);
         var recipeToDeleteIngredients = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
         //
         Assert.IsNotNull(recipeToDeleteIngredients);

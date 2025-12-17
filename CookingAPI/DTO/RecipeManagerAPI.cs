@@ -45,21 +45,12 @@ public class RecipeManagerAPI : IRecipeManagerAPI
     public void AddRecipe(IRecipe recipe)
     {
           var recipeToAdd = (Recipe)recipe;
+          _logger.LogInformation("AddRecipe called - Recipe Objected Created");
         _recipeManager.Recipes.Add(recipeToAdd);
     }
     
     public IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped)
     {
-        
-        // if (!int.TryParse(recipeDto.Servings, out int servingsMappedInt))
-        // {
-        //     
-        // }
-        // else
-        // {
-        //     throw new NotSupportedException();
-        // }
-        
         
         var recipe = new Recipe()
         {
@@ -70,7 +61,11 @@ public class RecipeManagerAPI : IRecipeManagerAPI
             
         };
         
+        _logger.LogInformation($"Recipe Objected Created: recipeName-{recipe.Name}, ingredientsMapped-{recipe.Ingredients.Count} ingredients, Servings-{recipe.Servings}, Steps (not included for length) ");
+        
         _recipeManager.Recipes.Add(recipe);
+        
+        _logger.LogInformation($"Recipe Objected added to recipes list: recipeName-{recipe.Name}");
         
         return recipe;
 
@@ -78,36 +73,39 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         //_recipeManager.Recipes.Add(recipeToAdd);
     }
 
-    public void DeleteAllIngredientAPI(IRecipe recipeToDeleteFrom, List<IngredientDTO> ingredientsToDelete)
+    public void DeleteAllIngredientAPI(IRecipe recipeToDeleteFrom)
     {
-        //List<string> ingredientToDelete = new List<string>();
         
-        foreach (var ingredient in ingredientsToDelete)
-        {
-            recipeToDeleteFrom.Ingredients.RemoveAll(r => r.Name == ingredient.Name);
-        }
+       
+            recipeToDeleteFrom.Ingredients.Clear();
+            //_logger.LogInformation($"Recipe {recipeToDeleteFrom.Name} Deleted Ingredient: {ingredient.Name}");
+        
     }
     
     public void DeleteStepsAPI(IRecipe recipeToDeleteFrom)
     {
-        //List<string> ingredientToDelete = new List<string>();
+      
         
         recipeToDeleteFrom.Steps.Clear();
+        _logger.LogInformation($"Recipe {recipeToDeleteFrom.Name} Deleted Steps");
     }
     
     public void DeleteIngredientAPI(IRecipe recipeToDeleteFrom, IEnumerable<string> ingredientsToDelete)
     {
-        //List<string> ingredientToDelete = new List<string>();
+        
         
         foreach (var ingredient in ingredientsToDelete)
         {
             recipeToDeleteFrom.Ingredients.RemoveAll(r => r.Name == ingredient);
         }
+        
+        _logger.LogInformation($"Recipe {recipeToDeleteFrom.Name} Deleted Ingredients from list shared");
     }
 
     public void IngredientAddAPI(IRecipe recipe, IEnumerable<Ingredient> ingredientsToAdd)
     {
         recipe.Ingredients.AddRange(ingredientsToAdd);
+        _logger.LogInformation($"Recipe {recipe.Name} Added Ingredients");
     }
 
 
@@ -115,8 +113,11 @@ public class RecipeManagerAPI : IRecipeManagerAPI
     {
         if (!_recipeManager.Recipes.Any(r => r.Name == recipeName))
         {
+            _logger.LogInformation($"Recipe {recipeName} not found");
             return null;
+            
         }
+        
         return _recipeManager.Recipes.FirstOrDefault(r => r.Name == recipeName);
     }
 
@@ -124,6 +125,7 @@ public class RecipeManagerAPI : IRecipeManagerAPI
     {
         if (inputSteps == null)
         {
+            _logger.LogInformation($"Recipe input steps not found or not provided");
             return null;
         }
         
