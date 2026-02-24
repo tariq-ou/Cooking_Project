@@ -27,11 +27,11 @@ public class Tests
     private IRecipeManagerAPI recipeManagerAPI;
     private IRecipeDBService recipeService;
     
-    private RecipeDTO recipeInputDto;
+    private CreateRecipeDTO recipeInputDto;
     
     RecipeController recipeController;
 
-    private List<IngredientDTO> AdditionalIngredientsInput;
+    private List<CreateIngredientDTO> AdditionalIngredientsInput;
     
     [SetUp]
     public void Setup()
@@ -113,23 +113,23 @@ public class Tests
         recipeController = new RecipeController(recipeManager, recipeMapper, recipeManagerAPI, recipeService, loggerController.Object );
         
         //creating Recipe DTO
-        recipeInputDto = new RecipeDTO();
+        recipeInputDto = new CreateRecipeDTO();
         recipeInputDto.Name = "Curry";
         recipeInputDto.Servings = 3;
-        IngredientDTO ingredientDtoOne = new IngredientDTO
+        CreateIngredientDTO ingredientDtoOne = new CreateIngredientDTO
         {
             Name = "Flour",
             Unit = "grams",
             Amount = 50
         };
         
-        IngredientDTO ingredientDtoTwo = new IngredientDTO
+        CreateIngredientDTO ingredientDtoTwo = new CreateIngredientDTO
         {
             Name = "Curry Powder",
             Unit = "tbs",
             Amount = 2
         };
-        recipeInputDto.Ingredients = new List<IngredientDTO>{ingredientDtoOne, ingredientDtoTwo};
+        recipeInputDto.Ingredients = new List<CreateIngredientDTO>{ingredientDtoOne, ingredientDtoTwo};
         
         string stepOne = "1";
         string stepTwo = "2";
@@ -138,21 +138,21 @@ public class Tests
         
         // more Ingredient DTOs to test if functionality is there for adding ingrdients only
         
-        IngredientDTO ingredientDtoThree = new IngredientDTO
+        CreateIngredientDTO ingredientDtoThree = new CreateIngredientDTO
         {
             Name = "Olives",
             Unit = "Count",
             Amount = 5
         };
         
-        IngredientDTO ingredientDtoFour = new IngredientDTO
+        CreateIngredientDTO ingredientDtoFour = new CreateIngredientDTO
         {
             Name = "Onions",
             Unit = "Count",
             Amount = 1/2
         };
         
-        AdditionalIngredientsInput = new List<IngredientDTO>{ingredientDtoThree, ingredientDtoFour};
+        AdditionalIngredientsInput = new List<CreateIngredientDTO>{ingredientDtoThree, ingredientDtoFour};
     }
         
     

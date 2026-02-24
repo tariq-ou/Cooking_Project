@@ -11,7 +11,9 @@ public class RecipeProfile : Profile
         // CreateMap<Recipe, RecipeDTO>();
         // CreateMap<Ingredient, IngredientDTO>();
         CreateMap<Recipe, RecipeDTO>().ReverseMap();
+        CreateMap<Recipe, CreateRecipeDTO>().ReverseMap();
         CreateMap<Ingredient, IngredientDTO>().ReverseMap();
+        CreateMap<Ingredient, CreateIngredientDTO>().ReverseMap();
 
     }
 

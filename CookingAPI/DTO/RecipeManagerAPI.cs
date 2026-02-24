@@ -72,6 +72,30 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         //retrun recipe;
         //_recipeManager.Recipes.Add(recipeToAdd);
     }
+    
+    public IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped)
+    {
+        
+        var recipe = new Recipe()
+        {
+            Name = recipeDto.Name,
+            Ingredients = ingredientsMapped,
+            Servings = recipeDto.Servings,
+            Steps = recipeDto.Steps
+            
+        };
+        
+        _logger.LogInformation($"Recipe Objected Created: recipeName-{recipe.Name}, ingredientsMapped-{recipe.Ingredients.Count} ingredients, Servings-{recipe.Servings}, Steps (not included for length) ");
+        
+        _recipeManager.Recipes.Add(recipe);
+        
+        _logger.LogInformation($"Recipe Objected added to recipes list: recipeName-{recipe.Name}");
+        
+        return recipe;
+
+        //retrun recipe;
+        //_recipeManager.Recipes.Add(recipeToAdd);
+    }
 
     public void DeleteAllIngredientAPI(IRecipe recipeToDeleteFrom)
     {
@@ -119,6 +143,18 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         }
         
         return _recipeManager.Recipes.FirstOrDefault(r => r.Name == recipeName);
+    }
+    
+    public IRecipe FindIdRecipeAPI(int Id)
+    {
+        if (!_recipeManager.Recipes.Any(r => r.Id == Id))
+        {
+            _logger.LogInformation($"Recipe not found");
+            return null;
+            
+        }
+        
+        return _recipeManager.Recipes.FirstOrDefault(r => r.Id == Id);
     }
 
     public IRecipe AddStepsAPI(IRecipe recipe, string inputSteps)

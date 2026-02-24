@@ -12,6 +12,8 @@ public interface IRecipeManagerAPI
 
     IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
     
+    IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
+    
     void DeleteAllIngredientAPI(IRecipe recipe);
     
     void DeleteStepsAPI(IRecipe recipe);
@@ -21,6 +23,8 @@ public interface IRecipeManagerAPI
     void IngredientAddAPI(IRecipe recipe, IEnumerable<Ingredient> ingredientsToAdd);
     
     IRecipe FindRecipeAPI(string recipeName);
+
+    IRecipe FindIdRecipeAPI(int Id);
     
     IRecipe AddStepsAPI(IRecipe recipeName, string inputSteps);
 }

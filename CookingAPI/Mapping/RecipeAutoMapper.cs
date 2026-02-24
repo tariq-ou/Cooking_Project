@@ -59,7 +59,8 @@ public class RecipeAutoMapper: IRecipeMapper
 
     }
     
-    public IRecipe CreateRecipeFromDTO(RecipeDTO recipeDTO)
+    //mabye not used?
+    public IRecipe CreateRecipeFromDTO(CreateRecipeDTO recipeDTO)
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var recipeCreated = _mapper.Map<Recipe>(recipeDTO);
@@ -69,12 +70,12 @@ public class RecipeAutoMapper: IRecipeMapper
 
     }
     
-    public List<Ingredient> CreateIngredientList(IEnumerable<IngredientDTO> ingredientsInput)
+    public List<Ingredient> CreateIngredientList(IEnumerable<CreateIngredientDTO> ingredientsInput)
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var ingredients = new List<Ingredient>();
 
-        foreach (IngredientDTO ingredient in ingredientsInput)
+        foreach (CreateIngredientDTO ingredient in ingredientsInput)
         {
             ingredients.Add(_mapper.Map<Ingredient>(ingredient));
         }
@@ -84,5 +85,7 @@ public class RecipeAutoMapper: IRecipeMapper
         return ingredients;
 
     }
+    
+    
     
 }
