@@ -32,6 +32,8 @@ namespace Cooking_Project.Application.Services
         public IInputProvider InputProvider{ get; set; }
         
         public int Servings { get; set; }
+        
+        public string? ImagePath { get; set; }
 
         //Initalsing the properties
         
@@ -43,14 +45,17 @@ namespace Cooking_Project.Application.Services
             Steps = new List<string>();
 
         }
-        public Recipe(string name, IInputProvider inputProvider)
+        public Recipe(string name, IInputProvider inputProvider, string? imagePath = null)
         {
 
             Name = name;
+            // probably need to add servings here and to unit tests for when initilaising but its fine in API as it maps it so will ignore for now i think
+            //Servings = servings;
             Ingredients = new List<Ingredient>();
             Steps = new List<string>();
             //[NotMapped]
             InputProvider = inputProvider;
+            ImagePath = imagePath;
 
         }
 

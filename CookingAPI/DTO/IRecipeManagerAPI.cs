@@ -12,7 +12,7 @@ public interface IRecipeManagerAPI
 
     IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
     
-    IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
+    IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped, IFormFile? imageFile);
     
     void DeleteAllIngredientAPI(IRecipe recipe);
     
@@ -27,4 +27,6 @@ public interface IRecipeManagerAPI
     IRecipe FindIdRecipeAPI(int Id);
     
     IRecipe AddStepsAPI(IRecipe recipeName, string inputSteps);
+    
+    Task CopyImageSetPathAPI (IRecipe recipe, IFormFile imageFile);
 }

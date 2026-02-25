@@ -126,7 +126,7 @@ public class RecipeController: ControllerBase
     }
     
     [HttpPost("addrecipe")]
-    public IActionResult AddRecipe([FromBody] CreateRecipeDTO recipeInput)
+    public IActionResult AddRecipe([FromBody] CreateRecipeDTO recipeInput, IFormFile? imageFile)
     {
         string recipeName;
         
@@ -135,7 +135,7 @@ public class RecipeController: ControllerBase
         
         _logger.LogInformation($"Creating {ingredients.Count()} ingredients");
         
-        var recipe = _recipeManagerAPI.CreateRecipeNoId(recipeInput, ingredients);
+        var recipe = _recipeManagerAPI.CreateRecipeNoId(recipeInput, ingredients, imageFile);
         
         _logger.LogInformation($"Created {recipe.Name} recipe");
         
@@ -396,5 +396,19 @@ public class RecipeController: ControllerBase
     }
     
     
+    [HttpPost("{id}/image")]
+    public IActionResult UploadImage(int recipeId, IFormFile imageFile)
+    {
+        var recipe = _recipeManagerAPI.FindIdRecipeAPI(recipeId);
+        _logger.LogInformation($"Retrieved {recipe.Name} recipe from manager");
+        
+        _recipeManagerAPI.CopyImageSetPathAPI(recipe, imageFile);
+        _logger.LogInformation($"Added image location {recipe.ImagePath} to {recipe.Name}");
+        
+        _recipeRepositoryService.AddItemSave(recipe);
+        _logger.LogInformation($"Saving Image location to database");
+
+        return Ok();
+    }
     
 }

@@ -18,6 +18,9 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 ////////Next
 /*
  
+ 
+ -- fix unit test for add recipe to actually pass in Ifile and check if its stored location ect
+ 
  -- (can skip for now if feeling long)write unit tests for entity frame work mabye? repoitpory tests
 
 
@@ -89,7 +92,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+
 app.MapControllers(); 
+
 
 //http://localhost:5000/swagger/index.html
 

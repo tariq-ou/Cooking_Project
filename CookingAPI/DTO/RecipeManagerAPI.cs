@@ -10,11 +10,13 @@ public class RecipeManagerAPI : IRecipeManagerAPI
 
     public IRecipeManager _recipeManager;
     private readonly ILogger<RecipeManagerAPI> _logger;
+    private readonly IWebHostEnvironment _env;
 
-    public RecipeManagerAPI(IRecipeManager recipeManager, ILogger<RecipeManagerAPI> logger)
+    public RecipeManagerAPI(IRecipeManager recipeManager, ILogger<RecipeManagerAPI> logger, IWebHostEnvironment env)
     {
         _recipeManager = recipeManager;
         _logger = logger;
+        _env = env;
     }
     
     // public IEnumerable<string> GetAllRecipes()
@@ -73,7 +75,7 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         //_recipeManager.Recipes.Add(recipeToAdd);
     }
     
-    public IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped)
+    public IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped, IFormFile? imageFile = null)
     {
         
         var recipe = new Recipe()
@@ -81,10 +83,19 @@ public class RecipeManagerAPI : IRecipeManagerAPI
             Name = recipeDto.Name,
             Ingredients = ingredientsMapped,
             Servings = recipeDto.Servings,
-            Steps = recipeDto.Steps
+            Steps = recipeDto.Steps,
             
         };
-        
+
+        if (imageFile != null)
+        {
+            this.CopyImageSetPathAPI(recipe, imageFile);
+        }
+        else
+        {
+            recipe.ImagePath = "images/placeHolder.jpg";
+        }
+
         _logger.LogInformation($"Recipe Objected Created: recipeName-{recipe.Name}, ingredientsMapped-{recipe.Ingredients.Count} ingredients, Servings-{recipe.Servings}, Steps (not included for length) ");
         
         _recipeManager.Recipes.Add(recipe);
@@ -167,6 +178,23 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         
          recipe.Steps = inputSteps.Split('\n').ToList();
          return recipe;
+    }
+
+    public async Task CopyImageSetPathAPI(IRecipe recipe, IFormFile imageFile)
+    {
+        var folder = Path.Combine(_env.WebRootPath, "images");
+        Directory.CreateDirectory(folder);
+
+        var fileName = Guid.NewGuid() + Path.GetExtension(imageFile.FileName);
+        var fullPath = Path.Combine(folder, fileName);
+
+        using (var stream = new FileStream(fullPath, FileMode.Create))
+        {
+            await imageFile.CopyToAsync(stream);
+        }
+
+        recipe.ImagePath = "/images/" + fileName;
+        
     }
    
     

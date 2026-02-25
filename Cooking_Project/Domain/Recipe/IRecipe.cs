@@ -11,6 +11,8 @@ public interface IRecipe
     string StepsSerialized { get; set; }
     List<string> Steps { get; set; }
     int Servings { get; set; }
+    
+    public string? ImagePath { get; set; }
     void AddIngredients(string recipeName);
     void ViewIngredients(string recipeName);
     int IngredientsCount();

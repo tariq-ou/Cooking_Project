@@ -10,6 +10,7 @@ using NUnit.Framework.Internal;
 using ILogger = NUnit.Framework.Internal.ILogger;
 using System.Collections;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Hosting;
 using IInputProviderTest = Cooking_Project.Application.Adaptors.IInputProviderTest;
 
 namespace CookingAPI_Tests;
@@ -29,9 +30,11 @@ public class Tests
     
     private CreateRecipeDTO recipeInputDto;
     
-    RecipeController recipeController;
+    private RecipeController recipeController;
 
     private List<CreateIngredientDTO> AdditionalIngredientsInput;
+
+    private Mock<IWebHostEnvironment> _webHostEnvironment;
     
     [SetUp]
     public void Setup()
@@ -94,9 +97,13 @@ public class Tests
         recipeToCheck.AddSteps(("Pizza"));
        
         
+        _webHostEnvironment = new Mock<IWebHostEnvironment>();
+
+        _webHostEnvironment.Setup(e => e.WebRootPath)
+            .Returns(Path.Combine(Directory.GetCurrentDirectory(), "TestWebRoot"));
+
         
-        
-        recipeManagerAPI = new RecipeManagerAPI(recipeManager, loggerManagerAPI.Object);
+        recipeManagerAPI = new RecipeManagerAPI(recipeManager, loggerManagerAPI.Object, _webHostEnvironment.Object);
         
         var logger = new Mock<ILogger>();
         var config = new MapperConfiguration(cfg => { cfg.AddProfile<RecipeProfile>(); });
@@ -263,7 +270,7 @@ public class Tests
     {
        
         // act
-        recipeController.AddRecipe(recipeInputDto);
+        recipeController.AddRecipe(recipeInputDto, null);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
         var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
@@ -283,7 +290,7 @@ public class Tests
     {
        
         //first add recipe using previous add recipe method then delete it
-        recipeController.AddRecipe(recipeInputDto);
+        recipeController.AddRecipe(recipeInputDto, null);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
          var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
@@ -317,7 +324,7 @@ public class Tests
     {
        
         //first add recipe using previous add recipe method then delete it
-        recipeController.AddRecipe(recipeInputDto);
+        recipeController.AddRecipe(recipeInputDto, null);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
         var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
@@ -352,7 +359,7 @@ public class Tests
     {
        
         //first add recipe using previous add recipe method then delete it
-        recipeController.AddRecipe(recipeInputDto);
+        recipeController.AddRecipe(recipeInputDto, null);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
         var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);
@@ -386,7 +393,7 @@ public class Tests
     {
         //string awooga;
         //first add recipe using previous add recipe method then delete it
-        recipeController.AddRecipe(recipeInputDto);
+        recipeController.AddRecipe(recipeInputDto, null);
         
         ((RecipeManager)recipeManager)._inputProvider = new IInputProviderTest("Curry");
         var recipeToCheck = recipeManagerAPI.FindRecipeAPI(recipeInputDto.Name);

@@ -3,6 +3,7 @@ using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Ports;
 using CookingAPI.DTO;
 using CookingAPI.Mapping;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace CookingAPI_Tests;
@@ -18,7 +19,8 @@ public class RecipeManagerAPITests
     
     IRecipeManager _recipeManager;
     // ILogger<RecipeManagerAPI> _logger;
-    IRecipeManagerAPI _recipeManagerAPI; 
+    IRecipeManagerAPI _recipeManagerAPI;
+    Mock<IWebHostEnvironment> _webHostEnvironment;
     
     
     [SetUp]
@@ -83,8 +85,12 @@ public class RecipeManagerAPITests
        
         
         
+        _webHostEnvironment = new Mock<IWebHostEnvironment>();
+
+        _webHostEnvironment.Setup(e => e.WebRootPath)
+            .Returns(Path.Combine(Directory.GetCurrentDirectory(), "TestWebRoot"));
         
-        _recipeManagerAPI = new RecipeManagerAPI(_recipeManager, loggerManagerAPI.Object);
+        _recipeManagerAPI = new RecipeManagerAPI(_recipeManager, loggerManagerAPI.Object, _webHostEnvironment.Object);
     }
     
     [Test]

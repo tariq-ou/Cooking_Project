@@ -7,4 +7,6 @@ public class RecipeDTO
     public int Servings{ get; set; }
     public List<IngredientDTO> Ingredients{ get; set; }
     public List<string> Steps{ get; set; }
+    
+    public string? ImagePath { get; set; }
 }
