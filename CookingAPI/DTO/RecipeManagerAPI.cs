@@ -93,7 +93,7 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         }
         else
         {
-            recipe.ImagePath = "images/placeHolder.jpg";
+            recipe.ImagePath = "/images/placeHolder.jpg";
         }
 
         _logger.LogInformation($"Recipe Objected Created: recipeName-{recipe.Name}, ingredientsMapped-{recipe.Ingredients.Count} ingredients, Servings-{recipe.Servings}, Steps (not included for length) ");

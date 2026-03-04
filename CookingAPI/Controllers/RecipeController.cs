@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using Cooking_Project.Application.Domain;
 using Cooking_Project.Application.Ports;
 using Cooking_Project.Application.Services;
@@ -125,12 +126,41 @@ public class RecipeController: ControllerBase
         return Ok(recipeDTO);
     }
     
+    // [HttpPost("addrecipe")]
+    // public IActionResult AddRecipe([FromBody] CreateRecipeDTO recipeInput, IFormFile? imageFile)
+    // {
+    //     string recipeName;
+    //     
+    //     //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+    //     var ingredients = _recipeMapper.CreateIngredientList(recipeInput.Ingredients);
+    //     
+    //     _logger.LogInformation($"Creating {ingredients.Count()} ingredients");
+    //     
+    //     var recipe = _recipeManagerAPI.CreateRecipeNoId(recipeInput, ingredients, imageFile);
+    //     
+    //     _logger.LogInformation($"Created {recipe.Name} recipe");
+    //     
+    //     _recipeRepositoryService.AddItemSave(recipe);
+    //     
+    //     _logger.LogInformation($"Saving to database");
+    //   
+    //     //REcipe obkect createed validation?
+    //     
+    //     return Ok();
+    // }
+    
     [HttpPost("addrecipe")]
-    public IActionResult AddRecipe([FromBody] CreateRecipeDTO recipeInput, IFormFile? imageFile)
+    public async Task<IActionResult> AddRecipe(
+        [FromForm] CreateRecipeDTO recipeInput,
+        IFormFile? imageFile)
     {
         string recipeName;
         
+        //var recipeInput = JsonSerializer.Deserialize<CreateRecipeDTO>(recipeIn);
+        // var ingredientsTransformed = _recipeMapper.ExtractIngredientsFromForm(recipeInput.Ingredients);
         //var recipeObjectCreated = _recipeMapper.CreateRecipeFromDTO(recipeInput);
+        //_logger.LogInformation($"Creating {recipeInput.Ingredients.Count()} ingredients");
+        
         var ingredients = _recipeMapper.CreateIngredientList(recipeInput.Ingredients);
         
         _logger.LogInformation($"Creating {ingredients.Count()} ingredients");

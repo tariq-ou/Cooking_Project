@@ -14,4 +14,6 @@ public interface IRecipeMapper
     IRecipe CreateRecipeFromDTO(CreateRecipeDTO recipeDTO);
 
     List<Ingredient> CreateIngredientList(IEnumerable<CreateIngredientDTO> ingredientsInput);
+
+
 }
