@@ -32,7 +32,7 @@ public class ERecipeRepository: IRecipeRepositoryDB
     {
         using (var context = new RecipeDbContext())
         {
-            if (context.Recipes.Any(r => r.Name == recipe.Name))
+            if (context.Recipes.Any(r => r.Id == recipe.Id))
             {
                 context.Recipes.Update(recipe);
             }
@@ -76,6 +76,20 @@ public class ERecipeRepository: IRecipeRepositoryDB
 
             if (dbRecipe is null)
                 throw new InvalidOperationException($"Recipe '{recipeName}' not found.");
+            
+            // // REMOVE missing ingredients
+            // var incomingIds = incoming
+            //     .Where(i => i.Name != null)
+            //     .Select(i => i.Name)
+            //     .ToList();
+            //
+            // var toRemove = dbRecipe.Ingredients
+            //     .Where(i => !incomingIds.Contains(i.Name))
+            //     .ToList();
+
+            //dbRecipe.Ingredients.RemoveRange(toRemove);
+            // context.RemoveRange(toRemove);
+
 
             // 2) UPDATE or ADD incoming items
             foreach (var u in incoming)
@@ -109,9 +123,20 @@ public class ERecipeRepository: IRecipeRepositoryDB
 
             // 3) DELETE ones that were removed in memory
             var incomingIds = incoming.Where(i => i.IngredientId != 0).Select(i => i.IngredientId).ToHashSet();
+            // var incomingIds = incoming.Where(i => i.Name != null).Select(i => i.Name).ToHashSet();
             var toRemove = dbRecipe.Ingredients
                 .Where(i => i.IngredientId != 0 && !incomingIds.Contains(i.IngredientId))
                 .ToList();
+            // var toRemove = dbRecipe.Ingredients
+            //     .Where(i => i.Name != null && !incomingIds.Contains(i.Name))
+            //     .ToList();
+         
+
+// remove deleted ones
+            // var toRemove = dbRecipe.Ingredients
+            //     .Where(i => !incoming.Any(n => n.IngredientId == i.IngredientId))
+            //     .ToList();
+
 
             context.RemoveRange(toRemove);
 
@@ -129,7 +154,35 @@ public class ERecipeRepository: IRecipeRepositoryDB
             context.SaveChanges();
         }
     }
+    
+    public void DeleteAllNestedItem(int recipeId)
+    {
+        using (var context = new RecipeDbContext())
+        {
+            var dbRecipe = context.Recipes
+                .Include(r => r.Ingredients)
+                .SingleOrDefault(r => r.Id == recipeId);
 
+           //  if (dbRecipe == null) return;
+           //
+           //  context.ingredients.RemoveRange(dbRecipe.Ingredients);
+           //  
+           // context.ingredients.RemoveRange(dbRecipe.Ingredients);
+           
+           //var incomingIds = incoming.Where(i => i.IngredientId != 0).Select(i => i.IngredientId).ToHashSet();
+         
+           var toRemove = dbRecipe.Ingredients
+               .Where(i => i.IngredientId != -1 )
+               .ToList();
+           
+           
+
+           context.RemoveRange(toRemove);
+
+            context.SaveChanges();
+        }
+        
+    }
     public void ExportDB()
     {
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), "recipes.json");

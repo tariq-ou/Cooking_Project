@@ -207,5 +207,15 @@ namespace Cooking_Project.Application.Domain
         //    
         //     return Recipes;
         // }
+
+        public void UpdateRecipeViaIndex(Recipe recipe)
+        {
+            var index = this.Recipes.FindIndex(r => r.Id == recipe.Id);
+        
+            if (index != -1)
+            {
+                this.Recipes[index] = recipe;
+            }
+        }
     }
 }

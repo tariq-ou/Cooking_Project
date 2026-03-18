@@ -41,6 +41,11 @@ public class RecipeService : IRecipeDBService
         _recipeRepository.Delete((Recipe)recipe);
     }
 
+    public void RemoveAllNestedItem(int recipeId)
+    {
+        _recipeRepository.DeleteAllNestedItem(recipeId);
+    }
+
     public void DBToExport()
     {
         _recipeRepository.ExportDB();

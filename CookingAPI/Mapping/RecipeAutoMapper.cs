@@ -59,8 +59,39 @@ public class RecipeAutoMapper: IRecipeMapper
 
     }
     
+    public RecipeDTO MapRecipeDTOFromCreateId(CreateRecipeDTO recipe, int id)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        _logger.LogInformation($"CreateRecipeDTO image path: {recipe.ImagePath}");
+        //RecipeDTO recipeDTO = _mapper.Map<RecipeDTO>(recipe);
+        var recipeDTO = new RecipeDTO()
+        {
+            Id = id,
+            Name = recipe.Name,
+            Ingredients = new List<IngredientDTO>(),
+            Servings = recipe.Servings,
+            Steps = recipe.Steps,
+            ImagePath = recipe.ImagePath
+        };
+        
+        _logger.LogInformation($"RecipeDTO image path: {recipe.ImagePath}");
+        //recipeDTO.Id = id;
+
+        return recipeDTO;
+    }
+    
     //mabye not used?
     public IRecipe CreateRecipeFromDTO(CreateRecipeDTO recipeDTO)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var recipeCreated = _mapper.Map<Recipe>(recipeDTO);
+        
+
+        return recipeCreated;
+
+    }
+    
+    public IRecipe CreateRecipeFromExistingDTO(RecipeDTO recipeDTO)
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var recipeCreated = _mapper.Map<Recipe>(recipeDTO);
@@ -74,8 +105,32 @@ public class RecipeAutoMapper: IRecipeMapper
     {
         _mapper.ConfigurationProvider.AssertConfigurationIsValid();
         var ingredients = new List<Ingredient>();
-
+        
+        //_logger.LogInformation($"Ingredients list recived, Count: {ingredientsInput.Count}");
+        
         foreach (CreateIngredientDTO ingredient in ingredientsInput)
+        {
+            //ingredients.Add(_mapper.Map<Ingredient>(ingredient));
+            ingredients.Add(new Ingredient()
+            {
+                Name = ingredient.Name,
+                Amount = ingredient.Amount,
+                Unit = ingredient.Unit,
+            });
+        }
+        
+        _logger.LogInformation($"Ingredients list Created, Count: {ingredients.Count}");
+        
+        return ingredients;
+
+    }
+    
+    public List<Ingredient> CreateFromExistingIngredientList(IEnumerable<IngredientDTO> ingredientsInput)
+    {
+        _mapper.ConfigurationProvider.AssertConfigurationIsValid();
+        var ingredients = new List<Ingredient>();
+
+        foreach (IngredientDTO ingredient in ingredientsInput)
         {
             ingredients.Add(_mapper.Map<Ingredient>(ingredient));
         }
@@ -85,6 +140,7 @@ public class RecipeAutoMapper: IRecipeMapper
         return ingredients;
 
     }
+    
     
     
     

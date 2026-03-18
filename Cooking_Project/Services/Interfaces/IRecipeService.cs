@@ -7,4 +7,10 @@ public interface IRecipeService
     
     void AddNestedSave(string recipeName, List<Ingredient> ingredients);
     void DeleteItemandNested(IRecipe recipe);
+
+    void RemoveAllNestedItem(int recipeId);
+
+
+
+
 }

@@ -13,6 +13,7 @@ public interface IRecipeManagerAPI
     IRecipe CreateRecipe(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped);
     
     IRecipe CreateRecipeNoId(CreateRecipeDTO recipeDto, List<Ingredient> ingredientsMapped, IFormFile? imageFile);
+    IRecipe CreateRecipeWithId(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped, IFormFile? imageFile);
     
     void DeleteAllIngredientAPI(IRecipe recipe);
     

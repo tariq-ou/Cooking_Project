@@ -178,6 +178,40 @@ public class RecipeController: ControllerBase
         return Ok();
     }
     
+    [HttpPut("{id}/updaterecipe")]
+    public async Task<IActionResult> UpdateRecipe(
+        int id,
+        [FromForm] CreateRecipeDTO recipeInput,
+        IFormFile? imageFile)
+    {
+        string recipeName;
+
+        var recipeDTO = _recipeMapper.MapRecipeDTOFromCreateId(recipeInput, id);
+        //var recipeFound = _recipeManagerAPI.FindIdRecipeAPI(recipeDTO.Id);
+        
+        var ingredients = _recipeMapper.CreateIngredientList(recipeInput.Ingredients);
+        
+        //recipeDTO.Ingredients = ingredients;
+        
+        _logger.LogInformation($"Creating {ingredients.Count()} ingredients");
+        
+        // delete current ingredients in recipe as to avoid duplicated when saved down as id isnt passed through
+        _recipeManagerAPI.FindIdRecipeAPI(id).Ingredients.Clear();
+        _recipeRepositoryService.RemoveAllNestedItem(id);
+        
+        var recipe = _recipeManagerAPI.CreateRecipeWithId(recipeDTO, ingredients, imageFile);
+        
+        _logger.LogInformation($"Created {recipe.Name} recipe");
+        
+        _recipeRepositoryService.AddItemSave(recipe);
+        
+        _logger.LogInformation($"Saving to database");
+      
+        //REcipe obkect createed validation?
+        
+        return Ok();
+    }
+    
     
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpDelete("{recipeInput}")]

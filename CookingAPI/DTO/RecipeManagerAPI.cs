@@ -107,6 +107,46 @@ public class RecipeManagerAPI : IRecipeManagerAPI
         //retrun recipe;
         //_recipeManager.Recipes.Add(recipeToAdd);
     }
+    
+    public IRecipe CreateRecipeWithId(RecipeDTO recipeDto, List<Ingredient> ingredientsMapped, IFormFile? imageFile = null)
+    {
+        
+        var recipe = new Recipe()
+        {
+            Id = recipeDto.Id,
+            Name = recipeDto.Name,
+            Ingredients = ingredientsMapped,
+            Servings = recipeDto.Servings,
+            Steps = recipeDto.Steps,
+            ImagePath = recipeDto.ImagePath
+            
+        };
+        
+        if (imageFile != null)
+        {
+            this.CopyImageSetPathAPI(recipe, imageFile);
+        }
+        else if (recipeDto.ImagePath == null)
+        {
+            recipe.ImagePath = "/images/placeHolder.jpg";
+        }
+
+        _logger.LogInformation($"Recipe Objected Updated: recipeName-{recipe.ImagePath}");
+        _logger.LogInformation($"Recipe Objected Created: recipeName-{recipe.Name}, ingredientsMapped-{recipe.Ingredients.Count} ingredients, Servings-{recipe.Servings}, Steps (not included for length) ");
+        
+        
+        _recipeManager.UpdateRecipeViaIndex(recipe);
+        
+        _logger.LogInformation($"Recipe Objected Updated: recipeName-{recipe.Name}");
+      
+        
+        return recipe;
+
+        //retrun recipe;
+        //_recipeManager.Recipes.Add(recipeToAdd);
+    }
+    
+   
 
     public void DeleteAllIngredientAPI(IRecipe recipeToDeleteFrom)
     {

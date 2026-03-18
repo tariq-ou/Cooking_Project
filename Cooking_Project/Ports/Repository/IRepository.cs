@@ -12,4 +12,7 @@ public interface IRepository<T>
     public void Delete(T recipe);
     
     public void SaveNestedItem(string recipeName, List<Ingredient> ingredients);
+    
+    public void DeleteAllNestedItem(int recipeId);
+    
 }

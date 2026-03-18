@@ -13,6 +13,8 @@ public interface IRecipeManager
    IRecipe CheckRecipe(out string recipeName);
     int RecipeCount();
     IRecipe GetRecipe(string recipeName);
+    
+    void UpdateRecipeViaIndex(Recipe recipe);
 
     //IEnumerable<Recipe> GetAllRecipesAPI();
 }
