@@ -146,13 +146,48 @@ public class ERecipeRepository: IRecipeRepositoryDB
         }
     }
     
-    public void Delete(Recipe recipe)
+    public void Delete(Recipe recipeInput)
     {
+        // using (var context = new RecipeDbContext())
+        // {
+        //     context.Recipes.Remove(recipe);
+        //     context.SaveChanges();
+        // }
+        //var id = recipeInput.Id;
+        // using (var context = new RecipeDbContext())
+        // {
+            // var recipe = new Recipe { Id = id };
+            //
+            // context.Recipes.Attach(recipe);
+            // context.Recipes.Remove(recipe);
+        //     context.Recipes.Remove(recipeInput);
+        //     
+        //
+        //     context.SaveChanges();
+        // }
+        var id = recipeInput.Id;
         using (var context = new RecipeDbContext())
         {
+            var recipe = context.Recipes
+                .Include(r => r.Ingredients)
+                .FirstOrDefault(r => r.Id == id);
+
+            if (recipe == null) return;
+
+            context.Ingredients.RemoveRange(recipe.Ingredients);
             context.Recipes.Remove(recipe);
+
             context.SaveChanges();
         }
+    }
+    
+    protected void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Recipe>()
+            .HasMany(r => r.Ingredients)
+            .WithOne()
+            .HasForeignKey(i => i.RecipeId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
     
     public void DeleteAllNestedItem(int recipeId)
@@ -206,31 +241,90 @@ public class ERecipeRepository: IRecipeRepositoryDB
 
     public void ImportDB()
     {
+        // string filePath = Path.Combine(Directory.GetCurrentDirectory(), "recipes.json");
+        //
+        // if (!File.Exists(filePath))
+        // {
+        //     Console.WriteLine("No file found");
+        // }
+        // else
+        // {
+        //     var recipeJson = File.ReadAllText(filePath);
+        //     var itemsToImport = JsonSerializer.Deserialize<List<Recipe>>(recipeJson);
+        //
+        //     using (var context = new RecipeDbContext())
+        //     {
+        //         foreach (var item in itemsToImport)
+        //             if (!context.Recipes.Any(r => r.Name == item.Name))
+        //             {
+        //                 context.Recipes.Add(item);
+        //                 Console.WriteLine($"Imported {item.Name} to DB");
+        //                 context.SaveChanges();
+        //                 
+        //             }
+        //     }
+        //     
+        // }
+        
         string filePath = Path.Combine(Directory.GetCurrentDirectory(), "recipes.json");
+        
 
         if (!File.Exists(filePath))
         {
             Console.WriteLine("No file found");
+            return;
         }
-        else
-        {
-            var recipeJson = File.ReadAllText(filePath);
-            var itemsToImport = JsonSerializer.Deserialize<List<Recipe>>(recipeJson);
 
-            using (var context = new RecipeDbContext())
-            {
-                foreach (var item in itemsToImport)
-                    if (!context.Recipes.Any(r => r.Name == item.Name))
-                    {
-                        context.Recipes.Add(item);
-                        Console.WriteLine($"Imported {item.Name} to DB");
-                        context.SaveChanges();
-                        
-                    }
-            }
-            
+        var recipeJson = File.ReadAllText(filePath);
+
+        var itemsToImport = JsonSerializer.Deserialize<List<Recipe>>(recipeJson);
+
+        if (itemsToImport == null || !itemsToImport.Any())
+        {
+            Console.WriteLine("No recipes found in file");
+            return;
         }
-        
+
+        using (var context = new RecipeDbContext())
+        {
+            Console.WriteLine($"Importing {itemsToImport.Count} recipes...");
+
+            // ✅ STEP 1: Remove ALL existing data properly
+            context.Ingredients.RemoveRange(context.Ingredients);
+            context.Recipes.RemoveRange(context.Recipes);
+
+            context.SaveChanges();
+
+            // ✅ STEP 2: Reset IDs (CRITICAL)
+            // foreach (var recipe in itemsToImport)
+            // {
+            //     recipe.Id = 0;
+            //
+            //     if (recipe.Ingredients != null)
+            //     {
+            //         foreach (var ing in recipe.Ingredients)
+            //         {
+            //             ing.IngredientId = 0;   
+            //         }
+            //     }
+            // }
+
+            // ✅ STEP 3: Insert fresh data
+            //context.Recipes.AddRange(itemsToImport);
+            foreach (var item in itemsToImport)
+                {
+                    context.Recipes.Add(item);
+                    Console.WriteLine($"Imported {item.Name} to DB");
+                   // context.SaveChanges();
+                    
+                }
+
+            context.SaveChanges();
+
+            SyncDBMemory(); 
+
+            Console.WriteLine("Import complete");
+        }
         
     }
 

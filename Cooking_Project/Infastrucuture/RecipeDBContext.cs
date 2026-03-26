@@ -8,6 +8,7 @@ namespace Cooking_Project.Application.Infastrucuture
     public class RecipeDbContext: DbContext
     {
         public DbSet<Recipe> Recipes { get; set; }
+        public DbSet<Ingredient> Ingredients { get; set; } 
 
         public static void CreateDatabase()
         {
