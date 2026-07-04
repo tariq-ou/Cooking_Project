@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.810.25
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingAPI", "CookingAPI.csproj", "{E73A6C59-6C53-41CB-8F19-1126BE894502}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E73A6C59-6C53-41CB-8F19-1126BE894502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E73A6C59-6C53-41CB-8F19-1126BE894502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E73A6C59-6C53-41CB-8F19-1126BE894502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E73A6C59-6C53-41CB-8F19-1126BE894502}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0104351C-33B1-4D84-A8FF-AE5306DC53DF}
+	EndGlobalSection
+EndGlobal
